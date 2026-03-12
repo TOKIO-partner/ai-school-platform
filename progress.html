@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学習進捗 - MOMOCRI School Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-cyan-200">
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- Sidebar -->
+        <div class="w-64 bg-white border-r border-slate-200 flex flex-col z-30 shadow-xl lg:shadow-none hidden lg:flex">
+            <div class="h-20 flex items-center justify-center border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500 tracking-wider">MOMOCRI</span>
+                </div>
+            </div>
+
+            <nav class="p-4 space-y-2 flex-1">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span class="font-medium">ダッシュボード</span>
+                </a>
+                <a href="learning.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="monitor" class="w-5 h-5"></i>
+                    <span class="font-medium">学習ルーム</span>
+                </a>
+                <a href="courses.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                    <span class="font-medium">コース一覧</span>
+                </a>
+                <a href="community.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="font-medium">コミュニティ</span>
+                </a>
+                <a href="progress.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-cyan-50 to-blue-50 text-cyan-600 border border-cyan-100 shadow-sm">
+                    <i data-lucide="trending-up" class="w-5 h-5 text-cyan-600"></i>
+                    <span class="font-medium">学習進捗</span>
+                    <div class="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.6)]"></div>
+                </a>
+                <a href="corp/index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+                    <span class="font-medium">管理者/法人</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-100">
+                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-fuchsia-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">AS</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold text-slate-700 truncate">長谷川 麻子</p>
+                        <p class="text-xs text-slate-500 truncate">Pro Plan</p>
+                    </div>
+                    <i data-lucide="settings" class="w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div class="absolute top-[20%] right-[10%] w-[600px] h-[600px] bg-fuchsia-200/20 rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] bg-cyan-200/20 rounded-full blur-[120px]"></div>
+            </div>
+
+            <!-- Header -->
+            <header class="h-20 border-b border-slate-200 bg-white/80 backdrop-blur flex items-center justify-between px-6 sticky top-0 z-20 shadow-sm">
+                <div class="flex items-center gap-4">
+                    <h1 class="text-lg font-bold text-slate-800 uppercase tracking-wider">Learning Progress</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:flex relative">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" placeholder="Search..." class="bg-slate-100 border border-slate-200 rounded-full pl-10 pr-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-cyan-500 focus:bg-white transition-all w-64 shadow-sm">
+                    </div>
+                    <button class="relative p-2 text-slate-500 hover:text-slate-800 transition-colors">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-fuchsia-500 rounded-full animate-pulse ring-2 ring-white"></span>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 p-[2px] cursor-pointer shadow-md">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
+                            <span class="text-xs font-bold text-slate-700">AS</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Progress Content -->
+            <main class="flex-1 overflow-y-auto p-4 md:p-8 animate-fadeIn">
+
+                <!-- Stats Row -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-2 rounded-lg bg-cyan-50 text-cyan-600 group-hover:bg-cyan-500 group-hover:text-white transition-colors">
+                                <i data-lucide="clock" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono text-cyan-700 bg-cyan-50 px-2 py-1 rounded">Total</span>
+                        </div>
+                        <h3 class="text-slate-500 text-sm font-medium">総学習時間</h3>
+                        <p class="text-3xl font-bold text-slate-800 mt-1">48<span class="text-sm text-slate-400 font-normal ml-1">h</span></p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-2 rounded-lg bg-fuchsia-50 text-fuchsia-600 group-hover:bg-fuchsia-500 group-hover:text-white transition-colors">
+                                <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono text-fuchsia-700 bg-fuchsia-50 px-2 py-1 rounded">Completed</span>
+                        </div>
+                        <h3 class="text-slate-500 text-sm font-medium">完了コース</h3>
+                        <p class="text-3xl font-bold text-slate-800 mt-1">3<span class="text-sm text-slate-400 font-normal ml-1">courses</span></p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-2 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                <i data-lucide="check-circle" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono text-blue-700 bg-blue-50 px-2 py-1 rounded">Lessons</span>
+                        </div>
+                        <h3 class="text-slate-500 text-sm font-medium">完了レッスン</h3>
+                        <p class="text-3xl font-bold text-slate-800 mt-1">42<span class="text-sm text-slate-400 font-normal ml-1">lessons</span></p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-2 rounded-lg bg-amber-50 text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                                <i data-lucide="award" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono text-amber-700 bg-amber-50 px-2 py-1 rounded">LV.12</span>
+                        </div>
+                        <h3 class="text-slate-500 text-sm font-medium">スキルポイント</h3>
+                        <p class="text-3xl font-bold text-slate-800 mt-1">1,250<span class="text-sm text-slate-400 font-normal ml-1">pts</span></p>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+
+                    <!-- Skills Radar Chart -->
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <i data-lucide="radar" class="w-5 h-5 text-cyan-500"></i>
+                                スキルレーダー
+                            </h3>
+                            <span class="text-xs text-slate-400">最終更新: 今日</span>
+                        </div>
+                        <div class="flex items-center justify-center py-4">
+                            <svg viewBox="0 0 300 300" class="w-64 h-64">
+                                <!-- Grid lines -->
+                                <polygon points="150,30 255,90 255,210 150,270 45,210 45,90" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                                <polygon points="150,60 230,105 230,195 150,240 70,195 70,105" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                                <polygon points="150,90 205,120 205,180 150,210 95,180 95,120" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                                <polygon points="150,120 180,135 180,165 150,180 120,165 120,135" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                                <!-- Axis lines -->
+                                <line x1="150" y1="30" x2="150" y2="270" stroke="#e2e8f0" stroke-width="1"/>
+                                <line x1="45" y1="90" x2="255" y2="210" stroke="#e2e8f0" stroke-width="1"/>
+                                <line x1="45" y1="210" x2="255" y2="90" stroke="#e2e8f0" stroke-width="1"/>
+                                <!-- Data polygon -->
+                                <polygon points="150,48 238,108 222,204 150,240 78,174 72,102"
+                                    fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="2.5"/>
+                                <!-- Data points -->
+                                <circle cx="150" cy="48" r="4" fill="#06b6d4"/>
+                                <circle cx="238" cy="108" r="4" fill="#06b6d4"/>
+                                <circle cx="222" cy="204" r="4" fill="#06b6d4"/>
+                                <circle cx="150" cy="240" r="4" fill="#06b6d4"/>
+                                <circle cx="78" cy="174" r="4" fill="#06b6d4"/>
+                                <circle cx="72" cy="102" r="4" fill="#06b6d4"/>
+                                <!-- Labels -->
+                                <text x="150" y="18" text-anchor="middle" class="text-xs" fill="#475569" font-size="12" font-weight="600">HTML/CSS</text>
+                                <text x="270" y="92" text-anchor="start" class="text-xs" fill="#475569" font-size="12" font-weight="600">JavaScript</text>
+                                <text x="270" y="218" text-anchor="start" class="text-xs" fill="#475569" font-size="12" font-weight="600">React</text>
+                                <text x="150" y="292" text-anchor="middle" class="text-xs" fill="#475569" font-size="12" font-weight="600">Design</text>
+                                <text x="26" y="218" text-anchor="end" class="text-xs" fill="#475569" font-size="12" font-weight="600">AI活用</text>
+                                <text x="26" y="92" text-anchor="end" class="text-xs" fill="#475569" font-size="12" font-weight="600">UX</text>
+                            </svg>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3 mt-2">
+                            <div class="text-center p-2 rounded-lg bg-slate-50">
+                                <p class="text-xs text-slate-500">HTML/CSS</p>
+                                <p class="text-sm font-bold text-slate-700">92%</p>
+                            </div>
+                            <div class="text-center p-2 rounded-lg bg-slate-50">
+                                <p class="text-xs text-slate-500">JavaScript</p>
+                                <p class="text-sm font-bold text-slate-700">78%</p>
+                            </div>
+                            <div class="text-center p-2 rounded-lg bg-slate-50">
+                                <p class="text-xs text-slate-500">React</p>
+                                <p class="text-sm font-bold text-slate-700">72%</p>
+                            </div>
+                            <div class="text-center p-2 rounded-lg bg-slate-50">
+                                <p class="text-xs text-slate-500">Design</p>
+                                <p class="text-sm font-bold text-slate-700">55%</p>
+                            </div>
+                            <div class="text-center p-2 rounded-lg bg-slate-50">
+                                <p class="text-xs text-slate-500">AI活用</p>
+                                <p class="text-sm font-bold text-slate-700">65%</p>
+                            </div>
+                            <div class="text-center p-2 rounded-lg bg-slate-50">
+                                <p class="text-xs text-slate-500">UX</p>
+                                <p class="text-sm font-bold text-slate-700">70%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Study Time Chart -->
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5 text-fuchsia-500"></i>
+                                学習時間推移
+                            </h3>
+                            <span class="text-xs text-slate-400">過去7日間</span>
+                        </div>
+                        <div class="flex items-end justify-between gap-3 h-48 px-2">
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="w-full bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-t-lg transition-all hover:from-cyan-500 hover:to-cyan-400" style="height: 40%"></div>
+                                <span class="text-xs text-slate-500 font-medium">月</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="w-full bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-t-lg transition-all hover:from-cyan-500 hover:to-cyan-400" style="height: 70%"></div>
+                                <span class="text-xs text-slate-500 font-medium">火</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="w-full bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-t-lg transition-all hover:from-cyan-500 hover:to-cyan-400" style="height: 55%"></div>
+                                <span class="text-xs text-slate-500 font-medium">水</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="w-full bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-t-lg transition-all hover:from-cyan-500 hover:to-cyan-400" style="height: 90%"></div>
+                                <span class="text-xs text-slate-500 font-medium">木</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="w-full bg-gradient-to-t from-cyan-400 to-cyan-300 rounded-t-lg transition-all hover:from-cyan-500 hover:to-cyan-400" style="height: 65%"></div>
+                                <span class="text-xs text-slate-500 font-medium">金</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="w-full bg-gradient-to-t from-fuchsia-400 to-fuchsia-300 rounded-t-lg transition-all hover:from-fuchsia-500 hover:to-fuchsia-400" style="height: 100%"></div>
+                                <span class="text-xs text-slate-500 font-medium">土</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2">
+                                <div class="w-full bg-gradient-to-t from-fuchsia-400 to-fuchsia-300 rounded-t-lg transition-all hover:from-fuchsia-500 hover:to-fuchsia-400" style="height: 80%"></div>
+                                <span class="text-xs text-slate-500 font-medium">日</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-100">
+                            <div>
+                                <p class="text-xs text-slate-500">今週の合計</p>
+                                <p class="text-lg font-bold text-slate-800">12.5h</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-slate-500">先週比</p>
+                                <p class="text-lg font-bold text-emerald-500 flex items-center gap-1">
+                                    <i data-lucide="trending-up" class="w-4 h-4"></i>
+                                    +18%
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievement Badges -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="trophy" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            達成バッジ
+                        </h3>
+                        <span class="text-sm text-slate-400">6 / 24 獲得済み</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Badge 1 -->
+                        <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20 shrink-0">
+                                <i data-lucide="log-in" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-slate-800 group-hover:text-cyan-600 transition-colors">初回ログイン</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">プラットフォームへの初めてのログインを達成</p>
+                            </div>
+                            <div class="shrink-0">
+                                <span class="text-xs font-mono text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">達成</span>
+                            </div>
+                        </div>
+
+                        <!-- Badge 2 -->
+                        <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
+                                <i data-lucide="check-circle" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-slate-800 group-hover:text-cyan-600 transition-colors">10レッスン達成</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">累計10レッスンを完了しました</p>
+                            </div>
+                            <div class="shrink-0">
+                                <span class="text-xs font-mono text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">達成</span>
+                            </div>
+                        </div>
+
+                        <!-- Badge 3 -->
+                        <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-fuchsia-400 to-purple-500 flex items-center justify-center shadow-lg shadow-fuchsia-500/20 shrink-0">
+                                <i data-lucide="cpu" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-slate-800 group-hover:text-cyan-600 transition-colors">AI活用マスター</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">AI関連のコースをすべて完了しました</p>
+                            </div>
+                            <div class="shrink-0">
+                                <span class="text-xs font-mono text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">達成</span>
+                            </div>
+                        </div>
+
+                        <!-- Badge 4 -->
+                        <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
+                                <i data-lucide="send" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-slate-800 group-hover:text-cyan-600 transition-colors">課題提出10回</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">課題を累計10回提出しました</p>
+                            </div>
+                            <div class="shrink-0">
+                                <span class="text-xs font-mono text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">達成</span>
+                            </div>
+                        </div>
+
+                        <!-- Badge 5 -->
+                        <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 shrink-0">
+                                <i data-lucide="message-circle" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-slate-800 group-hover:text-cyan-600 transition-colors">コミュニティ投稿</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">コミュニティに初めて投稿しました</p>
+                            </div>
+                            <div class="shrink-0">
+                                <span class="text-xs font-mono text-emerald-600 bg-emerald-50 px-2 py-1 rounded border border-emerald-100">達成</span>
+                            </div>
+                        </div>
+
+                        <!-- Badge 6 (Locked) -->
+                        <div class="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group opacity-60">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-slate-300 to-slate-400 flex items-center justify-center shadow-lg shadow-slate-500/10 shrink-0">
+                                <i data-lucide="flame" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-slate-600">30日連続学習</h4>
+                                <p class="text-xs text-slate-400 mt-0.5">30日間連続でログイン・学習を達成</p>
+                            </div>
+                            <div class="shrink-0">
+                                <span class="text-xs font-mono text-slate-500 bg-slate-100 px-2 py-1 rounded border border-slate-200">22/30日</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enrolled Courses Progress -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="book-open" class="w-5 h-5 text-blue-500"></i>
+                            受講中コース
+                        </h3>
+                        <a href="courses.html" class="text-sm text-cyan-600 hover:text-cyan-700 font-medium flex items-center gap-1">
+                            すべて見る <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                    <div class="space-y-4">
+                        <!-- Course 1 -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="flex items-center gap-5">
+                                <div class="w-16 h-16 rounded-xl shrink-0 flex items-center justify-center" style="background: linear-gradient(135deg, #e0f2fe 0%, #0ea5e9 100%)">
+                                    <i data-lucide="palette" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <h4 class="font-bold text-slate-800 group-hover:text-cyan-600 transition-colors">AI活用 Webデザイン基礎</h4>
+                                        <span class="text-sm font-bold text-cyan-600">75%</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mb-3">15 / 20 レッスン完了</p>
+                                    <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transition-all" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course 2 -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="flex items-center gap-5">
+                                <div class="w-16 h-16 rounded-xl shrink-0 flex items-center justify-center" style="background: linear-gradient(135deg, #e0e7ff 0%, #4f46e5 100%)">
+                                    <i data-lucide="code-2" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <h4 class="font-bold text-slate-800 group-hover:text-cyan-600 transition-colors">Next.js 14 & React 実践</h4>
+                                        <span class="text-sm font-bold text-indigo-600">33%</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mb-3">4 / 12 レッスン完了</p>
+                                    <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-indigo-400 to-violet-500 rounded-full transition-all" style="width: 33%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course 3 -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="flex items-center gap-5">
+                                <div class="w-16 h-16 rounded-xl shrink-0 flex items-center justify-center" style="background: linear-gradient(135deg, #fce7f3 0%, #db2777 100%)">
+                                    <i data-lucide="figma" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <h4 class="font-bold text-slate-800 group-hover:text-cyan-600 transition-colors">UI/UXデザイン概論</h4>
+                                        <span class="text-sm font-bold text-fuchsia-600">12%</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mb-3">1 / 8 レッスン完了</p>
+                                    <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-fuchsia-400 to-pink-500 rounded-full transition-all" style="width: 12%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

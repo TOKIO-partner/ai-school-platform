@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レッスン編集 - MOMOCRI Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-cyan-200">
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- Sidebar -->
+        <div class="w-64 bg-white border-r border-slate-200 flex flex-col z-30 shadow-xl lg:shadow-none hidden lg:flex">
+            <div class="h-20 flex items-center justify-center border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div class="flex flex-col leading-tight">
+                        <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500 tracking-wider">MOMOCRI</span>
+                        <span class="text-[10px] text-slate-400 tracking-widest uppercase">Admin</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="p-4 space-y-1 flex-1 overflow-y-auto">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="bar-chart" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">ダッシュボード</span>
+                </a>
+                <a href="users.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">ユーザー管理</span>
+                </a>
+                <a href="courses.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-cyan-50 to-blue-50 text-cyan-600 border border-cyan-100 shadow-sm">
+                    <i data-lucide="book-open" class="w-5 h-5 text-cyan-600"></i>
+                    <span class="font-medium text-sm">コース管理</span>
+                    <div class="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.6)]"></div>
+                </a>
+                <a href="contents.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">コンテンツ管理</span>
+                </a>
+                <a href="community.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="message-square" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">コミュニティ管理</span>
+                </a>
+                <a href="events.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="calendar" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">イベント管理</span>
+                </a>
+                <a href="announcements.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">お知らせ管理</span>
+                </a>
+                <a href="billing.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="credit-card" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">売上・決済</span>
+                </a>
+                <a href="ai-settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="cpu" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">AI設定</span>
+                </a>
+                <a href="system.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">システム設定</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-100">
+                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-fuchsia-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">AD</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold text-slate-700 truncate">管理者</p>
+                        <p class="text-xs text-slate-500 truncate">admin@momocri.com</p>
+                    </div>
+                    <i data-lucide="settings" class="w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div class="absolute top-[20%] right-[10%] w-[600px] h-[600px] bg-fuchsia-200/20 rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] bg-cyan-200/20 rounded-full blur-[120px]"></div>
+            </div>
+
+            <!-- Header -->
+            <header class="h-20 border-b border-slate-200 bg-white/80 backdrop-blur flex items-center justify-between px-6 sticky top-0 z-20 shadow-sm">
+                <h1 class="text-lg font-bold text-slate-800 uppercase tracking-wider">レッスン編集</h1>
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:flex relative">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" placeholder="検索..." class="bg-slate-100 border border-slate-200 rounded-full pl-10 pr-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-cyan-500 focus:bg-white transition-all w-64 shadow-sm">
+                    </div>
+                    <button class="relative p-2 text-slate-500 hover:text-slate-800 transition-colors">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-fuchsia-500 rounded-full animate-pulse ring-2 ring-white"></span>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 p-[2px] cursor-pointer shadow-md">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
+                            <span class="text-xs font-bold text-slate-700">AD</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Two Panel Layout -->
+            <div class="flex-1 flex overflow-hidden animate-fadeIn">
+
+                <!-- Left Panel: Chapter/Lesson Tree -->
+                <div class="w-72 bg-white border-r border-slate-200 flex flex-col overflow-y-auto">
+                    <div class="p-4 border-b border-slate-100">
+                        <h3 class="font-bold text-slate-800 text-sm mb-1">AI活用 Webデザイン基礎</h3>
+                        <p class="text-xs text-slate-400">コース構成</p>
+                    </div>
+
+                    <div class="flex-1 p-3 space-y-1">
+                        <!-- Chapter 1 -->
+                        <div>
+                            <button class="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors">
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                                <i data-lucide="folder-open" class="w-4 h-4 text-cyan-500"></i>
+                                <span>Chapter 1: デザイン基礎</span>
+                            </button>
+                            <div class="ml-4 space-y-0.5">
+                                <div class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-500 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                    <i data-lucide="grip-vertical" class="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 cursor-grab"></i>
+                                    <span class="w-5 h-5 rounded-full bg-slate-100 text-xs flex items-center justify-center font-medium text-slate-500">1</span>
+                                    <span class="flex-1 truncate">デザインとは何か</span>
+                                    <span class="text-xs text-slate-400">12:30</span>
+                                </div>
+                                <div class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-500 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                    <i data-lucide="grip-vertical" class="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 cursor-grab"></i>
+                                    <span class="w-5 h-5 rounded-full bg-slate-100 text-xs flex items-center justify-center font-medium text-slate-500">2</span>
+                                    <span class="flex-1 truncate">色彩理論の基礎</span>
+                                    <span class="text-xs text-slate-400">18:45</span>
+                                </div>
+                                <div class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-500 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                    <i data-lucide="grip-vertical" class="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 cursor-grab"></i>
+                                    <span class="w-5 h-5 rounded-full bg-slate-100 text-xs flex items-center justify-center font-medium text-slate-500">3</span>
+                                    <span class="flex-1 truncate">タイポグラフィ入門</span>
+                                    <span class="text-xs text-slate-400">15:20</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chapter 2 -->
+                        <div>
+                            <button class="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors">
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                                <i data-lucide="folder-open" class="w-4 h-4 text-cyan-500"></i>
+                                <span>Chapter 2: AI活用</span>
+                            </button>
+                            <div class="ml-4 space-y-0.5">
+                                <div class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-gradient-to-r from-cyan-50 to-blue-50 text-cyan-700 border border-cyan-100 cursor-pointer transition-colors group">
+                                    <i data-lucide="grip-vertical" class="w-3.5 h-3.5 text-cyan-300 opacity-0 group-hover:opacity-100 cursor-grab"></i>
+                                    <span class="w-5 h-5 rounded-full bg-cyan-500 text-xs flex items-center justify-center font-medium text-white">4</span>
+                                    <span class="flex-1 truncate font-medium">AIツールの概要</span>
+                                    <span class="text-xs text-cyan-500">20:00</span>
+                                </div>
+                                <div class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-500 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                    <i data-lucide="grip-vertical" class="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 cursor-grab"></i>
+                                    <span class="w-5 h-5 rounded-full bg-slate-100 text-xs flex items-center justify-center font-medium text-slate-500">5</span>
+                                    <span class="flex-1 truncate">画像生成AI入門</span>
+                                    <span class="text-xs text-slate-400">22:15</span>
+                                </div>
+                                <div class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-500 hover:bg-slate-50 cursor-pointer transition-colors group">
+                                    <i data-lucide="grip-vertical" class="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 cursor-grab"></i>
+                                    <span class="w-5 h-5 rounded-full bg-slate-100 text-xs flex items-center justify-center font-medium text-slate-500">6</span>
+                                    <span class="flex-1 truncate">プロンプトエンジニアリング</span>
+                                    <span class="text-xs text-slate-400">25:30</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chapter 3 -->
+                        <div>
+                            <button class="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors">
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+                                <i data-lucide="folder" class="w-4 h-4 text-slate-400"></i>
+                                <span>Chapter 3: 実践演習</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-3 border-t border-slate-100">
+                        <button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 border-dashed border-slate-200 text-sm font-medium text-slate-400 hover:text-cyan-600 hover:border-cyan-300 transition-colors">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            チャプターを追加
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Lesson Edit Form -->
+                <div class="flex-1 overflow-y-auto p-6 md:p-8">
+                    <div class="max-w-3xl space-y-6">
+
+                        <!-- Breadcrumb -->
+                        <nav class="flex items-center gap-2 text-sm text-slate-400">
+                            <a href="courses.html" class="hover:text-cyan-600 transition-colors">コース管理</a>
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            <span class="text-slate-500">AI活用 Webデザイン基礎</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            <span class="text-slate-700 font-medium">Lesson 4</span>
+                        </nav>
+
+                        <!-- Lesson Title -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">レッスンタイトル</label>
+                            <input type="text" value="AIツールの概要" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-800 text-lg font-medium focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 shadow-sm transition-all">
+                        </div>
+
+                        <!-- Description -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">説明</label>
+                            <textarea rows="3" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 shadow-sm transition-all resize-none" placeholder="レッスンの概要を入力してください...">Webデザインで活用できる主要なAIツール（Midjourney、DALL-E、Stable Diffusion等）の特徴と使い分けを学びます。各ツールの強みと制限を理解し、デザインワークフローへの統合方法を習得します。</textarea>
+                        </div>
+
+                        <!-- Video Upload -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">動画アップロード</label>
+                            <div class="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:border-cyan-400 transition-colors cursor-pointer bg-white/50">
+                                <div class="flex flex-col items-center gap-3">
+                                    <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center">
+                                        <i data-lucide="upload-cloud" class="w-7 h-7 text-slate-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-600">ドラッグ&ドロップまたはクリックしてアップロード</p>
+                                        <p class="text-xs text-slate-400 mt-1">MP4, MOV, WebM (最大2GB)</p>
+                                    </div>
+                                    <button class="px-4 py-2 text-sm font-medium text-cyan-600 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors">
+                                        ファイルを選択
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Uploaded file indicator -->
+                            <div class="flex items-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-xl shadow-sm">
+                                <div class="w-10 h-10 rounded-lg bg-cyan-50 flex items-center justify-center">
+                                    <i data-lucide="film" class="w-5 h-5 text-cyan-500"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-slate-700 truncate">lesson04_ai_tools_overview.mp4</p>
+                                    <p class="text-xs text-slate-400">245 MB | 20:00</p>
+                                </div>
+                                <button class="text-slate-400 hover:text-red-500 transition-colors">
+                                    <i data-lucide="x" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 教材ファイル -->
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <label class="block text-sm font-bold text-slate-700">教材ファイル</label>
+                                <button class="text-sm text-cyan-600 hover:text-cyan-700 font-medium flex items-center gap-1">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                    ファイルを追加
+                                </button>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-xl shadow-sm">
+                                    <div class="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center">
+                                        <i data-lucide="file-text" class="w-4 h-4 text-red-500"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-medium text-slate-700 truncate">AIツール比較資料.pdf</p>
+                                        <p class="text-xs text-slate-400">2.1 MB</p>
+                                    </div>
+                                    <button class="text-slate-400 hover:text-red-500 transition-colors">
+                                        <i data-lucide="x" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                                <div class="flex items-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-xl shadow-sm">
+                                    <div class="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center">
+                                        <i data-lucide="image" class="w-4 h-4 text-green-500"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-medium text-slate-700 truncate">ワークフロー図解.png</p>
+                                        <p class="text-xs text-slate-400">856 KB</p>
+                                    </div>
+                                    <button class="text-slate-400 hover:text-red-500 transition-colors">
+                                        <i data-lucide="x" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Tuber Comment Settings -->
+                        <div class="space-y-3">
+                            <label class="block text-sm font-bold text-slate-700">AI Tuberコメント設定</label>
+                            <p class="text-xs text-slate-400">動画の再生タイミングに合わせてAI Tuberが自動コメントを表示します。</p>
+
+                            <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-3 shadow-sm">
+                                <!-- Existing timeline comments -->
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3 px-3 py-2.5 bg-slate-50 rounded-xl group">
+                                        <span class="px-2.5 py-1 bg-cyan-100 text-cyan-700 rounded-lg text-xs font-bold font-mono whitespace-nowrap">02:30</span>
+                                        <p class="flex-1 text-sm text-slate-600 truncate">ここからAIツールの種類について解説していきます!</p>
+                                        <button class="text-slate-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center gap-3 px-3 py-2.5 bg-slate-50 rounded-xl group">
+                                        <span class="px-2.5 py-1 bg-cyan-100 text-cyan-700 rounded-lg text-xs font-bold font-mono whitespace-nowrap">08:15</span>
+                                        <p class="flex-1 text-sm text-slate-600 truncate">Midjourneyのプロンプト例、メモしておくと便利ですよ!</p>
+                                        <button class="text-slate-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center gap-3 px-3 py-2.5 bg-slate-50 rounded-xl group">
+                                        <span class="px-2.5 py-1 bg-cyan-100 text-cyan-700 rounded-lg text-xs font-bold font-mono whitespace-nowrap">15:40</span>
+                                        <p class="flex-1 text-sm text-slate-600 truncate">実務では複数のAIツールを組み合わせるのがポイントです!</p>
+                                        <button class="text-slate-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Add new comment -->
+                                <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                                    <input type="text" placeholder="00:00" class="w-20 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-center font-mono text-slate-700 focus:outline-none focus:border-cyan-500">
+                                    <input type="text" placeholder="コメントを入力..." class="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:border-cyan-500">
+                                    <button class="px-3 py-2 bg-cyan-50 text-cyan-600 hover:bg-cyan-100 rounded-lg transition-colors">
+                                        <i data-lucide="plus" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 課題設定 -->
+                        <div class="space-y-3">
+                            <label class="block text-sm font-bold text-slate-700">課題設定</label>
+
+                            <div class="bg-white border border-slate-200 rounded-2xl p-5 space-y-4 shadow-sm">
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-medium text-slate-500">課題タイトル</label>
+                                    <input type="text" value="AIツールを使ったバナーデザイン制作" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-medium text-slate-500">説明</label>
+                                    <textarea rows="3" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all resize-none" placeholder="課題の詳しい説明を入力...">本レッスンで紹介したAIツール（Midjourney、DALL-E、Stable Diffusionのいずれか）を使用して、架空のWebサービスのバナーデザインを3パターン制作してください。</textarea>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-medium text-slate-500">提出形式</label>
+                                    <select class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-cyan-500 shadow-sm">
+                                        <option value="file">ファイルアップロード</option>
+                                        <option value="url">URL提出</option>
+                                        <option value="text">テキスト入力</option>
+                                        <option value="figma">Figmaリンク</option>
+                                    </select>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-medium text-slate-500">評価基準</label>
+                                    <textarea rows="4" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all resize-none" placeholder="評価のポイントを記載...">1. AIツールの適切な活用（プロンプトの工夫） - 30点
+2. デザインの完成度（構図、配色、タイポグラフィ） - 40点
+3. バリエーションの多様性 - 20点
+4. 制作プロセスの説明 - 10点</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex items-center justify-end gap-3 pt-4 pb-8">
+                            <button class="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-bold hover:bg-slate-50 transition-all flex items-center gap-2 shadow-sm">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                                プレビュー
+                            </button>
+                            <button class="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-cyan-500/30 transition-all flex items-center gap-2">
+                                <i data-lucide="save" class="w-4 h-4"></i>
+                                保存
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

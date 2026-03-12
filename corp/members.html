@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>受講者管理 - MOMOCRI School Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-cyan-200">
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- Sidebar -->
+        <div class="w-64 bg-white border-r border-slate-200 flex flex-col z-30 shadow-xl lg:shadow-none hidden lg:flex">
+            <div class="h-20 flex items-center justify-center border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500 tracking-wider">MOMOCRI</span>
+                </div>
+            </div>
+
+            <nav class="p-4 space-y-2 flex-1">
+                <a href="../index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span class="font-medium">ダッシュボード</span>
+                </a>
+                <a href="../learning.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="monitor" class="w-5 h-5"></i>
+                    <span class="font-medium">学習ルーム</span>
+                </a>
+                <a href="../courses.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                    <span class="font-medium">コース一覧</span>
+                </a>
+                <a href="../community.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="font-medium">コミュニティ</span>
+                </a>
+                <a href="../corp/index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-cyan-50 to-blue-50 text-cyan-600 border border-cyan-100 shadow-sm">
+                    <i data-lucide="bar-chart-2" class="w-5 h-5 text-cyan-600"></i>
+                    <span class="font-medium">管理者/法人</span>
+                    <div class="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.6)]"></div>
+                </a>
+            </nav>
+            <div class="p-4 border-t border-slate-100">
+                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-fuchsia-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">AS</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold text-slate-700 truncate">長谷川 麻子</p>
+                        <p class="text-xs text-slate-500 truncate">Pro Plan</p>
+                    </div>
+                    <i data-lucide="settings" class="w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 relative overflow-hidden">
+             <!-- Background Decoration -->
+             <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div class="absolute top-[20%] right-[10%] w-[600px] h-[600px] bg-fuchsia-200/20 rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] bg-cyan-200/20 rounded-full blur-[120px]"></div>
+            </div>
+
+            <header class="h-20 border-b border-slate-200 bg-white/80 backdrop-blur flex items-center justify-between px-6 sticky top-0 z-20 shadow-sm">
+                <h1 class="text-lg font-bold text-slate-800 uppercase tracking-wider">Corporate Management</h1>
+                <div class="flex items-center gap-4">
+                     <div class="hidden md:flex relative">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" placeholder="Search..." class="bg-slate-100 border border-slate-200 rounded-full pl-10 pr-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-cyan-500 focus:bg-white transition-all w-64 shadow-sm">
+                    </div>
+                    <button class="relative p-2 text-slate-500 hover:text-slate-800 transition-colors">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-fuchsia-500 rounded-full animate-pulse ring-2 ring-white"></span>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 p-[2px] cursor-pointer shadow-md">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
+                            <span class="text-xs font-bold text-slate-700">AS</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-4 md:p-8 animate-fadeIn">
+                <div class="space-y-6">
+
+                    <!-- Corp Sub-Navigation Tabs -->
+                    <div class="flex gap-1 bg-white border border-slate-200 rounded-xl p-1.5 shadow-sm w-fit">
+                        <a href="index.html" class="px-5 py-2.5 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-50 transition-all">ダッシュボード</a>
+                        <a href="members.html" class="px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md shadow-cyan-500/25 transition-all">受講者管理</a>
+                        <a href="reports.html" class="px-5 py-2.5 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-50 transition-all">進捗レポート</a>
+                    </div>
+
+                    <!-- Header -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800 mb-1">受講者管理</h2>
+                            <p class="text-slate-500 text-sm">メンバーの登録・管理・進捗確認</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-600 text-sm hover:bg-slate-50 flex items-center gap-2 shadow-sm transition-colors">
+                                <i data-lucide="upload" class="w-4 h-4"></i> 一括登録(CSV)
+                            </button>
+                            <button class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg text-sm hover:from-cyan-600 hover:to-blue-700 flex items-center gap-2 shadow-md shadow-cyan-500/25 transition-all">
+                                <i data-lucide="user-plus" class="w-4 h-4"></i> メンバーを追加
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-slate-500 text-xs font-medium">登録メンバー</p>
+                                <div class="w-8 h-8 rounded-lg bg-cyan-50 flex items-center justify-center">
+                                    <i data-lucide="users" class="w-4 h-4 text-cyan-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-3xl font-bold text-slate-800">24<span class="text-base font-normal text-slate-400 ml-1">名</span></p>
+                        </div>
+                        <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-slate-500 text-xs font-medium">アクティブ</p>
+                                <div class="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center">
+                                    <i data-lucide="activity" class="w-4 h-4 text-green-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-3xl font-bold text-slate-800">20<span class="text-base font-normal text-slate-400 ml-1">名</span></p>
+                        </div>
+                        <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-slate-500 text-xs font-medium">未開始</p>
+                                <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+                                    <i data-lucide="clock" class="w-4 h-4 text-amber-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-3xl font-bold text-slate-800">4<span class="text-base font-normal text-slate-400 ml-1">名</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Member Table -->
+                    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-slate-50/50">
+                            <h3 class="font-bold text-slate-800">メンバー一覧</h3>
+                            <div class="flex items-center gap-3">
+                                <select class="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm text-slate-600 focus:outline-none focus:border-cyan-500">
+                                    <option>すべての部署</option>
+                                    <option>開発部</option>
+                                    <option>デザイン部</option>
+                                    <option>企画部</option>
+                                    <option>営業部</option>
+                                </select>
+                                <div class="relative">
+                                    <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                                    <input type="text" placeholder="名前で検索..." class="bg-white border border-slate-200 rounded-lg pl-9 pr-4 py-1.5 text-sm text-slate-700 focus:outline-none focus:border-cyan-500">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-slate-600">
+                                <thead class="text-xs text-slate-500 uppercase bg-slate-50">
+                                    <tr>
+                                        <th class="px-4 py-3">
+                                            <input type="checkbox" id="selectAll" class="w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
+                                        </th>
+                                        <th class="px-4 py-3">氏名</th>
+                                        <th class="px-4 py-3">メール</th>
+                                        <th class="px-4 py-3">部署</th>
+                                        <th class="px-4 py-3">受講コース</th>
+                                        <th class="px-4 py-3">進捗</th>
+                                        <th class="px-4 py-3">最終ログイン</th>
+                                        <th class="px-4 py-3">ステータス</th>
+                                        <th class="px-4 py-3">アクション</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Member 1 -->
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50/70 transition-colors">
+                                        <td class="px-4 py-4">
+                                            <input type="checkbox" class="member-checkbox w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 flex items-center justify-center text-white text-xs font-bold">SK</div>
+                                                <span class="font-bold text-slate-800">佐藤 健太</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">k.sato@example.co.jp</td>
+                                        <td class="px-4 py-4">開発部</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2 py-0.5 bg-cyan-50 text-cyan-700 rounded text-xs font-medium">AI基礎</span>
+                                            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-xs font-medium ml-1">Python</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                                    <div class="h-full bg-cyan-500 rounded-full" style="width: 85%"></div>
+                                                </div>
+                                                <span class="text-xs font-medium text-slate-700">85%</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">2時間前</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-50 text-green-600 border-green-200">Active</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-cyan-600 hover:text-cyan-800 font-medium text-xs">詳細</button>
+                                                <span class="text-slate-300">|</span>
+                                                <button class="text-red-400 hover:text-red-600 font-medium text-xs">削除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Member 2 -->
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50/70 transition-colors">
+                                        <td class="px-4 py-4">
+                                            <input type="checkbox" class="member-checkbox w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-fuchsia-400 to-pink-500 flex items-center justify-center text-white text-xs font-bold">SM</div>
+                                                <span class="font-bold text-slate-800">鈴木 美咲</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">m.suzuki@example.co.jp</td>
+                                        <td class="px-4 py-4">デザイン部</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2 py-0.5 bg-purple-50 text-purple-700 rounded text-xs font-medium">UIデザイン</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                                    <div class="h-full bg-cyan-500 rounded-full" style="width: 72%"></div>
+                                                </div>
+                                                <span class="text-xs font-medium text-slate-700">72%</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">5時間前</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-50 text-green-600 border-green-200">Active</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-cyan-600 hover:text-cyan-800 font-medium text-xs">詳細</button>
+                                                <span class="text-slate-300">|</span>
+                                                <button class="text-red-400 hover:text-red-600 font-medium text-xs">削除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Member 3 -->
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50/70 transition-colors">
+                                        <td class="px-4 py-4">
+                                            <input type="checkbox" class="member-checkbox w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white text-xs font-bold">TY</div>
+                                                <span class="font-bold text-slate-800">田中 悠太</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">y.tanaka@example.co.jp</td>
+                                        <td class="px-4 py-4">企画部</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2 py-0.5 bg-cyan-50 text-cyan-700 rounded text-xs font-medium">AI基礎</span>
+                                            <span class="px-2 py-0.5 bg-green-50 text-green-700 rounded text-xs font-medium ml-1">データ分析</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                                    <div class="h-full bg-cyan-500 rounded-full" style="width: 58%"></div>
+                                                </div>
+                                                <span class="text-xs font-medium text-slate-700">58%</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">1日前</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-50 text-green-600 border-green-200">Active</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-cyan-600 hover:text-cyan-800 font-medium text-xs">詳細</button>
+                                                <span class="text-slate-300">|</span>
+                                                <button class="text-red-400 hover:text-red-600 font-medium text-xs">削除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Member 4 -->
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50/70 transition-colors">
+                                        <td class="px-4 py-4">
+                                            <input type="checkbox" class="member-checkbox w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center text-white text-xs font-bold">WA</div>
+                                                <span class="font-bold text-slate-800">渡辺 あかり</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">a.watanabe@example.co.jp</td>
+                                        <td class="px-4 py-4">開発部</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-xs font-medium">Python</span>
+                                            <span class="px-2 py-0.5 bg-violet-50 text-violet-700 rounded text-xs font-medium ml-1">機械学習</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                                    <div class="h-full bg-cyan-500 rounded-full" style="width: 91%"></div>
+                                                </div>
+                                                <span class="text-xs font-medium text-slate-700">91%</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">30分前</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2.5 py-1 rounded-full text-xs font-medium border bg-green-50 text-green-600 border-green-200">Active</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-cyan-600 hover:text-cyan-800 font-medium text-xs">詳細</button>
+                                                <span class="text-slate-300">|</span>
+                                                <button class="text-red-400 hover:text-red-600 font-medium text-xs">削除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Member 5 -->
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50/70 transition-colors">
+                                        <td class="px-4 py-4">
+                                            <input type="checkbox" class="member-checkbox w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-400 to-purple-500 flex items-center justify-center text-white text-xs font-bold">KD</div>
+                                                <span class="font-bold text-slate-800">小林 大輔</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">d.kobayashi@example.co.jp</td>
+                                        <td class="px-4 py-4">デザイン部</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2 py-0.5 bg-purple-50 text-purple-700 rounded text-xs font-medium">UIデザイン</span>
+                                            <span class="px-2 py-0.5 bg-cyan-50 text-cyan-700 rounded text-xs font-medium ml-1">AI基礎</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                                    <div class="h-full bg-amber-400 rounded-full" style="width: 35%"></div>
+                                                </div>
+                                                <span class="text-xs font-medium text-slate-700">35%</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">3日前</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2.5 py-1 rounded-full text-xs font-medium border bg-yellow-50 text-yellow-600 border-yellow-200">Warning</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-cyan-600 hover:text-cyan-800 font-medium text-xs">詳細</button>
+                                                <span class="text-slate-300">|</span>
+                                                <button class="text-red-400 hover:text-red-600 font-medium text-xs">削除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Member 6 -->
+                                    <tr class="hover:bg-slate-50/70 transition-colors">
+                                        <td class="px-4 py-4">
+                                            <input type="checkbox" class="member-checkbox w-4 h-4 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-400 to-red-500 flex items-center justify-center text-white text-xs font-bold">MY</div>
+                                                <span class="font-bold text-slate-800">森 由紀子</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-500">y.mori@example.co.jp</td>
+                                        <td class="px-4 py-4">企画部</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2 py-0.5 bg-slate-100 text-slate-500 rounded text-xs font-medium">未登録</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-20 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                                                    <div class="h-full bg-slate-300 rounded-full" style="width: 0%"></div>
+                                                </div>
+                                                <span class="text-xs font-medium text-slate-400">0%</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-4 text-slate-400">未ログイン</td>
+                                        <td class="px-4 py-4">
+                                            <span class="px-2.5 py-1 rounded-full text-xs font-medium border bg-slate-50 text-slate-500 border-slate-200">未開始</span>
+                                        </td>
+                                        <td class="px-4 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-cyan-600 hover:text-cyan-800 font-medium text-xs">詳細</button>
+                                                <span class="text-slate-300">|</span>
+                                                <button class="text-red-400 hover:text-red-600 font-medium text-xs">削除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="p-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+                            <p class="text-sm text-slate-500">全 24 件中 1-6 件を表示</p>
+                            <div class="flex items-center gap-1">
+                                <button class="px-3 py-1.5 rounded-lg text-sm text-slate-400 border border-slate-200 bg-white cursor-not-allowed" disabled>
+                                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                                </button>
+                                <button class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-sm">1</button>
+                                <button class="px-3 py-1.5 rounded-lg text-sm text-slate-600 border border-slate-200 bg-white hover:bg-slate-50">2</button>
+                                <button class="px-3 py-1.5 rounded-lg text-sm text-slate-600 border border-slate-200 bg-white hover:bg-slate-50">3</button>
+                                <button class="px-3 py-1.5 rounded-lg text-sm text-slate-600 border border-slate-200 bg-white hover:bg-slate-50">4</button>
+                                <button class="px-3 py-1.5 rounded-lg text-sm text-slate-600 border border-slate-200 bg-white hover:bg-slate-50">
+                                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Action Bar -->
+                    <div id="bulkActionBar" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto lg:right-8 bg-slate-800 text-white rounded-xl px-6 py-3 shadow-2xl flex items-center gap-4 z-50 animate-fadeIn">
+                        <span class="text-sm"><span id="selectedCount">0</span> 件選択中</span>
+                        <div class="w-px h-6 bg-slate-600"></div>
+                        <button class="text-sm text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 transition-colors">
+                            <i data-lucide="mail" class="w-4 h-4"></i> メール送信
+                        </button>
+                        <button class="text-sm text-amber-400 hover:text-amber-300 flex items-center gap-1.5 transition-colors">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> ステータス変更
+                        </button>
+                        <button class="text-sm text-red-400 hover:text-red-300 flex items-center gap-1.5 transition-colors">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i> 一括削除
+                        </button>
+                        <button onclick="clearSelection()" class="text-sm text-slate-400 hover:text-white ml-2 transition-colors">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Bulk selection logic
+        const selectAll = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.member-checkbox');
+        const bulkBar = document.getElementById('bulkActionBar');
+        const selectedCountEl = document.getElementById('selectedCount');
+
+        function updateBulkBar() {
+            const checked = document.querySelectorAll('.member-checkbox:checked').length;
+            selectedCountEl.textContent = checked;
+            if (checked > 0) {
+                bulkBar.classList.remove('hidden');
+                bulkBar.classList.add('flex');
+            } else {
+                bulkBar.classList.add('hidden');
+                bulkBar.classList.remove('flex');
+            }
+        }
+
+        selectAll.addEventListener('change', function() {
+            checkboxes.forEach(cb => cb.checked = this.checked);
+            updateBulkBar();
+        });
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                selectAll.checked = [...checkboxes].every(c => c.checked);
+                updateBulkBar();
+            });
+        });
+
+        function clearSelection() {
+            selectAll.checked = false;
+            checkboxes.forEach(cb => cb.checked = false);
+            updateBulkBar();
+        }
+    </script>
+</body>
+</html>

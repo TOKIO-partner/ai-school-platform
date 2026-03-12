@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コース一覧 - MOMOCRI School Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-cyan-200">
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <div class="w-64 bg-white border-r border-slate-200 flex flex-col z-30 shadow-xl lg:shadow-none hidden lg:flex">
+            <div class="h-20 flex items-center justify-center border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500 tracking-wider">MOMOCRI</span>
+                </div>
+            </div>
+
+            <nav class="p-4 space-y-2 flex-1">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span class="font-medium">ダッシュボード</span>
+                </a>
+                <a href="learning.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="monitor" class="w-5 h-5"></i>
+                    <span class="font-medium">学習ルーム</span>
+                </a>
+                <a href="courses.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-cyan-50 to-blue-50 text-cyan-600 border border-cyan-100 shadow-sm">
+                    <i data-lucide="book-open" class="w-5 h-5 text-cyan-600"></i>
+                    <span class="font-medium">コース一覧</span>
+                    <div class="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.6)]"></div>
+                </a>
+                <a href="community.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="font-medium">コミュニティ</span>
+                </a>
+                <a href="corp/index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
+                    <span class="font-medium">管理者/法人</span>
+                </a>
+            </nav>
+            <div class="p-4 border-t border-slate-100">
+                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-fuchsia-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">AS</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold text-slate-700 truncate">長谷川 麻子</p>
+                        <p class="text-xs text-slate-500 truncate">Pro Plan</p>
+                    </div>
+                    <i data-lucide="settings" class="w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div class="absolute top-[20%] right-[10%] w-[600px] h-[600px] bg-fuchsia-200/20 rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] bg-cyan-200/20 rounded-full blur-[120px]"></div>
+            </div>
+
+            <header class="h-20 border-b border-slate-200 bg-white/80 backdrop-blur flex items-center justify-between px-6 sticky top-0 z-20 shadow-sm">
+                <h1 class="text-lg font-bold text-slate-800 uppercase tracking-wider">Course Library</h1>
+                <div class="flex items-center gap-4">
+                     <div class="hidden md:flex relative">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" placeholder="Search..." class="bg-slate-100 border border-slate-200 rounded-full pl-10 pr-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-cyan-500 focus:bg-white transition-all w-64 shadow-sm">
+                    </div>
+                    <button class="relative p-2 text-slate-500 hover:text-slate-800 transition-colors">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-fuchsia-500 rounded-full animate-pulse ring-2 ring-white"></span>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 p-[2px] cursor-pointer shadow-md">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
+                            <span class="text-xs font-bold text-slate-700">AS</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-4 md:p-8 animate-fadeIn">
+                <div class="space-y-8">
+                    <!-- Header with Search and Filter -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800">コースライブラリ</h2>
+                            <p class="text-slate-500 text-sm">あなたのキャリアを加速させる6のコース</p>
+                        </div>
+                        <div class="flex gap-2">
+                           <div class="relative">
+                             <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                             <input type="text" placeholder="スキルやトピックを検索..." class="pl-10 pr-4 py-2 rounded-lg border border-slate-200 bg-white text-sm w-64 focus:outline-none focus:border-cyan-500 shadow-sm">
+                           </div>
+                           <button class="p-2 border border-slate-200 rounded-lg bg-white hover:bg-slate-50 text-slate-500">
+                             <i data-lucide="filter" class="w-5 h-5"></i>
+                           </button>
+                        </div>
+                    </div>
+
+                    <!-- Category Tabs -->
+                    <div class="flex gap-2 overflow-x-auto pb-2">
+                        <button class="px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-slate-800 text-white">All</button>
+                        <button class="px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-white border border-slate-200 text-slate-600 hover:bg-slate-50">Design</button>
+                        <button class="px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-white border border-slate-200 text-slate-600 hover:bg-slate-50">Dev</button>
+                        <button class="px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-white border border-slate-200 text-slate-600 hover:bg-slate-50">AI</button>
+                        <button class="px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors bg-white border border-slate-200 text-slate-600 hover:bg-slate-50">Business</button>
+                    </div>
+
+                    <!-- Course Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Course Card 1 -->
+                        <div class="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full">
+                            <div class="h-48 w-full relative shrink-0" style="background: linear-gradient(135deg, #e0f2fe 0%, #0ea5e9 100%)">
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span class="px-2 py-1 rounded bg-white/90 backdrop-blur text-xs font-bold text-slate-800 shadow-sm">Design</span>
+                                    <span class="px-2 py-1 rounded bg-cyan-500 text-xs font-bold text-white shadow-sm">受講中 75%</span>
+                                </div>
+                                <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors"></div>
+                                <a href="learning.html" class="absolute inset-0 m-auto w-14 h-14 rounded-full bg-white/30 backdrop-blur border border-white/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg text-white">
+                                    <i data-lucide="play" class="w-6 h-6 fill-current"></i>
+                                </a>
+                            </div>
+                            <div class="p-5 flex flex-col flex-1">
+                                <div class="mb-4">
+                                    <h4 class="font-bold text-slate-800 text-lg leading-tight group-hover:text-cyan-600 transition-colors mb-1">AI活用 Webデザイン基礎</h4>
+                                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                                        <span class="flex items-center gap-1"><i data-lucide="bar-chart-2" class="w-3 h-3"></i> Beginner</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="monitor" class="w-3 h-3"></i> 12h</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="book-open" class="w-3 h-3"></i> 20 レッスン</span>
+                                    </div>
+                                </div>
+                                <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                                    <a href="learning.html" class="text-sm font-bold text-cyan-600 hover:text-cyan-700">詳細を見る</a>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Course Card 2 -->
+                        <div class="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full">
+                            <div class="h-48 w-full relative shrink-0" style="background: linear-gradient(135deg, #e0e7ff 0%, #4f46e5 100%)">
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span class="px-2 py-1 rounded bg-white/90 backdrop-blur text-xs font-bold text-slate-800 shadow-sm">Dev</span>
+                                    <span class="px-2 py-1 rounded bg-cyan-500 text-xs font-bold text-white shadow-sm">受講中 30%</span>
+                                </div>
+                                <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors"></div>
+                                <a href="learning.html" class="absolute inset-0 m-auto w-14 h-14 rounded-full bg-white/30 backdrop-blur border border-white/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg text-white">
+                                    <i data-lucide="play" class="w-6 h-6 fill-current"></i>
+                                </a>
+                            </div>
+                            <div class="p-5 flex flex-col flex-1">
+                                <div class="mb-4">
+                                    <h4 class="font-bold text-slate-800 text-lg leading-tight group-hover:text-cyan-600 transition-colors mb-1">Next.js 14 & React 実践</h4>
+                                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                                        <span class="flex items-center gap-1"><i data-lucide="bar-chart-2" class="w-3 h-3"></i> Intermediate</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="monitor" class="w-3 h-3"></i> 24h</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="book-open" class="w-3 h-3"></i> 12 レッスン</span>
+                                    </div>
+                                </div>
+                                <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                                    <a href="learning.html" class="text-sm font-bold text-cyan-600 hover:text-cyan-700">詳細を見る</a>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Course Card 3 -->
+                         <div class="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full">
+                            <div class="h-48 w-full relative shrink-0" style="background: linear-gradient(135deg, #fce7f3 0%, #db2777 100%)">
+                                <div class="absolute top-3 left-3 flex gap-2">
+                                    <span class="px-2 py-1 rounded bg-white/90 backdrop-blur text-xs font-bold text-slate-800 shadow-sm">Design</span>
+                                </div>
+                                <div class="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors"></div>
+                                <a href="learning.html" class="absolute inset-0 m-auto w-14 h-14 rounded-full bg-white/30 backdrop-blur border border-white/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg text-white">
+                                    <i data-lucide="play" class="w-6 h-6 fill-current"></i>
+                                </a>
+                            </div>
+                            <div class="p-5 flex flex-col flex-1">
+                                <div class="mb-4">
+                                    <h4 class="font-bold text-slate-800 text-lg leading-tight group-hover:text-cyan-600 transition-colors mb-1">UI/UXデザイン概論</h4>
+                                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                                        <span class="flex items-center gap-1"><i data-lucide="bar-chart-2" class="w-3 h-3"></i> Beginner</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="monitor" class="w-3 h-3"></i> 8h</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="book-open" class="w-3 h-3"></i> 8 レッスン</span>
+                                    </div>
+                                </div>
+                                <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                                    <a href="learning.html" class="text-sm font-bold text-cyan-600 hover:text-cyan-700">詳細を見る</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

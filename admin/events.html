@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベント管理 - MOMOCRI Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-cyan-200">
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- Sidebar -->
+        <div class="w-64 bg-white border-r border-slate-200 flex flex-col z-30 shadow-xl lg:shadow-none hidden lg:flex">
+            <div class="h-20 flex items-center justify-center border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500 tracking-wider">MOMOCRI</span>
+                    <span class="text-xs font-medium text-slate-400 ml-1 tracking-wide">Admin</span>
+                </div>
+            </div>
+
+            <nav class="p-4 space-y-1 flex-1 overflow-y-auto">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="bar-chart" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">ダッシュボード</span>
+                </a>
+                <a href="users.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">ユーザー管理</span>
+                </a>
+                <a href="courses.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">コース管理</span>
+                </a>
+                <a href="contents.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">コンテンツ管理</span>
+                </a>
+                <a href="community.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="message-square" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">コミュニティ管理</span>
+                </a>
+                <a href="events.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-gradient-to-r from-cyan-50 to-blue-50 text-cyan-600 border border-cyan-100 shadow-sm">
+                    <i data-lucide="calendar" class="w-5 h-5 text-cyan-600"></i>
+                    <span class="font-medium text-sm">イベント管理</span>
+                    <div class="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.6)]"></div>
+                </a>
+                <a href="announcements.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">お知らせ管理</span>
+                </a>
+                <a href="billing.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="credit-card" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">売上・決済</span>
+                </a>
+                <a href="ai-settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="cpu" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">AI設定</span>
+                </a>
+                <a href="system.html" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    <span class="font-medium text-sm">システム設定</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-100">
+                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-red-500 to-orange-500 flex items-center justify-center text-white font-bold shadow-md">AD</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold text-slate-700 truncate">管理者</p>
+                        <p class="text-xs text-slate-500 truncate">Admin</p>
+                    </div>
+                    <i data-lucide="settings" class="w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+                <div class="absolute top-[20%] right-[10%] w-[600px] h-[600px] bg-fuchsia-200/20 rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] bg-cyan-200/20 rounded-full blur-[120px]"></div>
+            </div>
+
+            <header class="h-20 border-b border-slate-200 bg-white/80 backdrop-blur flex items-center justify-between px-6 sticky top-0 z-20 shadow-sm">
+                <h1 class="text-lg font-bold text-slate-800 uppercase tracking-wider">イベント管理</h1>
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:flex relative">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                        <input type="text" placeholder="イベントを検索..." class="bg-slate-100 border border-slate-200 rounded-full pl-10 pr-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-cyan-500 focus:bg-white transition-all w-64 shadow-sm">
+                    </div>
+                    <button class="relative p-2 text-slate-500 hover:text-slate-800 transition-colors">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-fuchsia-500 rounded-full animate-pulse ring-2 ring-white"></span>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-red-500 to-orange-500 p-[2px] cursor-pointer shadow-md">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
+                            <span class="text-xs font-bold text-slate-700">AD</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-4 md:p-8 animate-fadeIn">
+                <div class="space-y-6">
+
+                    <!-- Header -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800 mb-1">イベント一覧</h2>
+                            <p class="text-slate-500 text-sm">全 <span class="font-bold text-slate-700">4</span> 件のイベント</p>
+                        </div>
+                        <button class="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-200 flex items-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            新規イベント作成
+                        </button>
+                    </div>
+
+                    <!-- Event Cards -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+                        <!-- Event 1 -->
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+                            <div class="p-5">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-200">ワークショップ</span>
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-50 text-green-600 border border-green-200">公開</span>
+                                        </div>
+                                        <h3 class="font-bold text-slate-800 text-lg leading-tight">ChatGPT実践ワークショップ - プロンプト設計入門</h3>
+                                    </div>
+                                </div>
+                                <div class="space-y-2 text-sm text-slate-600 mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                                        <span>2026年3月20日（金） 19:00 - 21:00</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
+                                        <span>講師: 高橋 雄太</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="users" class="w-4 h-4 text-slate-400"></i>
+                                        <span>参加者: <span class="font-bold text-slate-800">18</span> / 30名</span>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+                                        <span>参加率</span>
+                                        <span class="font-medium">60%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 border-t border-slate-100 pt-3">
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-cyan-600 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors text-center">編集</button>
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors text-center">複製</button>
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors text-center">削除</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 2 -->
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+                            <div class="p-5">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-50 text-purple-600 border border-purple-200">もくもく会</span>
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-50 text-green-600 border border-green-200">公開</span>
+                                        </div>
+                                        <h3 class="font-bold text-slate-800 text-lg leading-tight">AI画像生成もくもく会 - Midjourney & Stable Diffusion</h3>
+                                    </div>
+                                </div>
+                                <div class="space-y-2 text-sm text-slate-600 mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                                        <span>2026年3月22日（日） 14:00 - 17:00</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
+                                        <span>講師: 中村 あかり</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="users" class="w-4 h-4 text-slate-400"></i>
+                                        <span>参加者: <span class="font-bold text-slate-800">12</span> / 20名</span>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+                                        <span>参加率</span>
+                                        <span class="font-medium">60%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-purple-400 to-violet-500 rounded-full" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 border-t border-slate-100 pt-3">
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-cyan-600 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors text-center">編集</button>
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors text-center">複製</button>
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors text-center">削除</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 3 -->
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+                            <div class="p-5">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">ウェビナー</span>
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-50 text-green-600 border border-green-200">公開</span>
+                                        </div>
+                                        <h3 class="font-bold text-slate-800 text-lg leading-tight">AI時代のキャリア戦略 - エンジニア向け特別講演</h3>
+                                    </div>
+                                </div>
+                                <div class="space-y-2 text-sm text-slate-600 mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                                        <span>2026年3月28日（土） 10:00 - 12:00</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
+                                        <span>講師: 山本 健太郎</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="users" class="w-4 h-4 text-slate-400"></i>
+                                        <span>参加者: <span class="font-bold text-slate-800">45</span> / 100名</span>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+                                        <span>参加率</span>
+                                        <span class="font-medium">45%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-emerald-400 to-green-500 rounded-full" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 border-t border-slate-100 pt-3">
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-cyan-600 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors text-center">編集</button>
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors text-center">複製</button>
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors text-center">削除</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 4 -->
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+                            <div class="p-5">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-200">ワークショップ</span>
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">下書き</span>
+                                        </div>
+                                        <h3 class="font-bold text-slate-800 text-lg leading-tight">Python × AI自動化ハンズオン - 業務効率化編</h3>
+                                    </div>
+                                </div>
+                                <div class="space-y-2 text-sm text-slate-600 mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                                        <span>2026年4月5日（日） 13:00 - 16:00</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="user" class="w-4 h-4 text-slate-400"></i>
+                                        <span>講師: 鈴木 大輔</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="users" class="w-4 h-4 text-slate-400"></i>
+                                        <span>参加者: <span class="font-bold text-slate-800">0</span> / 25名</span>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="flex items-center justify-between text-xs text-slate-500 mb-1">
+                                        <span>参加率</span>
+                                        <span class="font-medium">0%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-slate-300 to-slate-400 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 border-t border-slate-100 pt-3">
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-cyan-600 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors text-center">編集</button>
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors text-center">複製</button>
+                                    <button class="flex-1 px-3 py-2 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors text-center">削除</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
