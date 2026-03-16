@@ -11,6 +11,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
+  demoLogin: () => void;
 }
 
 interface RegisterData {
@@ -47,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setAccessToken(res.access);
         await fetchProfile(res.access);
       } catch {
-        // Not authenticated
+        // Not authenticated — silently ignore (backend may be unavailable)
       } finally {
         setIsLoading(false);
       }
@@ -67,6 +68,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(res.user);
   };
 
+  const demoLogin = useCallback(() => {
+    setUser({
+      id: 1,
+      email: "demo@momocri.com",
+      username: "demo",
+      first_name: "麻子",
+      last_name: "長谷川",
+      role: "student",
+      plan: "pro",
+      avatar: null,
+      bio: "デモアカウント",
+    });
+    setAccessToken("demo-token");
+  }, []);
+
   const logout = async () => {
     try {
       await apiClient.post("/auth/logout/", { refresh: "" }, accessToken || undefined);
@@ -78,7 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, isLoading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, isLoading, login, register, logout, demoLogin }}>
       {children}
     </AuthContext.Provider>
   );

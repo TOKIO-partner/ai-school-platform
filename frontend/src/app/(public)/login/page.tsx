@@ -3,13 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Eye, EyeOff, LogIn, Github, ArrowLeft, Zap } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, LogIn, Github, ArrowLeft, Zap, UserCheck } from "lucide-react";
 import { BackgroundDecoration } from "@/components/layouts/background-decoration";
 import { useAuth } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, demoLogin } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -136,6 +136,23 @@ export default function LoginPage() {
               GitHubでログイン
             </button>
           </div>
+
+          <div className="flex items-center gap-4 my-6">
+            <div className="flex-1 h-px bg-slate-200" />
+            <span className="text-xs text-slate-400 font-medium">デモ</span>
+            <div className="flex-1 h-px bg-slate-200" />
+          </div>
+
+          <button
+            onClick={() => {
+              demoLogin();
+              router.push("/dashboard");
+            }}
+            className="w-full py-3 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <UserCheck className="w-5 h-5" />
+            デモアカウントでログイン
+          </button>
 
           <p className="text-sm text-slate-500 text-center mt-6">
             アカウントをお持ちでないですか？{" "}
