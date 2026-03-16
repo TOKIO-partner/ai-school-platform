@@ -145,7 +145,7 @@ export default function CoursesPage() {
               </div>
               <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors" />
               <Link
-                href="/learning"
+                href={`/courses/${course.id}`}
                 className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-white/30 backdrop-blur border border-white/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg text-white"
               >
                 <Play className="w-6 h-6 fill-current" />
@@ -172,7 +172,7 @@ export default function CoursesPage() {
               </div>
               <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
                 <Link
-                  href="/learning"
+                  href={`/courses/${course.id}`}
                   className="text-sm font-bold text-cyan-600 hover:text-cyan-700"
                 >
                   詳細を見る
