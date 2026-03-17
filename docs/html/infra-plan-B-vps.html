@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>構成B: VPS統合構成 - MOMOCRI AI School Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #1a1a2e;
+    line-height: 1.5;
+    font-size: 10pt;
+    background: #fff;
+  }
+  .page { padding: 30px 45px; page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+
+  .header {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 3px solid #e17055; padding-bottom: 10px; margin-bottom: 16px;
+  }
+  .header-left h1 { font-size: 20pt; font-weight: 900; color: #e17055; letter-spacing: -0.5px; }
+  .header-left .subtitle { font-size: 9pt; color: #636e72; margin-top: 2px; }
+  .header-right { text-align: right; font-size: 8pt; color: #636e72; }
+  .badge {
+    display: inline-block; background: #e17055; color: #fff;
+    padding: 3px 12px; border-radius: 20px; font-size: 8pt; font-weight: 700; margin-bottom: 3px;
+  }
+
+  h2 { font-size: 13pt; font-weight: 700; color: #2d3436; margin: 16px 0 8px; padding-left: 12px; border-left: 4px solid #e17055; }
+  h3 { font-size: 11pt; font-weight: 700; color: #2d3436; margin: 12px 0 6px; }
+  p { margin: 4px 0; }
+
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 9pt; }
+  th { background: #e17055; color: #fff; padding: 6px 10px; text-align: left; font-weight: 500; }
+  td { padding: 5px 10px; border-bottom: 1px solid #dfe6e9; }
+  tr:nth-child(even) td { background: #fff8f6; }
+  .cost-highlight { font-size: 24pt; font-weight: 900; color: #e17055; }
+  .cost-unit { font-size: 11pt; color: #636e72; }
+
+  .arch-diagram {
+    background: #fff8f6; border: 1px solid #ddd; border-radius: 8px;
+    padding: 12px 14px; margin: 8px 0;
+    font-family: 'Courier New', monospace; font-size: 8pt; line-height: 1.35; white-space: pre; overflow: hidden;
+  }
+
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+  .feature-box { background: #fff8f6; border-radius: 6px; padding: 10px 12px; border-left: 3px solid #e17055; }
+  .feature-box h4 { font-size: 9pt; font-weight: 700; color: #e17055; margin-bottom: 3px; }
+  .feature-box p { font-size: 8pt; color: #636e72; margin: 0; line-height: 1.4; }
+
+  .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
+  .pros, .cons { border-radius: 6px; padding: 10px 12px; }
+  .pros { background: #f0fff4; border: 1px solid #c6f6d5; }
+  .cons { background: #fff5f5; border: 1px solid #fed7d7; }
+  .pros h4 { color: #22543d; margin-bottom: 5px; font-size: 10pt; }
+  .cons h4 { color: #742a2a; margin-bottom: 5px; font-size: 10pt; }
+  ul { padding-left: 18px; margin: 4px 0; }
+  li { margin: 2px 0; font-size: 9pt; }
+
+  .footer {
+    margin-top: 16px; padding-top: 10px; border-top: 1px solid #dfe6e9;
+    font-size: 7pt; color: #b2bec3; display: flex; justify-content: space-between;
+  }
+
+  .step-list { counter-reset: step; list-style: none; padding-left: 0; }
+  .step-list li {
+    counter-increment: step; padding: 4px 0 4px 34px; position: relative;
+    border-bottom: 1px solid #f0f0f0; font-size: 9pt;
+  }
+  .step-list li::before {
+    content: counter(step); position: absolute; left: 0; top: 4px;
+    width: 22px; height: 22px; background: #e17055; color: #fff;
+    border-radius: 50%; text-align: center; line-height: 22px; font-size: 9pt; font-weight: 700;
+  }
+
+  .note-box {
+    background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px;
+    padding: 8px 12px; margin: 8px 0; font-size: 9pt;
+  }
+  .note-box strong { color: #856404; }
+  .warning-box {
+    background: #fff5f5; border: 1px solid #fc8181; border-radius: 6px;
+    padding: 8px 12px; margin: 8px 0; font-size: 9pt;
+  }
+  .warning-box strong { color: #c53030; }
+</style>
+</head>
+<body>
+
+<!-- Page 1 -->
+<div class="page">
+  <div class="header">
+    <div class="header-left">
+      <h1>構成B: VPS統合構成</h1>
+      <div class="subtitle">MOMOCRI AI School Platform インフラ構成提案書</div>
+    </div>
+    <div class="header-right">
+      <div class="badge">最安構成</div>
+      <div>2026年3月</div>
+      <div>Confidential</div>
+    </div>
+  </div>
+
+  <h2>概要</h2>
+  <p>VPS（Virtual Private Server）1台に全バックエンドコンポーネントを集約した構成案です。<strong>最小コストでフルコントロール</strong>を実現しますが、サーバー管理スキルとメンテナンス工数が必要になります。</p>
+
+  <div style="text-align: center; margin: 12px 0;">
+    <span class="cost-highlight">$6〜12</span>
+    <span class="cost-unit"> /月（約 ¥900〜1,800）</span>
+    <p style="font-size: 8pt; color: #636e72;">※ VPS スペックにより変動</p>
+  </div>
+
+  <h2>アーキテクチャ構成図</h2>
+  <div class="arch-diagram">
+┌──────────────────────────────────────────────────────────────┐
+│                     Cloudflare (DNS / CDN)                    │
+│                        無料プラン $0                           │
+├────────────────────────┬─────────────────────────────────────┤
+│                        │                                     │
+│  ┌──────────────┐      │   ┌────────────────────────────┐    │
+│  │   Vercel     │  API │   │  Vultr VPS  $6〜12/mo      │    │
+│  │   Frontend   │ ────→│   │  ┌──────────────────────┐  │    │
+│  │   Next.js    │      │   │  │  Nginx (リバースプロキシ) │  │    │
+│  │   $0/mo      │      │   │  └──────────┬───────────┘  │    │
+│  └──────────────┘      │   │             │              │    │
+│                        │   │  ┌──────────▼───────────┐  │    │
+│                        │   │  │  Django + Gunicorn   │  │    │
+│                        │   │  │  Celery Worker       │  │    │
+│                        │   │  └──────────┬───────────┘  │    │
+│                        │   │             │              │    │
+│                        │   │  ┌──────┐  ┌┴───────┐     │    │
+│                        │   │  │ PgSQL│  │ Redis  │     │    │
+│                        │   │  └──────┘  └────────┘     │    │
+│                        │   └────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────┘</div>
+
+  <h2>月額コスト内訳</h2>
+  <table>
+    <tr><th>サービス</th><th>用途</th><th>プラン</th><th>月額</th></tr>
+    <tr><td>Vercel</td><td>Next.js フロントエンド</td><td>Hobby（無料）</td><td>$0</td></tr>
+    <tr><td>Vultr VPS</td><td>Django + PgSQL + Redis + Nginx</td><td>1 vCPU / 1GB RAM</td><td>$6</td></tr>
+    <tr><td>（または）</td><td>同上</td><td>1 vCPU / 2GB RAM</td><td>$12</td></tr>
+    <tr><td>Cloudflare</td><td>DNS / CDN / SSL</td><td>Free</td><td>$0</td></tr>
+    <tr><td colspan="3" style="font-weight:700; text-align:right;">合計</td><td style="font-weight:700; color:#e17055;">$6〜12/月</td></tr>
+  </table>
+
+  <h2>VPS スペック比較</h2>
+  <table>
+    <tr><th>プラン</th><th>vCPU</th><th>RAM</th><th>SSD</th><th>転送量</th><th>月額</th></tr>
+    <tr><td>Cloud Compute (vc2)</td><td>1</td><td>1 GB</td><td>25 GB</td><td>1 TB</td><td>$6</td></tr>
+    <tr><td>Cloud Compute (vc2)</td><td>1</td><td>2 GB</td><td>55 GB</td><td>2 TB</td><td>$12</td></tr>
+    <tr><td>High Frequency</td><td>1</td><td>1 GB</td><td>32 GB NVMe</td><td>1 TB</td><td>$6</td></tr>
+    <tr><td>High Frequency</td><td>1</td><td>2 GB</td><td>64 GB NVMe</td><td>2 TB</td><td>$12</td></tr>
+  </table>
+
+  <div class="note-box">
+    <strong>推奨:</strong> 2GB RAM プラン ($12) を推奨。Django + PostgreSQL + Redis + Celery を同居させるには
+    1GB RAM では不足する可能性があります。
+  </div>
+
+  <div class="footer">
+    <span>MOMOCRI AI School Platform - インフラ構成提案書</span>
+    <span>構成B: VPS統合構成 | Page 1/2</span>
+  </div>
+</div>
+
+<!-- Page 2 -->
+<div class="page">
+  <div class="header">
+    <div class="header-left">
+      <h1>構成B: VPS統合構成</h1>
+      <div class="subtitle">技術詳細・セットアップ手順</div>
+    </div>
+    <div class="header-right">
+      <div class="badge">最安構成</div>
+    </div>
+  </div>
+
+  <h2>VPS 上のソフトウェア構成</h2>
+  <div class="features">
+    <div class="feature-box">
+      <h4>Nginx</h4>
+      <p>リバースプロキシ。Let's Encrypt SSL 証明書自動更新。静的ファイル配信。Gzip 圧縮。レート制限。</p>
+    </div>
+    <div class="feature-box">
+      <h4>Django + Gunicorn</h4>
+      <p>WSGI サーバー。Systemd でプロセス管理。ワーカー数 2〜4。Unix ソケット接続で高速化。</p>
+    </div>
+    <div class="feature-box">
+      <h4>PostgreSQL 16</h4>
+      <p>ローカルインストール。自動バックアップ（pg_dump cron）。パフォーマンスチューニング可能。</p>
+    </div>
+    <div class="feature-box">
+      <h4>Redis 7</h4>
+      <p>ローカルインストール。Celery ブローカー。メモリ制限設定推奨。永続化設定可能。</p>
+    </div>
+  </div>
+
+  <h2>セットアップ手順（概要）</h2>
+  <ol class="step-list">
+    <li><strong>VPS 作成:</strong> Vultr で Ubuntu 22.04 LTS インスタンスを作成（Tokyo リージョン）</li>
+    <li><strong>初期設定:</strong> SSH 鍵設定、ファイアウォール（ufw）、fail2ban、非 root ユーザー作成</li>
+    <li><strong>ミドルウェア:</strong> PostgreSQL 16、Redis 7、Nginx、Python 3.12 をインストール</li>
+    <li><strong>アプリ設定:</strong> Django プロジェクト配置、Gunicorn + Systemd ユニットファイル作成</li>
+    <li><strong>Celery 設定:</strong> Celery Worker の Systemd ユニットファイル作成</li>
+    <li><strong>SSL:</strong> Certbot で Let's Encrypt SSL 証明書を取得・自動更新設定</li>
+    <li><strong>デプロイ:</strong> Git pull → collectstatic → migrate → Gunicorn restart のスクリプト作成</li>
+    <li><strong>バックアップ:</strong> pg_dump + cron で日次バックアップ（外部ストレージへ転送推奨）</li>
+  </ol>
+
+  <h2>メリット・デメリット</h2>
+  <div class="pros-cons">
+    <div class="pros">
+      <h4>メリット</h4>
+      <ul>
+        <li>最安コスト（$6〜12/月）</li>
+        <li>完全なサーバーコントロール</li>
+        <li>外部サービス依存なし</li>
+        <li>レイテンシ最小（全て同一マシン）</li>
+        <li>無料枠の制限に縛られない</li>
+        <li>カスタムチューニング自由</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <h4>デメリット</h4>
+      <ul>
+        <li>サーバー管理スキルが必須</li>
+        <li>OS・ミドルウェアの更新が必要</li>
+        <li>セキュリティパッチ適用が自己責任</li>
+        <li>単一障害点（1台に全集約）</li>
+        <li>スケールアウトが困難</li>
+        <li>バックアップ設計が必要</li>
+        <li>デプロイの自動化が別途必要</li>
+        <li>障害時は自力で復旧</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <strong>注意:</strong> VPS 構成では production.py の Neon/Upstash/R2 関連の設定を、ローカルの
+    PostgreSQL/Redis/ファイルシステムに変更する必要があります。デプロイスクリプトやバックアップスクリプトも
+    別途作成が必要です。構成Aと比較して、初期セットアップと継続的な運用に追加工数が発生します。
+  </div>
+
+  <h2>スケールアップパス</h2>
+  <table>
+    <tr><th>段階</th><th>ユーザー規模</th><th>アクション</th><th>月額</th></tr>
+    <tr><td>MVP</td><td>〜100</td><td>1 vCPU / 2GB RAM</td><td>$12</td></tr>
+    <tr><td>成長期</td><td>〜500</td><td>2 vCPU / 4GB RAM にアップグレード</td><td>$24</td></tr>
+    <tr><td>安定期</td><td>〜2,000</td><td>DB を別 VPS に分離</td><td>$36〜48</td></tr>
+    <tr><td>大規模</td><td>2,000+</td><td>PaaS or AWS への移行を検討</td><td>要見積もり</td></tr>
+  </table>
+
+  <div class="footer">
+    <span>MOMOCRI AI School Platform - インフラ構成提案書</span>
+    <span>構成B: VPS統合構成 | Page 2/2</span>
+  </div>
+</div>
+
+</body>
+</html>
