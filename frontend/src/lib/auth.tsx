@@ -40,34 +40,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Try to refresh token on mount
-  useEffect(() => {
-    const refreshAuth = async () => {
-      try {
-        const res = await apiClient.post<{ access: string }>("/auth/token/refresh/", {});
-        setAccessToken(res.access);
-        await fetchProfile(res.access);
-      } catch {
-        // Not authenticated — silently ignore (backend may be unavailable)
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    refreshAuth();
-  }, [fetchProfile]);
-
-  const login = async (email: string, password: string) => {
-    const res = await apiClient.post<{ access: string; refresh: string }>("/auth/login/", { username: email, password });
-    setAccessToken(res.access);
-    await fetchProfile(res.access);
-  };
-
-  const register = async (data: RegisterData) => {
-    const res = await apiClient.post<{ user: User; tokens: { access: string; refresh: string } }>("/auth/register/", data);
-    setAccessToken(res.tokens.access);
-    setUser(res.user);
-  };
-
   const demoLogin = useCallback(() => {
     setUser({
       id: 1,
@@ -82,6 +54,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
     setAccessToken("demo-token");
   }, []);
+
+  // Try to refresh token on mount
+  useEffect(() => {
+    const refreshAuth = async () => {
+      if (!process.env.NEXT_PUBLIC_API_URL) {
+        // No backend configured — auto demo mode
+        demoLogin();
+        setIsLoading(false);
+        return;
+      }
+      try {
+        const res = await apiClient.post<{ access: string }>("/auth/token/refresh/", {});
+        setAccessToken(res.access);
+        await fetchProfile(res.access);
+      } catch {
+        // Not authenticated — silently ignore (backend may be unavailable)
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    refreshAuth();
+  }, [fetchProfile, demoLogin]);
+
+  const login = async (email: string, password: string) => {
+    const res = await apiClient.post<{ access: string; refresh: string }>("/auth/login/", { username: email, password });
+    setAccessToken(res.access);
+    await fetchProfile(res.access);
+  };
+
+  const register = async (data: RegisterData) => {
+    const res = await apiClient.post<{ user: User; tokens: { access: string; refresh: string } }>("/auth/register/", data);
+    setAccessToken(res.tokens.access);
+    setUser(res.user);
+  };
 
   const logout = async () => {
     try {
