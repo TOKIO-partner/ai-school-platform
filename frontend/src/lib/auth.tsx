@@ -11,6 +11,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
+  demoLogin: () => void;
 }
 
 interface RegisterData {
@@ -39,21 +40,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const demoLogin = useCallback(() => {
+    setUser({
+      id: 1,
+      email: "demo@momocri.com",
+      username: "demo",
+      first_name: "麻子",
+      last_name: "長谷川",
+      role: "student",
+      plan: "pro",
+      avatar: null,
+      bio: "デモアカウント",
+    });
+    setAccessToken("demo-token");
+  }, []);
+
   // Try to refresh token on mount
   useEffect(() => {
     const refreshAuth = async () => {
+      if (!process.env.NEXT_PUBLIC_API_URL) {
+        // No backend configured — auto demo mode
+        demoLogin();
+        setIsLoading(false);
+        return;
+      }
       try {
         const res = await apiClient.post<{ access: string }>("/auth/token/refresh/", {});
         setAccessToken(res.access);
         await fetchProfile(res.access);
       } catch {
-        // Not authenticated
+        // Not authenticated — silently ignore (backend may be unavailable)
       } finally {
         setIsLoading(false);
       }
     };
     refreshAuth();
-  }, [fetchProfile]);
+  }, [fetchProfile, demoLogin]);
 
   const login = async (email: string, password: string) => {
     const res = await apiClient.post<{ access: string; refresh: string }>("/auth/login/", { username: email, password });
@@ -78,7 +100,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, isLoading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, accessToken, isLoading, login, register, logout, demoLogin }}>
       {children}
     </AuthContext.Provider>
   );

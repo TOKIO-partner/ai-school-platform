@@ -100,7 +100,7 @@ export default function DashboardPage() {
                 <div className={`absolute inset-0 bg-gradient-to-br ${course.gradient}`} />
                 <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors" />
                 <Link
-                  href="/learning"
+                  href={`/courses/${course.id}`}
                   className="absolute inset-0 m-auto w-12 h-12 rounded-full bg-white/20 backdrop-blur border border-white/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg"
                 >
                   <Play className="w-5 h-5 text-white ml-1 fill-current" />

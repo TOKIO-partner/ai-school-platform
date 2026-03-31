@@ -4,7 +4,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from core.views import health_check
+
 urlpatterns = [
+    path('api/v1/health/', health_check, name='health-check'),
     path('django-admin/', admin.site.urls),
     # API v1
     path('api/v1/', include('accounts.urls')),

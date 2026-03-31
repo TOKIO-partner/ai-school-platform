@@ -1,0 +1,78 @@
+# Render Blueprint - MOMOCRI AI School Platform
+# https://render.com/docs/blueprint-spec
+#
+# Usage: Connect this repo to Render, it will auto-detect render.yaml
+# and create the services defined below.
+
+services:
+  # ── Django API Server ──────────────────────────────────────────────
+  - type: web
+    name: momocri-api
+    runtime: python
+    region: singapore  # closest to Japan
+    plan: starter      # $7/mo - 512MB RAM, 0.5 CPU, always on
+    rootDir: backend
+    buildCommand: ./bin/render_build.sh
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 2 --timeout 120
+    healthCheckPath: /api/v1/health/
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.production
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_ALLOWED_HOSTS
+        sync: false  # Set manually: momocri-api.onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false  # Set manually: https://your-frontend.vercel.app
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false  # Set manually: https://your-frontend.vercel.app
+      - key: DATABASE_URL
+        sync: false  # Neon PostgreSQL connection string
+      - key: CELERY_BROKER_URL
+        sync: false  # Upstash Redis URL (rediss://...)
+      - key: CELERY_RESULT_BACKEND
+        sync: false  # Same as CELERY_BROKER_URL or omit
+      - key: R2_BUCKET_NAME
+        sync: false  # Cloudflare R2 bucket name
+      - key: R2_ENDPOINT_URL
+        sync: false  # https://<account_id>.r2.cloudflarestorage.com
+      - key: R2_ACCESS_KEY_ID
+        sync: false  # R2 API token access key
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false  # R2 API token secret key
+
+  # ── Celery Worker ──────────────────────────────────────────────────
+  - type: worker
+    name: momocri-celery
+    runtime: python
+    region: singapore
+    plan: starter  # $7/mo
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install -r requirements/production.txt
+    startCommand: celery -A config worker --loglevel=info --concurrency=2
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.production
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: DJANGO_SECRET_KEY
+        fromService:
+          name: momocri-api
+          type: web
+          envVarKey: DJANGO_SECRET_KEY
+      - key: DATABASE_URL
+        sync: false
+      - key: CELERY_BROKER_URL
+        sync: false
+      - key: CELERY_RESULT_BACKEND
+        sync: false
+      - key: R2_BUCKET_NAME
+        sync: false
+      - key: R2_ENDPOINT_URL
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false

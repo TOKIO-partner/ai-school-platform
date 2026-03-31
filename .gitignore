@@ -35,3 +35,6 @@ postgres_data/
 # Docs (large files)
 docs/*.mp4
 docs/*.pdf
+!docs/infra-plan-*.pdf
+.vercel
+.env*.local
