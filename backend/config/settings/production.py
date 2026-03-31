@@ -32,14 +32,23 @@ CORS_ALLOW_CREDENTIALS = True
 # Database: Neon PostgreSQL (serverless)
 # Connection string format: postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require
 # --------------------------------------------------------------------------
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', ''),
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,
-    )
-}
+_database_url = os.environ.get('DATABASE_URL', '')
+if _database_url:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=_database_url,
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
 
 # --------------------------------------------------------------------------
 # Security

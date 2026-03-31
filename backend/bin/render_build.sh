@@ -10,4 +10,10 @@ pip install --upgrade pip
 pip install -r requirements/production.txt
 
 python manage.py collectstatic --noinput
-python manage.py migrate --noinput
+
+if [ -n "${DATABASE_URL:-}" ]; then
+  echo "DATABASE_URL is set, running migrations..."
+  python manage.py migrate --noinput
+else
+  echo "DATABASE_URL not set, skipping migrations."
+fi
