@@ -16,8 +16,8 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Course.objects.filter(status='published').annotate(
-            lesson_count=Count('chapters__lessons'),
-            enrolled_count=Count('enrollments'),
+            lesson_count=Count('chapters__lessons', distinct=True),
+            enrolled_count=Count('enrollments', distinct=True),
         ).select_related('instructor')
 
     def get_serializer_class(self):
