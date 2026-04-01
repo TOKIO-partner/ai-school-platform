@@ -1,6 +1,6 @@
 "use client";
 
-import { Users, CreditCard, TrendingUp, Cpu } from "lucide-react";
+import { Users, CreditCard, TrendingUp, Cpu, Loader2 } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -10,52 +10,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-
-// ---------------------------------------------------------------------------
-// Chart data
-// ---------------------------------------------------------------------------
-
-const revenueData = [
-  { month: "1月", revenue: 150 },
-  { month: "2月", revenue: 175 },
-  { month: "3月", revenue: 138 },
-  { month: "4月", revenue: 200 },
-  { month: "5月", revenue: 188 },
-  { month: "6月", revenue: 225 },
-  { month: "7月", revenue: 213 },
-  { month: "8月", revenue: 163 },
-  { month: "9月", revenue: 195 },
-  { month: "10月", revenue: 220 },
-  { month: "11月", revenue: 230 },
-  { month: "12月", revenue: 240 },
-];
-
-const userGrowthData = [
-  { month: "1月", individual: 60, corporate: 20 },
-  { month: "2月", individual: 72, corporate: 24 },
-  { month: "3月", individual: 78, corporate: 26 },
-  { month: "4月", individual: 84, corporate: 30 },
-  { month: "5月", individual: 90, corporate: 32 },
-  { month: "6月", individual: 96, corporate: 38 },
-  { month: "7月", individual: 100, corporate: 40 },
-  { month: "8月", individual: 104, corporate: 42 },
-  { month: "9月", individual: 108, corporate: 48 },
-  { month: "10月", individual: 112, corporate: 52 },
-  { month: "11月", individual: 116, corporate: 56 },
-  { month: "12月", individual: 120, corporate: 60 },
-];
-
-// ---------------------------------------------------------------------------
-// Activity data
-// ---------------------------------------------------------------------------
-
-const activities = [
-  { name: "田中 翔", action: "が課題を提出しました", detail: "AI基礎コース - 第3章 演習問題", time: "2分前", gradient: "from-blue-400 to-cyan-400", initial: "田" },
-  { name: "鈴木 美咲", action: "新規登録:", detail: "個人プラン - Freeプラン", time: "1時間前", gradient: "from-fuchsia-400 to-pink-400", initial: "鈴", prefix: true },
-  { name: "山田 太郎", action: "がProプランにアップグレード", detail: "月額プラン ¥4,980/月", time: "3時間前", gradient: "from-amber-400 to-orange-400", initial: "山" },
-  { name: "株式会社テックイノベーション", action: "法人登録:", detail: "Businessプラン - 10アカウント", time: "5時間前", gradient: "from-emerald-400 to-green-400", initial: "株", prefix: true },
-  { name: "高橋 優子", action: "がコースを完了しました", detail: "プロンプトエンジニアリング実践 - 修了証発行", time: "昨日", gradient: "from-violet-400 to-purple-400", initial: "高" },
-];
+import { useAdminDashboard } from "@/lib/queries/use-admin";
 
 // ---------------------------------------------------------------------------
 // Custom tooltip
@@ -87,10 +42,41 @@ function UserTooltip({ active, payload, label }: { active?: boolean; payload?: A
 }
 
 // ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
+
+const GRADIENTS = [
+  "from-blue-400 to-cyan-400",
+  "from-fuchsia-400 to-pink-400",
+  "from-amber-400 to-orange-400",
+  "from-emerald-400 to-green-400",
+  "from-violet-400 to-purple-400",
+];
+
+// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
 export default function AdminDashboardPage() {
+  const { data: dashboard, isLoading } = useAdminDashboard();
+
+  if (isLoading || !dashboard) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 text-cyan-500 animate-spin" />
+      </div>
+    );
+  }
+
+  const revenueData = dashboard.revenue_chart;
+  const userGrowthData = dashboard.user_growth_chart;
+  const activities = dashboard.recent_activities.map((a, i) => ({
+    ...a,
+    gradient: GRADIENTS[i % GRADIENTS.length],
+    initial: a.name.charAt(0),
+    prefix: a.action.startsWith("新規登録") || a.action.startsWith("法人登録"),
+  }));
+
   return (
     <>
       {/* KPI Cards */}
@@ -103,7 +89,7 @@ export default function AdminDashboardPage() {
             <span className="text-xs font-medium text-green-500 bg-green-50 px-2 py-1 rounded-full">+12</span>
           </div>
           <p className="text-sm text-slate-500 mb-1">総ユーザー数</p>
-          <p className="text-3xl font-bold text-slate-800">156</p>
+          <p className="text-3xl font-bold text-slate-800">{dashboard.total_users}</p>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow">
@@ -114,7 +100,7 @@ export default function AdminDashboardPage() {
             <span className="text-xs font-medium text-green-500 bg-green-50 px-2 py-1 rounded-full">+8%</span>
           </div>
           <p className="text-sm text-slate-500 mb-1">月間売上</p>
-          <p className="text-3xl font-bold text-slate-800">&yen;2,400,000</p>
+          <p className="text-3xl font-bold text-slate-800">&yen;{dashboard.monthly_revenue.toLocaleString()}</p>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow">
@@ -124,7 +110,7 @@ export default function AdminDashboardPage() {
             </div>
           </div>
           <p className="text-sm text-slate-500 mb-1">平均受講率</p>
-          <p className="text-3xl font-bold text-slate-800">72%</p>
+          <p className="text-3xl font-bold text-slate-800">{dashboard.avg_completion_rate}%</p>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow">
@@ -134,7 +120,7 @@ export default function AdminDashboardPage() {
             </div>
           </div>
           <p className="text-sm text-slate-500 mb-1">AI利用回数</p>
-          <p className="text-3xl font-bold text-slate-800">3,200</p>
+          <p className="text-3xl font-bold text-slate-800">{dashboard.ai_usage_count.toLocaleString()}</p>
         </div>
       </div>
 

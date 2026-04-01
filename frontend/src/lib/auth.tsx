@@ -51,6 +51,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       plan: "pro",
       avatar: null,
       bio: "デモアカウント",
+      is_active: true,
+      organization_name: "",
+      date_joined: "2026-01-01T00:00:00Z",
+      last_login: new Date().toISOString(),
     });
     setAccessToken("demo-token");
   }, []);

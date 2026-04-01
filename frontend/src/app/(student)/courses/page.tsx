@@ -2,80 +2,50 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Search, Filter, Play, BarChart2, Monitor, BookOpen } from "lucide-react";
+import { Search, Filter, Play, BarChart2, Monitor, BookOpen, Loader2 } from "lucide-react";
+import { useCourses } from "@/lib/queries/use-courses";
+import { useMyEnrollments } from "@/lib/queries/use-enrollments";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
+type Category = "all" | "design" | "dev" | "ai" | "business";
 
-type Category = "All" | "Design" | "Dev" | "AI" | "Business";
-
-interface Course {
-  id: number;
-  title: string;
-  category: Category;
-  level: string;
-  duration: string;
-  lessons: number;
-  gradient: string;
-  progress: number | null; // null = not enrolled
-}
-
-// ---------------------------------------------------------------------------
-// Mock Data
-// ---------------------------------------------------------------------------
-
-const categories: Category[] = ["All", "Design", "Dev", "AI", "Business"];
-
-const courses: Course[] = [
-  {
-    id: 1,
-    title: "AI活用 Webデザイン基礎",
-    category: "Design",
-    level: "Beginner",
-    duration: "12h",
-    lessons: 20,
-    gradient: "linear-gradient(135deg, #e0f2fe 0%, #0ea5e9 100%)",
-    progress: 75,
-  },
-  {
-    id: 2,
-    title: "Next.js 14 & React 実践",
-    category: "Dev",
-    level: "Intermediate",
-    duration: "24h",
-    lessons: 12,
-    gradient: "linear-gradient(135deg, #e0e7ff 0%, #4f46e5 100%)",
-    progress: 30,
-  },
-  {
-    id: 3,
-    title: "UI/UXデザイン概論",
-    category: "Design",
-    level: "Beginner",
-    duration: "8h",
-    lessons: 8,
-    gradient: "linear-gradient(135deg, #fce7f3 0%, #db2777 100%)",
-    progress: null,
-  },
+const categories: { label: string; value: Category }[] = [
+  { label: "All", value: "all" },
+  { label: "Design", value: "design" },
+  { label: "Dev", value: "dev" },
+  { label: "AI", value: "ai" },
+  { label: "Business", value: "business" },
 ];
 
-// ---------------------------------------------------------------------------
-// Page Component
-// ---------------------------------------------------------------------------
+const categoryGradients: Record<string, string> = {
+  design: "linear-gradient(135deg, #e0f2fe 0%, #0ea5e9 100%)",
+  dev: "linear-gradient(135deg, #e0e7ff 0%, #4f46e5 100%)",
+  ai: "linear-gradient(135deg, #fce7f3 0%, #db2777 100%)",
+  business: "linear-gradient(135deg, #ecfdf5 0%, #059669 100%)",
+};
+
+const difficultyLabel: Record<string, string> = {
+  beginner: "Beginner",
+  intermediate: "Intermediate",
+  advanced: "Advanced",
+};
 
 export default function CoursesPage() {
-  const [activeCategory, setActiveCategory] = useState<Category>("All");
+  const [activeCategory, setActiveCategory] = useState<Category>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredCourses = courses.filter((course) => {
-    const matchesCategory =
-      activeCategory === "All" || course.category === activeCategory;
-    const matchesSearch =
-      searchQuery === "" ||
-      course.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+  const { data: coursesData, isLoading } = useCourses({
+    category: activeCategory === "all" ? undefined : activeCategory,
+    search: searchQuery || undefined,
   });
+  const { data: enrollmentsData } = useMyEnrollments();
+
+  const courses = coursesData?.results ?? [];
+  const enrollments = enrollmentsData?.results ?? [];
+
+  // Build a map of courseId -> progress for enrolled courses
+  const progressMap = new Map(
+    enrollments.map((e) => [e.course.id, Number(e.progress_percent)]),
+  );
 
   return (
     <div className="space-y-8">
@@ -108,80 +78,91 @@ export default function CoursesPage() {
       <div className="flex gap-2 overflow-x-auto pb-2">
         {categories.map((cat) => (
           <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
+            key={cat.value}
+            onClick={() => setActiveCategory(cat.value)}
             className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-              activeCategory === cat
+              activeCategory === cat.value
                 ? "bg-slate-800 text-white"
                 : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
             }`}
           >
-            {cat}
+            {cat.label}
           </button>
         ))}
       </div>
 
       {/* Course Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCourses.map((course) => (
-          <div
-            key={course.id}
-            className="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full"
-          >
-            {/* Card Thumbnail */}
-            <div
-              className="h-48 w-full relative shrink-0"
-              style={{ background: course.gradient }}
-            >
-              <div className="absolute top-3 left-3 flex gap-2">
-                <span className="px-2 py-1 rounded bg-white/90 backdrop-blur text-xs font-bold text-slate-800 shadow-sm">
-                  {course.category}
-                </span>
-                {course.progress !== null && (
-                  <span className="px-2 py-1 rounded bg-cyan-500 text-xs font-bold text-white shadow-sm">
-                    受講中 {course.progress}%
-                  </span>
-                )}
-              </div>
-              <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors" />
-              <Link
-                href={`/courses/${course.id}`}
-                className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-white/30 backdrop-blur border border-white/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg text-white"
-              >
-                <Play className="w-6 h-6 fill-current" />
-              </Link>
-            </div>
+      {isLoading ? (
+        <div className="flex items-center justify-center h-48">
+          <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {courses.map((course) => {
+            const progress = progressMap.get(course.id) ?? null;
+            const gradient = categoryGradients[course.category] || categoryGradients.design;
 
-            {/* Card Body */}
-            <div className="p-5 flex flex-col flex-1">
-              <div className="mb-4">
-                <h4 className="font-bold text-slate-800 text-lg leading-tight group-hover:text-cyan-600 transition-colors mb-1">
-                  {course.title}
-                </h4>
-                <div className="flex items-center gap-3 text-xs text-slate-500">
-                  <span className="flex items-center gap-1">
-                    <BarChart2 className="w-3 h-3" /> {course.level}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Monitor className="w-3 h-3" /> {course.duration}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <BookOpen className="w-3 h-3" /> {course.lessons} レッスン
-                  </span>
+            return (
+              <div
+                key={course.id}
+                className="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full"
+              >
+                {/* Card Thumbnail */}
+                <div
+                  className="h-48 w-full relative shrink-0"
+                  style={{ background: gradient }}
+                >
+                  <div className="absolute top-3 left-3 flex gap-2">
+                    <span className="px-2 py-1 rounded bg-white/90 backdrop-blur text-xs font-bold text-slate-800 shadow-sm">
+                      {course.category.charAt(0).toUpperCase() + course.category.slice(1)}
+                    </span>
+                    {progress !== null && (
+                      <span className="px-2 py-1 rounded bg-cyan-500 text-xs font-bold text-white shadow-sm">
+                        受講中 {progress}%
+                      </span>
+                    )}
+                  </div>
+                  <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors" />
+                  <Link
+                    href={`/courses/${course.id}`}
+                    className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-white/30 backdrop-blur border border-white/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg text-white"
+                  >
+                    <Play className="w-6 h-6 fill-current" />
+                  </Link>
+                </div>
+
+                {/* Card Body */}
+                <div className="p-5 flex flex-col flex-1">
+                  <div className="mb-4">
+                    <h4 className="font-bold text-slate-800 text-lg leading-tight group-hover:text-cyan-600 transition-colors mb-1">
+                      {course.title}
+                    </h4>
+                    <div className="flex items-center gap-3 text-xs text-slate-500">
+                      <span className="flex items-center gap-1">
+                        <BarChart2 className="w-3 h-3" /> {difficultyLabel[course.difficulty] ?? course.difficulty}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Monitor className="w-3 h-3" /> {course.duration_hours}h
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <BookOpen className="w-3 h-3" /> {course.lesson_count} レッスン
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <Link
+                      href={`/courses/${course.id}`}
+                      className="text-sm font-bold text-cyan-600 hover:text-cyan-700"
+                    >
+                      詳細を見る
+                    </Link>
+                  </div>
                 </div>
               </div>
-              <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                <Link
-                  href={`/courses/${course.id}`}
-                  className="text-sm font-bold text-cyan-600 hover:text-cyan-700"
-                >
-                  詳細を見る
-                </Link>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

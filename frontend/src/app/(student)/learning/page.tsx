@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Code, Play, Settings, Send } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Send, Check, Play, Lock, ChevronDown, ChevronRight, Loader2 } from "lucide-react";
+import { useCourse } from "@/lib/queries/use-courses";
+import { useMyEnrollments } from "@/lib/queries/use-enrollments";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -16,28 +18,29 @@ interface ChatMessage {
   content: string;
 }
 
-interface LessonInfo {
+interface Lesson {
+  id: string;
   title: string;
-  breadcrumb: string;
-  summary: string;
-  currentTime: string;
-  totalTime: string;
-  progressPercent: number;
+  duration: string;
+  video_url: string;
+  status: "completed" | "in-progress" | "locked";
+}
+
+interface Chapter {
+  id: string;
+  title: string;
+  lessons: Lesson[];
 }
 
 // ---------------------------------------------------------------------------
-// Mock Data
+// Constants
 // ---------------------------------------------------------------------------
 
-const lessonInfo: LessonInfo = {
-  title: "Lesson 4: AIを活用したカラーパレット生成",
-  breadcrumb: "Webデザイン基礎コース > Chapter 2",
-  summary:
-    "このレッスンでは、生成AIを用いてプロジェクトの雰囲気に合った配色を自動生成し、Figmaやコーディングに適用するフローを学びます。",
-  currentTime: "05:20",
-  totalTime: "15:00",
-  progressPercent: 33,
-};
+const sampleVideos = [
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+];
 
 const initialChatMessages: ChatMessage[] = [
   {
@@ -117,65 +120,101 @@ function AiTuberOverlay() {
   );
 }
 
-/** Mock video player with controls overlay */
-function VideoPlayer() {
-  return (
-    <div className="relative aspect-video bg-black rounded-2xl overflow-hidden shadow-xl border border-slate-200 group ring-4 ring-slate-100">
-      {/* Mock Video Content */}
-      <div className="absolute inset-0 flex items-center justify-center bg-slate-50">
-        <div className="text-center">
-          <Code className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-          <p className="text-slate-400 font-medium">Video Player Loading...</p>
-        </div>
-      </div>
+/** HTML5 video player with native controls */
+function VideoPlayer({
+  lesson,
+  aiTuberEnabled,
+}: {
+  lesson: Lesson;
+  aiTuberEnabled: boolean;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-      {/* Controls Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-        <div className="h-1 bg-white/30 rounded mb-4 cursor-pointer backdrop-blur">
-          <div
-            className="h-full bg-cyan-400 relative"
-            style={{ width: `${lessonInfo.progressPercent}%` }}
-          >
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow" />
-          </div>
-        </div>
-        <div className="flex justify-between text-white">
-          <div className="flex gap-4 items-center">
-            <Play className="w-5 h-5 fill-current" />
-            <span className="text-sm font-medium">
-              {lessonInfo.currentTime} / {lessonInfo.totalTime}
-            </span>
-          </div>
-          <Settings className="w-5 h-5" />
-        </div>
-      </div>
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, [lesson.video_url]);
+
+  return (
+    <div className="relative aspect-video bg-black rounded-2xl overflow-hidden shadow-xl border border-slate-200 ring-4 ring-slate-100">
+      <video
+        ref={videoRef}
+        className="w-full h-full object-contain"
+        controls
+        autoPlay={false}
+        preload="metadata"
+        key={lesson.id}
+      >
+        <source src={lesson.video_url} type="video/mp4" />
+        お使いのブラウザは動画再生に対応していません。
+      </video>
 
       {/* AI Tuber Overlay */}
-      <AiTuberOverlay />
+      {aiTuberEnabled && <AiTuberOverlay />}
     </div>
   );
 }
 
-/** Lesson description panel below the video */
-function LessonDescription({
+/** Lesson navigation panel below the video */
+function LessonNav({
+  chapters,
+  courseTitle,
+  currentLessonId,
+  onSelectLesson,
   aiTuberEnabled,
   onToggleAiTuber,
 }: {
+  chapters: Chapter[];
+  courseTitle: string;
+  currentLessonId: string;
+  onSelectLesson: (lesson: Lesson) => void;
   aiTuberEnabled: boolean;
   onToggleAiTuber: () => void;
 }) {
+  // Auto-expand chapter containing current lesson
+  const currentChapterId = chapters.find((ch) =>
+    ch.lessons.some((l) => l.id === currentLessonId)
+  )?.id;
+
+  const [expandedChapters, setExpandedChapters] = useState<Set<string>>(
+    new Set(currentChapterId ? [currentChapterId] : [])
+  );
+
+  // Re-expand when current chapter changes (e.g. after data loads)
+  useEffect(() => {
+    if (currentChapterId) {
+      setExpandedChapters((prev) => new Set([...prev, currentChapterId]));
+    }
+  }, [currentChapterId]);
+
+  const toggleChapter = (chapterId: string) => {
+    setExpandedChapters((prev) => {
+      const next = new Set(prev);
+      if (next.has(chapterId)) {
+        next.delete(chapterId);
+      } else {
+        next.add(chapterId);
+      }
+      return next;
+    });
+  };
+
+  const currentLesson = chapters.flatMap((ch) => ch.lessons).find((l) => l.id === currentLessonId);
+
   return (
-    <div className="mt-4 p-6 bg-white border border-slate-200 rounded-2xl flex-1 overflow-y-auto shadow-sm">
-      <div className="flex justify-between items-start mb-4">
+    <div className="mt-4 bg-white border border-slate-200 rounded-2xl flex-1 overflow-y-auto shadow-sm">
+      {/* Current lesson header */}
+      <div className="p-4 border-b border-slate-100 flex justify-between items-start">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 mb-2">
-            {lessonInfo.title}
+          <h1 className="text-lg font-bold text-slate-800">
+            {currentLesson?.title}
           </h1>
-          <p className="text-slate-500 text-sm">{lessonInfo.breadcrumb}</p>
+          <p className="text-slate-500 text-sm mt-0.5">{courseTitle}</p>
         </div>
         <button
           onClick={onToggleAiTuber}
-          className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-colors ${
+          className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-colors shrink-0 ${
             aiTuberEnabled
               ? "bg-fuchsia-50 border-fuchsia-200 text-fuchsia-600"
               : "bg-slate-50 border-slate-200 text-slate-500"
@@ -184,11 +223,83 @@ function LessonDescription({
           AI Tuber: {aiTuberEnabled ? "ON" : "OFF"}
         </button>
       </div>
-      <div className="prose prose-slate max-w-none">
-        <h3 className="text-lg font-bold text-cyan-600">概要</h3>
-        <p className="text-sm text-slate-600 leading-relaxed">
-          {lessonInfo.summary}
-        </p>
+
+      {/* Chapter/Lesson list */}
+      <div className="divide-y divide-slate-100">
+        {chapters.map((chapter) => {
+          const isExpanded = expandedChapters.has(chapter.id);
+          const completedCount = chapter.lessons.filter((l) => l.status === "completed").length;
+
+          return (
+            <div key={chapter.id}>
+              <button
+                onClick={() => toggleChapter(chapter.id)}
+                className="w-full flex items-center gap-2 px-4 py-3 text-left hover:bg-slate-50 transition-colors"
+              >
+                {isExpanded ? (
+                  <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                ) : (
+                  <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+                )}
+                <span className="text-sm font-semibold text-slate-700 flex-1">
+                  {chapter.title}
+                </span>
+                <span className="text-xs text-slate-400">
+                  {completedCount}/{chapter.lessons.length}
+                </span>
+              </button>
+
+              {isExpanded && (
+                <div className="pb-1">
+                  {chapter.lessons.map((lesson) => {
+                    const isCurrent = lesson.id === currentLessonId;
+                    const isLocked = lesson.status === "locked";
+
+                    return (
+                      <button
+                        key={lesson.id}
+                        onClick={() => !isLocked && onSelectLesson(lesson)}
+                        disabled={isLocked}
+                        className={`w-full flex items-center gap-3 px-4 pl-10 py-2.5 text-left transition-colors ${
+                          isCurrent
+                            ? "bg-cyan-50 border-l-2 border-cyan-500"
+                            : isLocked
+                              ? "opacity-50 cursor-not-allowed"
+                              : "hover:bg-slate-50 cursor-pointer"
+                        }`}
+                      >
+                        {/* Status icon */}
+                        <span className="shrink-0">
+                          {lesson.status === "completed" ? (
+                            <Check className="w-4 h-4 text-emerald-500" />
+                          ) : lesson.status === "in-progress" || isCurrent ? (
+                            <Play className="w-4 h-4 text-cyan-500 fill-cyan-500" />
+                          ) : (
+                            <Lock className="w-4 h-4 text-slate-300" />
+                          )}
+                        </span>
+                        <span
+                          className={`text-sm flex-1 ${
+                            isCurrent
+                              ? "font-semibold text-cyan-700"
+                              : isLocked
+                                ? "text-slate-400"
+                                : "text-slate-600"
+                          }`}
+                        >
+                          {lesson.title}
+                        </span>
+                        <span className="text-xs text-slate-400 shrink-0">
+                          {lesson.duration}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -312,15 +423,92 @@ function AssignmentPanel() {
 }
 
 // ---------------------------------------------------------------------------
+// Data mapping helpers
+// ---------------------------------------------------------------------------
+
+function formatDuration(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+// ---------------------------------------------------------------------------
 // Page Component
 // ---------------------------------------------------------------------------
 
 export default function LearningPage() {
   const [activeTab, setActiveTab] = useState<SidePanelTab>("ai-chat");
   const [aiTuberEnabled, setAiTuberEnabled] = useState(true);
+  const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [chatMessages, setChatMessages] =
     useState<ChatMessage[]>(initialChatMessages);
   const [chatInput, setChatInput] = useState("");
+
+  const { data: enrollmentsData, isLoading: enrollmentsLoading } = useMyEnrollments();
+  const firstEnrollment = enrollmentsData?.results?.[0];
+  const enrollmentCourseId = firstEnrollment?.course?.id;
+
+  const { data: courseData, isLoading: courseLoading } = useCourse(
+    enrollmentCourseId ?? 0
+  );
+
+  const isLoading = enrollmentsLoading || (!!enrollmentCourseId && courseLoading);
+
+  // Derive chapters from API data
+  const { chapters, courseTitle, defaultLesson } = (() => {
+    if (!courseData || !firstEnrollment) {
+      return { chapters: [] as Chapter[], courseTitle: "", defaultLesson: null as Lesson | null };
+    }
+
+    const progressPercent = Number(firstEnrollment.progress_percent ?? 0);
+    const apiChapters = courseData.chapters ?? [];
+    const allApiLessons = apiChapters.flatMap((ch) => ch.lessons ?? []);
+    const totalLessons = allApiLessons.length;
+    const completedCount = Math.round((progressPercent / 100) * totalLessons);
+
+    let lessonIndex = 0;
+    const mappedChapters: Chapter[] = apiChapters.map((ch) => ({
+      id: String(ch.id),
+      title: ch.title,
+      lessons: (ch.lessons ?? []).map((l): Lesson => {
+        const idx = lessonIndex++;
+        let status: Lesson["status"];
+        if (idx < completedCount) {
+          status = "completed";
+        } else if (idx === completedCount) {
+          status = "in-progress";
+        } else {
+          status = "locked";
+        }
+        const videoUrl = l.video_url || sampleVideos[idx % sampleVideos.length];
+        const duration = l.duration_label || formatDuration(l.duration_seconds ?? 0);
+        return {
+          id: String(l.id),
+          title: l.title,
+          duration,
+          video_url: videoUrl,
+          status,
+        };
+      }),
+    }));
+
+    const flat = mappedChapters.flatMap((ch) => ch.lessons);
+    const def =
+      flat.find((l) => l.status === "in-progress") ?? flat[0] ?? null;
+
+    return {
+      chapters: mappedChapters,
+      courseTitle: courseData.title,
+      defaultLesson: def,
+    };
+  })();
+
+  // Set initial lesson once data arrives
+  useEffect(() => {
+    if (!currentLesson && defaultLesson) {
+      setCurrentLesson(defaultLesson);
+    }
+  }, [defaultLesson, currentLesson]);
 
   const handleSendMessage = () => {
     const trimmed = chatInput.trim();
@@ -334,7 +522,6 @@ export default function LearningPage() {
     setChatMessages((prev) => [...prev, userMsg]);
     setChatInput("");
 
-    // Simulate AI response after a short delay
     setTimeout(() => {
       const aiMsg: ChatMessage = {
         id: `ai-${Date.now()}`,
@@ -352,12 +539,39 @@ export default function LearningPage() {
     { key: "assignment", label: "課題提出" },
   ];
 
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-8rem)]">
+        <div className="flex flex-col items-center gap-3 text-slate-500">
+          <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
+          <span className="text-sm font-medium">コース情報を読み込み中...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // No enrollments state
+  if (!currentLesson || chapters.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-8rem)]">
+        <div className="flex flex-col items-center gap-3 text-slate-500">
+          <p className="text-sm font-medium">受講中のコースがありません。</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-8rem)]">
-      {/* Main Content (Video) */}
+      {/* Main Content (Video + Lesson Nav) */}
       <div className="flex-1 flex flex-col min-h-0">
-        <VideoPlayer />
-        <LessonDescription
+        <VideoPlayer lesson={currentLesson} aiTuberEnabled={aiTuberEnabled} />
+        <LessonNav
+          chapters={chapters}
+          courseTitle={courseTitle}
+          currentLessonId={currentLesson.id}
+          onSelectLesson={setCurrentLesson}
           aiTuberEnabled={aiTuberEnabled}
           onToggleAiTuber={() => setAiTuberEnabled((prev) => !prev)}
         />

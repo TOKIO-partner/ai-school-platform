@@ -20,6 +20,7 @@ import {
   Code2,
   Figma,
   TrendingUp,
+  Loader2,
 } from "lucide-react";
 import {
   RadarChart,
@@ -30,6 +31,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { LucideIcon } from "lucide-react";
+import {
+  useMyEnrollments,
+  useMyStats,
+  useMySkills,
+  useMyBadges,
+} from "@/lib/queries/use-enrollments";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -83,64 +90,8 @@ interface EnrolledCourse {
 }
 
 // ---------------------------------------------------------------------------
-// Mock Data
+// Static config / mock data that has no API equivalent
 // ---------------------------------------------------------------------------
-
-const statCards: StatCard[] = [
-  {
-    id: "total-hours",
-    icon: Clock,
-    iconBg: "bg-cyan-50 text-cyan-600",
-    iconHoverBg: "group-hover:bg-cyan-500 group-hover:text-white",
-    label: "総学習時間",
-    value: "48",
-    unit: "h",
-    badgeText: "Total",
-    badgeColor: "text-cyan-700 bg-cyan-50",
-  },
-  {
-    id: "completed-courses",
-    icon: GraduationCap,
-    iconBg: "bg-fuchsia-50 text-fuchsia-600",
-    iconHoverBg: "group-hover:bg-fuchsia-500 group-hover:text-white",
-    label: "完了コース",
-    value: "3",
-    unit: "courses",
-    badgeText: "Completed",
-    badgeColor: "text-fuchsia-700 bg-fuchsia-50",
-  },
-  {
-    id: "completed-lessons",
-    icon: CheckCircle,
-    iconBg: "bg-blue-50 text-blue-600",
-    iconHoverBg: "group-hover:bg-blue-500 group-hover:text-white",
-    label: "完了レッスン",
-    value: "42",
-    unit: "lessons",
-    badgeText: "Lessons",
-    badgeColor: "text-blue-700 bg-blue-50",
-  },
-  {
-    id: "skill-points",
-    icon: Award,
-    iconBg: "bg-amber-50 text-amber-600",
-    iconHoverBg: "group-hover:bg-amber-500 group-hover:text-white",
-    label: "スキルポイント",
-    value: "1,250",
-    unit: "pts",
-    badgeText: "LV.12",
-    badgeColor: "text-amber-700 bg-amber-50",
-  },
-];
-
-const skillRadarData: SkillData[] = [
-  { subject: "HTML/CSS", value: 92, fullMark: 100 },
-  { subject: "JavaScript", value: 78, fullMark: 100 },
-  { subject: "React", value: 72, fullMark: 100 },
-  { subject: "Design", value: 55, fullMark: 100 },
-  { subject: "AI活用", value: 65, fullMark: 100 },
-  { subject: "UX", value: 70, fullMark: 100 },
-];
 
 const weeklyStudyData: WeeklyStudyDay[] = [
   { day: "月", heightPercent: 40, isWeekend: false },
@@ -152,7 +103,9 @@ const weeklyStudyData: WeeklyStudyDay[] = [
   { day: "日", heightPercent: 80, isWeekend: true },
 ];
 
-const badges: Badge[] = [
+// Static badge definitions (icons, gradients, descriptions). Achieved state
+// is derived from the API response.
+const BADGE_DEFINITIONS: Omit<Badge, "achieved" | "statusLabel">[] = [
   {
     id: "first-login",
     icon: LogIn,
@@ -160,8 +113,6 @@ const badges: Badge[] = [
     shadowColor: "shadow-amber-500/20",
     title: "初回ログイン",
     description: "プラットフォームへの初めてのログインを達成",
-    achieved: true,
-    statusLabel: "達成",
   },
   {
     id: "10-lessons",
@@ -170,8 +121,6 @@ const badges: Badge[] = [
     shadowColor: "shadow-cyan-500/20",
     title: "10レッスン達成",
     description: "累計10レッスンを完了しました",
-    achieved: true,
-    statusLabel: "達成",
   },
   {
     id: "ai-master",
@@ -180,8 +129,6 @@ const badges: Badge[] = [
     shadowColor: "shadow-fuchsia-500/20",
     title: "AI活用マスター",
     description: "AI関連のコースをすべて完了しました",
-    achieved: true,
-    statusLabel: "達成",
   },
   {
     id: "10-submissions",
@@ -190,8 +137,6 @@ const badges: Badge[] = [
     shadowColor: "shadow-emerald-500/20",
     title: "課題提出10回",
     description: "課題を累計10回提出しました",
-    achieved: true,
-    statusLabel: "達成",
   },
   {
     id: "community-post",
@@ -200,8 +145,6 @@ const badges: Badge[] = [
     shadowColor: "shadow-indigo-500/20",
     title: "コミュニティ投稿",
     description: "コミュニティに初めて投稿しました",
-    achieved: true,
-    statusLabel: "達成",
   },
   {
     id: "30-day-streak",
@@ -210,52 +153,161 @@ const badges: Badge[] = [
     shadowColor: "shadow-slate-500/10",
     title: "30日連続学習",
     description: "30日間連続でログイン・学習を達成",
-    achieved: false,
-    statusLabel: "22/30日",
   },
 ];
 
-const enrolledCourses: EnrolledCourse[] = [
-  {
-    id: "web-design",
-    icon: Palette,
-    backgroundStyle: "linear-gradient(135deg, #e0f2fe 0%, #0ea5e9 100%)",
-    title: "AI活用 Webデザイン基礎",
-    progressPercent: 75,
-    progressColor: "text-cyan-600",
-    barGradient: "from-cyan-400 to-blue-500",
-    completedLessons: 15,
-    totalLessons: 20,
-  },
-  {
-    id: "nextjs-react",
-    icon: Code2,
-    backgroundStyle: "linear-gradient(135deg, #e0e7ff 0%, #4f46e5 100%)",
-    title: "Next.js 14 & React 実践",
-    progressPercent: 33,
-    progressColor: "text-indigo-600",
-    barGradient: "from-indigo-400 to-violet-500",
-    completedLessons: 4,
-    totalLessons: 12,
-  },
-  {
-    id: "ui-ux",
-    icon: Figma,
-    backgroundStyle: "linear-gradient(135deg, #fce7f3 0%, #db2777 100%)",
-    title: "UI/UXデザイン概論",
-    progressPercent: 12,
-    progressColor: "text-fuchsia-600",
-    barGradient: "from-fuchsia-400 to-pink-500",
-    completedLessons: 1,
-    totalLessons: 8,
-  },
-];
+// Category → course visual config
+function getCourseVisuals(category: string): {
+  icon: LucideIcon;
+  backgroundStyle: string;
+  progressColor: string;
+  barGradient: string;
+} {
+  const lower = category.toLowerCase();
+  if (lower.includes("design") || lower.includes("ui") || lower.includes("web")) {
+    return {
+      icon: Palette,
+      backgroundStyle: "linear-gradient(135deg, #e0f2fe 0%, #0ea5e9 100%)",
+      progressColor: "text-cyan-600",
+      barGradient: "from-cyan-400 to-blue-500",
+    };
+  }
+  if (lower.includes("next") || lower.includes("react") || lower.includes("javascript") || lower.includes("code")) {
+    return {
+      icon: Code2,
+      backgroundStyle: "linear-gradient(135deg, #e0e7ff 0%, #4f46e5 100%)",
+      progressColor: "text-indigo-600",
+      barGradient: "from-indigo-400 to-violet-500",
+    };
+  }
+  if (lower.includes("figma") || lower.includes("ux")) {
+    return {
+      icon: Figma,
+      backgroundStyle: "linear-gradient(135deg, #fce7f3 0%, #db2777 100%)",
+      progressColor: "text-fuchsia-600",
+      barGradient: "from-fuchsia-400 to-pink-500",
+    };
+  }
+  // Default
+  return {
+    icon: BookOpen,
+    backgroundStyle: "linear-gradient(135deg, #f0fdf4 0%, #22c55e 100%)",
+    progressColor: "text-emerald-600",
+    barGradient: "from-emerald-400 to-teal-500",
+  };
+}
 
 // ---------------------------------------------------------------------------
 // Page Component
 // ---------------------------------------------------------------------------
 
 export default function ProgressPage() {
+  const { data: statsData, isLoading: statsLoading } = useMyStats();
+  const { data: skillsData, isLoading: skillsLoading } = useMySkills();
+  const { data: badgesData, isLoading: badgesLoading } = useMyBadges();
+  const { data: enrollmentsData, isLoading: enrollmentsLoading } = useMyEnrollments();
+
+  const isLoading = statsLoading || skillsLoading || badgesLoading || enrollmentsLoading;
+
+  // Build statCards from API data
+  const statCards: StatCard[] = statsData
+    ? [
+        {
+          id: "total-hours",
+          icon: Clock,
+          iconBg: "bg-cyan-50 text-cyan-600",
+          iconHoverBg: "group-hover:bg-cyan-500 group-hover:text-white",
+          label: "総学習時間",
+          value: String(statsData.total_watch_time_hours),
+          unit: "h",
+          badgeText: "Total",
+          badgeColor: "text-cyan-700 bg-cyan-50",
+        },
+        {
+          id: "completed-courses",
+          icon: GraduationCap,
+          iconBg: "bg-fuchsia-50 text-fuchsia-600",
+          iconHoverBg: "group-hover:bg-fuchsia-500 group-hover:text-white",
+          label: "完了コース",
+          value: String(statsData.completed_courses),
+          unit: "courses",
+          badgeText: "Completed",
+          badgeColor: "text-fuchsia-700 bg-fuchsia-50",
+        },
+        {
+          id: "completed-lessons",
+          icon: CheckCircle,
+          iconBg: "bg-blue-50 text-blue-600",
+          iconHoverBg: "group-hover:bg-blue-500 group-hover:text-white",
+          label: "完了レッスン",
+          value: String(statsData.completed_lessons),
+          unit: "lessons",
+          badgeText: "Lessons",
+          badgeColor: "text-blue-700 bg-blue-50",
+        },
+        {
+          id: "skill-points",
+          icon: Award,
+          iconBg: "bg-amber-50 text-amber-600",
+          iconHoverBg: "group-hover:bg-amber-500 group-hover:text-white",
+          label: "スキルポイント",
+          value: statsData.skill_points_total.toLocaleString(),
+          unit: "pts",
+          badgeText: "LV.12",
+          badgeColor: "text-amber-700 bg-amber-50",
+        },
+      ]
+    : [];
+
+  // Build skillRadarData from API data
+  const skillRadarData: SkillData[] = skillsData
+    ? skillsData.map((s) => ({
+        subject: s.category,
+        value: s.points,
+        fullMark: 100,
+      }))
+    : [];
+
+  // Build badges: static definitions merged with API achieved state
+  const earnedTitles = new Set(badgesData ? badgesData.map((b) => b.badge.name) : []);
+  const badges: Badge[] = BADGE_DEFINITIONS.map((def) => {
+    const achieved = earnedTitles.has(def.title);
+    return {
+      ...def,
+      achieved,
+      statusLabel: achieved ? "達成" : def.title === "30日連続学習" ? "未達成" : "未達成",
+    };
+  });
+
+  // Build enrolledCourses from API data
+  const enrolledCourses: EnrolledCourse[] = enrollmentsData
+    ? enrollmentsData.results.map((e) => {
+        const visuals = getCourseVisuals(e.course.category);
+        const progressPercent = Math.round(e.progress_percent);
+        const totalLessons = e.course.lesson_count;
+        const completedLessons = Math.round((progressPercent / 100) * totalLessons);
+        return {
+          id: String(e.id),
+          icon: visuals.icon,
+          backgroundStyle: visuals.backgroundStyle,
+          title: e.course.title,
+          progressPercent,
+          progressColor: visuals.progressColor,
+          barGradient: visuals.barGradient,
+          completedLessons,
+          totalLessons,
+        };
+      })
+    : [];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
+      </div>
+    );
+  }
+
   return (
     <>
       {/* Stats Row */}

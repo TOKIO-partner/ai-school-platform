@@ -61,6 +61,7 @@ class AdminUserListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserAdminSerializer
     permission_classes = [IsAdmin]
+    filterset_fields = ['role', 'plan', 'is_active']
     search_fields = ['username', 'email', 'first_name', 'last_name']
     ordering_fields = ['date_joined', 'last_login', 'username']
 

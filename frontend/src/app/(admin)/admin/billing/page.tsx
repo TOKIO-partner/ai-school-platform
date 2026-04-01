@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   TrendingUp,
   Repeat,
@@ -11,6 +12,7 @@ import {
   X,
   Download,
   Search,
+  Loader2,
 } from "lucide-react";
 import {
   BarChart,
@@ -21,112 +23,49 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
+import {
+  useAdminBillingOverview,
+  useAdminPayments,
+  useAdminRefunds,
+} from "@/lib/queries/use-admin";
 
 // ---------------------------------------------------------------------------
-// Revenue chart data (6 months)
+// Plan breakdown color mapping
 // ---------------------------------------------------------------------------
 
-const revenueData = [
-  { month: "10月", revenue: 180 },
-  { month: "11月", revenue: 195 },
-  { month: "12月", revenue: 210 },
-  { month: "1月", revenue: 220 },
-  { month: "2月", revenue: 230 },
-  { month: "3月", revenue: 240 },
+const planColorMap: Record<string, string> = {
+  pro: "bg-cyan-500",
+  business: "bg-blue-500",
+  starter: "bg-purple-500",
+  free: "bg-amber-500",
+};
+
+const planLabelMap: Record<string, string> = {
+  pro: "Proプラン",
+  business: "Businessプラン",
+  starter: "Starterプラン",
+  free: "Freeプラン",
+};
+
+const gradientCycle = [
+  "from-blue-400 to-cyan-400",
+  "from-amber-400 to-orange-400",
+  "from-fuchsia-400 to-pink-400",
+  "from-green-400 to-emerald-400",
+  "from-violet-400 to-purple-400",
 ];
 
 // ---------------------------------------------------------------------------
-// Plan breakdown data
-// ---------------------------------------------------------------------------
-
-const planBreakdown = [
-  { name: "Proプラン", percent: 45, color: "bg-cyan-500" },
-  { name: "Businessプラン", percent: 30, color: "bg-blue-500" },
-  { name: "Starterプラン", percent: 15, color: "bg-purple-500" },
-  { name: "Freeプラン", percent: 10, color: "bg-amber-500" },
-];
-
-// ---------------------------------------------------------------------------
-// Payment history data
+// Status mapping
 // ---------------------------------------------------------------------------
 
 type PaymentStatus = "成功" | "失敗" | "返金";
 
-interface Payment {
-  date: string;
-  userName: string;
-  amount: string;
-  plan: string;
-  method: string;
-  status: PaymentStatus;
-}
-
-const payments: Payment[] = [
-  {
-    date: "2026/03/12 14:30",
-    userName: "佐藤健太",
-    amount: "¥4,980",
-    plan: "Pro月額",
-    method: "クレジットカード",
-    status: "成功",
-  },
-  {
-    date: "2026/03/12 10:15",
-    userName: "鈴木美咲",
-    amount: "¥980",
-    plan: "Starter月額",
-    method: "クレジットカード",
-    status: "成功",
-  },
-  {
-    date: "2026/03/11 16:00",
-    userName: "(株)テックイノベーション",
-    amount: "¥49,800",
-    plan: "Business年額",
-    method: "請求書",
-    status: "成功",
-  },
-  {
-    date: "2026/03/11 11:30",
-    userName: "高橋優子",
-    amount: "¥4,980",
-    plan: "Pro月額",
-    method: "クレジットカード",
-    status: "成功",
-  },
-  {
-    date: "2026/03/10 15:00",
-    userName: "中村大輔",
-    amount: "¥4,980",
-    plan: "Pro月額",
-    method: "クレジットカード",
-    status: "失敗",
-  },
-  {
-    date: "2026/03/10 09:00",
-    userName: "田中翔",
-    amount: "¥980",
-    plan: "Starter月額",
-    method: "PayPay",
-    status: "成功",
-  },
-  {
-    date: "2026/03/09 14:00",
-    userName: "伊藤花子",
-    amount: "¥4,980",
-    plan: "Pro月額",
-    method: "クレジットカード",
-    status: "返金",
-  },
-  {
-    date: "2026/03/09 10:00",
-    userName: "渡辺誠",
-    amount: "¥4,980",
-    plan: "Pro月額",
-    method: "クレジットカード",
-    status: "成功",
-  },
-];
+const statusMap: Record<string, PaymentStatus> = {
+  success: "成功",
+  failed: "失敗",
+  refunded: "返金",
+};
 
 const statusStyles: Record<PaymentStatus, string> = {
   成功: "bg-green-50 text-green-600 border-green-200",
@@ -134,82 +73,12 @@ const statusStyles: Record<PaymentStatus, string> = {
   返金: "bg-amber-50 text-amber-600 border-amber-200",
 };
 
-// ---------------------------------------------------------------------------
-// Refund requests
-// ---------------------------------------------------------------------------
-
-const refundRequests = [
-  {
-    name: "田中花子",
-    initials: "田",
-    plan: "Pro月額",
-    amount: "¥4,980",
-    reason: "サービスに不満",
-    date: "2026/03/11",
-    gradient: "from-blue-400 to-cyan-400",
-  },
-  {
-    name: "木村太一",
-    initials: "木",
-    plan: "Pro月額",
-    amount: "¥4,980",
-    reason: "誤って課金",
-    date: "2026/03/10",
-    gradient: "from-amber-400 to-orange-400",
-  },
-  {
-    name: "松本さやか",
-    initials: "松",
-    plan: "Starter月額",
-    amount: "¥980",
-    reason: "解約忘れ",
-    date: "2026/03/09",
-    gradient: "from-fuchsia-400 to-pink-400",
-  },
-];
-
-// ---------------------------------------------------------------------------
-// KPI card config
-// ---------------------------------------------------------------------------
-
-const kpiCards = [
-  {
-    label: "月間売上",
-    value: "¥2,400,000",
-    badge: "+8% 前月比",
-    badgeColor: "text-green-500",
-    icon: TrendingUp,
-    iconBg: "bg-cyan-50",
-    iconColor: "text-cyan-600",
-  },
-  {
-    label: "MRR",
-    value: "¥2,100,000",
-    badge: "月間経常収益",
-    badgeColor: "text-slate-400",
-    icon: Repeat,
-    iconBg: "bg-blue-50",
-    iconColor: "text-blue-600",
-  },
-  {
-    label: "解約率",
-    value: "3.2%",
-    badge: "-0.5% 前月比",
-    badgeColor: "text-green-500",
-    icon: UserMinus,
-    iconBg: "bg-amber-50",
-    iconColor: "text-amber-600",
-  },
-  {
-    label: "ARPU",
-    value: "¥22,500",
-    badge: "ユーザーあたり平均単価",
-    badgeColor: "text-slate-400",
-    icon: User,
-    iconBg: "bg-fuchsia-50",
-    iconColor: "text-fuchsia-600",
-  },
-];
+const statusFilterMap: Record<string, string | undefined> = {
+  "すべてのステータス": undefined,
+  "成功": "success",
+  "失敗": "failed",
+  "返金済": "refunded",
+};
 
 // ---------------------------------------------------------------------------
 // Custom tooltip
@@ -238,6 +107,115 @@ function RevenueTooltip({
 // ---------------------------------------------------------------------------
 
 export default function AdminBillingPage() {
+  const [statusFilter, setStatusFilter] = useState("すべてのステータス");
+
+  const { data: overviewData, isLoading: overviewLoading } =
+    useAdminBillingOverview();
+  const { data: paymentsData, isLoading: paymentsLoading } = useAdminPayments({
+    status: statusFilterMap[statusFilter],
+  });
+  const { data: refundsData, isLoading: refundsLoading } = useAdminRefunds();
+
+  const isLoading = overviewLoading || paymentsLoading || refundsLoading;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
+      </div>
+    );
+  }
+
+  // Build KPI cards from overview data
+  const overview = overviewData;
+  const kpiCards = [
+    {
+      label: "月間売上",
+      value: overview
+        ? `¥${overview.monthly_revenue.toLocaleString()}`
+        : "¥0",
+      badge: "+8% 前月比",
+      badgeColor: "text-green-500",
+      icon: TrendingUp,
+      iconBg: "bg-cyan-50",
+      iconColor: "text-cyan-600",
+    },
+    {
+      label: "MRR",
+      value: overview ? `¥${overview.mrr.toLocaleString()}` : "¥0",
+      badge: "月間経常収益",
+      badgeColor: "text-slate-400",
+      icon: Repeat,
+      iconBg: "bg-blue-50",
+      iconColor: "text-blue-600",
+    },
+    {
+      label: "解約率",
+      value: overview ? `${overview.churn_rate}%` : "0%",
+      badge: "-0.5% 前月比",
+      badgeColor: "text-green-500",
+      icon: UserMinus,
+      iconBg: "bg-amber-50",
+      iconColor: "text-amber-600",
+    },
+    {
+      label: "ARPU",
+      value: overview ? `¥${overview.arpu.toLocaleString()}` : "¥0",
+      badge: "ユーザーあたり平均単価",
+      badgeColor: "text-slate-400",
+      icon: User,
+      iconBg: "bg-fuchsia-50",
+      iconColor: "text-fuchsia-600",
+    },
+  ];
+
+  const revenueData = (overview?.monthly_chart ?? []).map((item) => ({
+    month: item.month,
+    revenue: Math.round(item.revenue / 10000),
+  }));
+
+  const planBreakdown = (overview?.plan_breakdown ?? []).map((p) => ({
+    name: planLabelMap[p.plan] ?? p.plan,
+    percent: p.count,
+    color: planColorMap[p.plan] ?? "bg-slate-400",
+  }));
+
+  const payments = (paymentsData?.results ?? []).map((p) => {
+    const date = new Date(p.created_at);
+    const formatted = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+    const amount = `¥${Math.floor(p.amount).toLocaleString()}`;
+    const status = statusMap[p.status] ?? ("成功" as PaymentStatus);
+    return {
+      date: formatted,
+      userName: p.user_name,
+      amount,
+      plan: p.plan,
+      method: p.method,
+      status,
+    };
+  });
+
+  const refundRequests = (refundsData?.results ?? []).map((r, i) => {
+    const date = new Date(r.created_at);
+    const formatted = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${String(date.getDate()).padStart(2, "0")}`;
+    const amount = `¥${Math.floor(r.payment.amount).toLocaleString()}`;
+    const name = r.payment.user_name;
+    const initials = name.charAt(0);
+    return {
+      name,
+      initials,
+      plan: r.payment.plan,
+      amount,
+      reason: r.reason,
+      date: formatted,
+      gradient: gradientCycle[i % gradientCycle.length],
+    };
+  });
+
+  const pendingCount = refundsData?.results?.filter(
+    (r) => r.status === "pending",
+  ).length ?? 0;
+
   return (
     <div className="space-y-6">
       {/* Page Title */}
@@ -383,7 +361,11 @@ export default function AdminBillingPage() {
         <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <h3 className="font-bold text-slate-800">決済履歴</h3>
           <div className="flex items-center gap-3">
-            <select className="text-sm border border-slate-200 rounded-lg px-3 py-1.5 text-slate-600 focus:outline-none focus:border-cyan-500">
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="text-sm border border-slate-200 rounded-lg px-3 py-1.5 text-slate-600 focus:outline-none focus:border-cyan-500"
+            >
               <option>すべてのステータス</option>
               <option>成功</option>
               <option>失敗</option>
@@ -444,7 +426,9 @@ export default function AdminBillingPage() {
         </div>
         {/* Pagination */}
         <div className="p-4 border-t border-slate-100 flex justify-between items-center">
-          <p className="text-sm text-slate-500">全 156 件中 1-8 件を表示</p>
+          <p className="text-sm text-slate-500">
+            全 {paymentsData?.count ?? 0} 件中 1-{payments.length} 件を表示
+          </p>
           <div className="flex items-center gap-2">
             <button className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50 flex items-center gap-1">
               <ChevronLeft className="w-4 h-4" />
@@ -472,7 +456,7 @@ export default function AdminBillingPage() {
         <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <h3 className="font-bold text-slate-800">返金リクエスト</h3>
           <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-600 border border-amber-200">
-            3件 保留中
+            {pendingCount}件 保留中
           </span>
         </div>
         <div className="divide-y divide-slate-100">

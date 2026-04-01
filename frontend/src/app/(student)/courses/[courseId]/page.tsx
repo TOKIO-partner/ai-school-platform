@@ -24,8 +24,11 @@ import {
   Code,
   Target,
   TrendingUp,
+  Loader2,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useCourse } from "@/lib/queries/use-courses";
+import { useMyEnrollments } from "@/lib/queries/use-enrollments";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -80,136 +83,49 @@ interface StudyPlan {
   milestones: StudyMilestone[];
 }
 
-interface CourseData {
-  title: string;
-  category: string;
-  level: string;
-  description: string;
-  totalDuration: string;
-  totalLessons: number;
-  studentsCount: string;
-  rating: number;
-  reviewCount: number;
-  progress: number;
-  completedLessons: number;
-  overview: string[];
-  chapters: Chapter[];
-  reviews: Review[];
-  info: CourseInfo[];
-  tags: string[];
-  studyPlan: StudyPlan;
-}
-
 // ---------------------------------------------------------------------------
-// Mock Data
+// Static mock data (reviews and study plan have no API endpoints)
 // ---------------------------------------------------------------------------
 
-const courseData: CourseData = {
-  title: "AI活用 Webデザイン基礎",
-  category: "Design",
-  level: "Beginner",
-  description:
-    "AIツールを活用しながら、Webデザインの基礎からFigmaでの実践的なデザイン制作までを体系的に学べるコースです。",
-  totalDuration: "12時間",
-  totalLessons: 20,
-  studentsCount: "1,248人が受講中",
-  rating: 4.8,
-  reviewCount: 156,
-  progress: 75,
-  completedLessons: 15,
-  overview: [
-    "本コースでは、AIを活用したWebデザインの基礎を包括的に学びます。デザインの原則（カラー理論、タイポグラフィ、レイアウト）から始まり、FigmaやAdobe XDなどのツールを使った実践的なデザインワークフローまでをカバーします。",
-    "特に、ChatGPTやMidjourneyなどのAIツールをデザインプロセスに組み込む方法に重点を置いています。アイデア出し、カラーパレット生成、画像素材の作成など、AIがクリエイティブワークをどのように加速させるかを実践的に学べます。",
-    "コース修了後には、レスポンシブなWebサイトのデザインをゼロから作成できるスキルが身につきます。ポートフォリオに掲載できる作品を制作するプロジェクト課題も含まれています。",
-  ],
-  chapters: [
-    {
-      number: 1,
-      title: "デザインの基礎原則",
-      lessonCount: 6,
-      duration: "3時間",
-      defaultOpen: true,
-      lessons: [
-        { id: 1, title: "デザイン思考とは何か", duration: "15:00", status: "completed", type: "video" },
-        { id: 2, title: "カラー理論の基礎", duration: "22:00", status: "completed", type: "video" },
-        { id: 3, title: "タイポグラフィの選び方", duration: "18:00", status: "completed", type: "article" },
-        { id: 4, title: "レイアウトとグリッドシステム", duration: "25:00", status: "completed", type: "video" },
-        { id: 5, title: "ビジュアルヒエラルキー", duration: "20:00", status: "completed", type: "video" },
-        { id: 6, title: "デザイン原則の実践演習", duration: "30:00", status: "completed", type: "quiz" },
-      ],
-    },
-    {
-      number: 2,
-      title: "Figmaを使った実践デザイン",
-      lessonCount: 5,
-      duration: "4時間",
-      lessons: [
-        { id: 7, title: "Figmaの基本操作", duration: "30:00", status: "completed", type: "video" },
-        { id: 8, title: "コンポーネントとスタイル設計", duration: "35:00", status: "completed", type: "video" },
-        { id: 9, title: "Auto Layoutの活用", duration: "40:00", status: "completed", type: "exercise" },
-        { id: 10, title: "プロトタイプの作成", duration: "学習中", status: "in-progress", type: "video" },
-        { id: 11, title: "レスポンシブデザインの実装", duration: "45:00", status: "locked", type: "exercise" },
-      ],
-    },
-    {
-      number: 3,
-      title: "AIツールとデザインワークフロー",
-      lessonCount: 4,
-      duration: "5時間",
-      lessons: [
-        { id: 12, title: "AIでカラーパレットを生成する", duration: "35:00", status: "locked", type: "video" },
-        { id: 13, title: "Midjourneyで素材画像を作成", duration: "40:00", status: "locked", type: "exercise" },
-        { id: 14, title: "AIを使ったUXライティング", duration: "30:00", status: "locked", type: "article" },
-        { id: 15, title: "最終プロジェクト：ポートフォリオサイト制作", duration: "90:00", status: "locked", type: "exercise" },
-      ],
-    },
-  ],
-  reviews: [
-    {
-      initials: "KT",
-      name: "木村 拓也",
-      date: "2週間前",
-      rating: 5,
-      comment:
-        "初心者でも分かりやすい内容で、AIツールの活用方法が実践的に学べました。特にFigmaのAuto Layout解説が秀逸です。実際の制作に活かせるスキルが身につきました。",
-      gradient: "from-cyan-400 to-blue-500",
-    },
-    {
-      initials: "SM",
-      name: "佐藤 美咲",
-      date: "1ヶ月前",
-      rating: 4,
-      comment:
-        "デザイン未経験からのスタートでしたが、ステップバイステップで理解できました。Midjourneyを使った素材作成のパートが特に面白かったです。もう少しUX設計の深掘りがあれば完璧でした。",
-      gradient: "from-fuchsia-400 to-purple-500",
-    },
-    {
-      initials: "YH",
-      name: "山田 浩司",
-      date: "1ヶ月前",
-      rating: 5,
-      comment:
-        "エンジニアとしてデザインの基礎を学びたくて受講しました。理論と実践のバランスが良く、最終プロジェクトで実際にポートフォリオサイトを完成させることができました。",
-      gradient: "from-emerald-400 to-teal-500",
-    },
-  ],
-  info: [
-    { label: "講師", value: "鈴木 健太", icon: "user" },
-    { label: "最終更新日", value: "2026年2月15日", icon: "calendar" },
-    { label: "受講者数", value: "1,248人", icon: "users" },
-    { label: "言語", value: "日本語", icon: "globe" },
-  ],
-  tags: ["#Webデザイン", "#AI", "#Figma"],
-  studyPlan: {
-    weeklyGoalHours: 5,
-    currentWeekHours: 3.5,
-    estimatedCompletionDate: "2026年4月15日",
-    milestones: [
-      { chapter: 1, title: "デザインの基礎原則", targetDate: "2026年2月28日", status: "completed" },
-      { chapter: 2, title: "Figmaを使った実践デザイン", targetDate: "2026年3月20日", status: "current" },
-      { chapter: 3, title: "AIツールとデザインワークフロー", targetDate: "2026年4月15日", status: "upcoming" },
-    ],
+const staticReviews: Review[] = [
+  {
+    initials: "KT",
+    name: "木村 拓也",
+    date: "2週間前",
+    rating: 5,
+    comment:
+      "初心者でも分かりやすい内容で、AIツールの活用方法が実践的に学べました。特にFigmaのAuto Layout解説が秀逸です。実際の制作に活かせるスキルが身につきました。",
+    gradient: "from-cyan-400 to-blue-500",
   },
+  {
+    initials: "SM",
+    name: "佐藤 美咲",
+    date: "1ヶ月前",
+    rating: 4,
+    comment:
+      "デザイン未経験からのスタートでしたが、ステップバイステップで理解できました。Midjourneyを使った素材作成のパートが特に面白かったです。もう少しUX設計の深掘りがあれば完璧でした。",
+    gradient: "from-fuchsia-400 to-purple-500",
+  },
+  {
+    initials: "YH",
+    name: "山田 浩司",
+    date: "1ヶ月前",
+    rating: 5,
+    comment:
+      "エンジニアとしてデザインの基礎を学びたくて受講しました。理論と実践のバランスが良く、最終プロジェクトで実際にポートフォリオサイトを完成させることができました。",
+    gradient: "from-emerald-400 to-teal-500",
+  },
+];
+
+const staticStudyPlan: StudyPlan = {
+  weeklyGoalHours: 5,
+  currentWeekHours: 3.5,
+  estimatedCompletionDate: "2026年4月15日",
+  milestones: [
+    { chapter: 1, title: "デザインの基礎原則", targetDate: "2026年2月28日", status: "completed" },
+    { chapter: 2, title: "Figmaを使った実践デザイン", targetDate: "2026年3月20日", status: "current" },
+    { chapter: 3, title: "AIツールとデザインワークフロー", targetDate: "2026年4月15日", status: "upcoming" },
+  ],
 };
 
 // ---------------------------------------------------------------------------
@@ -590,8 +506,101 @@ export default function CourseDetailPage({
 }) {
   const { courseId } = use(params);
 
-  // In production, use courseId to fetch real data
-  const course = courseData;
+  const { data: courseData, isLoading: courseLoading } = useCourse(courseId);
+  const { data: enrollmentsData, isLoading: enrollmentsLoading } = useMyEnrollments();
+
+  const isLoading = courseLoading || enrollmentsLoading;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 text-cyan-500 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!courseData) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <p className="text-slate-500">コースが見つかりませんでした。</p>
+      </div>
+    );
+  }
+
+  // Find enrollment for this course
+  const enrollment = enrollmentsData?.results.find(
+    (e) => e.course.id === courseData.id
+  );
+  const progressPercent = enrollment ? Number(enrollment.progress_percent) : 0;
+
+  // Build UI chapters from API data with derived lesson statuses
+  // Flatten all lessons across chapters to compute completed count from progress_percent
+  const allLessons = (courseData.chapters ?? []).flatMap((ch) => ch.lessons);
+  const totalLessonCount = allLessons.length || courseData.lesson_count;
+  const completedLessonCount = Math.round((progressPercent / 100) * totalLessonCount);
+
+  // Assign statuses: first N lessons completed, next one in-progress (if not 100%), rest locked
+  let lessonIndexCounter = 0;
+  const chapters: Chapter[] = (courseData.chapters ?? []).map((apiChapter, chIdx) => {
+    const mappedLessons: Lesson[] = apiChapter.lessons.map((apiLesson) => {
+      const globalIndex = lessonIndexCounter++;
+      let status: LessonStatus;
+      if (globalIndex < completedLessonCount) {
+        status = "completed";
+      } else if (globalIndex === completedLessonCount && progressPercent < 100 && enrollment) {
+        status = "in-progress";
+      } else {
+        status = "locked";
+      }
+      return {
+        id: apiLesson.id,
+        title: apiLesson.title,
+        duration: apiLesson.duration_label || "",
+        status,
+        type: apiLesson.lesson_type as LessonType,
+      };
+    });
+
+    return {
+      number: chIdx + 1,
+      title: apiChapter.title,
+      lessonCount: apiChapter.lessons.length,
+      duration: apiChapter.duration_label || "",
+      lessons: mappedLessons,
+      defaultOpen: chIdx === 0,
+    };
+  });
+
+  // Derive overview paragraphs
+  const overviewParagraphs = courseData.overview
+    ? courseData.overview.split("\n\n").filter(Boolean)
+    : [courseData.description];
+
+  // Format duration
+  const totalDuration = `${courseData.duration_hours}時間`;
+
+  // Format enrolled count
+  const studentsCount = `${courseData.enrolled_count.toLocaleString()}人が受講中`;
+
+  // Info items
+  const infoItems: CourseInfo[] = [
+    { label: "講師", value: courseData.instructor_name, icon: "user" },
+    { label: "受講者数", value: `${courseData.enrolled_count.toLocaleString()}人`, icon: "users" },
+    { label: "言語", value: courseData.language || "日本語", icon: "globe" },
+  ];
+
+  // Tags — ensure # prefix
+  const tags = (courseData.tags ?? []).map((t) =>
+    t.startsWith("#") ? t : `#${t}`
+  );
+
+  // Completed lessons count for sidebar
+  const completedLessons = Math.round((progressPercent / 100) * totalLessonCount);
+
+  // Static mock data
+  const reviews = staticReviews;
+  const reviewCount = reviews.length;
+  const studyPlan = staticStudyPlan;
 
   return (
     <>
@@ -616,31 +625,31 @@ export default function CourseDetailPage({
           </div>
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur text-white text-xs font-bold border border-white/30">
-              {course.category}
+              {courseData.category}
             </span>
             <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur text-white text-xs font-bold border border-white/30 flex items-center gap-1">
-              <Signal className="w-3 h-3" /> {course.level}
+              <Signal className="w-3 h-3" /> {courseData.difficulty}
             </span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {course.title}
+            {courseData.title}
           </h2>
           <p className="text-white/80 text-sm md:text-base max-w-2xl mb-6">
-            {course.description}
+            {courseData.description}
           </p>
           <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm">
             <span className="flex items-center gap-2">
-              <Clock className="w-4 h-4" /> {course.totalDuration}
+              <Clock className="w-4 h-4" /> {totalDuration}
             </span>
             <span className="flex items-center gap-2">
-              <BookOpen className="w-4 h-4" /> {course.totalLessons}レッスン
+              <BookOpen className="w-4 h-4" /> {courseData.lesson_count}レッスン
             </span>
             <span className="flex items-center gap-2">
-              <Users className="w-4 h-4" /> {course.studentsCount}
+              <Users className="w-4 h-4" /> {studentsCount}
             </span>
             <span className="flex items-center gap-2">
               <Star className="w-4 h-4 fill-current text-yellow-300" />{" "}
-              {course.rating} ({course.reviewCount}件)
+              4.8 ({reviewCount}件)
             </span>
           </div>
         </div>
@@ -657,7 +666,7 @@ export default function CourseDetailPage({
               コース概要
             </h3>
             <div className="text-sm text-slate-600 leading-relaxed space-y-4">
-              {course.overview.map((paragraph, i) => (
+              {overviewParagraphs.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
             </div>
@@ -679,22 +688,22 @@ export default function CourseDetailPage({
                   <MessageCircle className="w-4 h-4" />
                   感想・レビュー
                   <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-full">
-                    {course.reviewCount}
+                    {reviewCount}
                   </span>
                 </TabsTrigger>
               </TabsList>
 
               <div className="p-6 md:p-8">
                 <TabsContent value="curriculum">
-                  <CurriculumTab chapters={course.chapters} />
+                  <CurriculumTab chapters={chapters} />
                 </TabsContent>
 
                 <TabsContent value="plan">
-                  <StudyPlanTab studyPlan={course.studyPlan} />
+                  <StudyPlanTab studyPlan={studyPlan} />
                 </TabsContent>
 
                 <TabsContent value="reviews">
-                  <ReviewsTab reviews={course.reviews} reviewCount={course.reviewCount} />
+                  <ReviewsTab reviews={reviews} reviewCount={reviewCount} />
                 </TabsContent>
               </div>
             </Tabs>
@@ -708,23 +717,23 @@ export default function CourseDetailPage({
             <div className="flex items-center justify-between mb-2">
               <h4 className="font-bold text-slate-800 text-sm">学習進捗</h4>
               <span className="text-sm font-bold text-cyan-600">
-                {course.progress}%
+                {progressPercent}%
               </span>
             </div>
             <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden mb-2">
               <div
                 className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transition-all duration-500"
-                style={{ width: `${course.progress}%` }}
+                style={{ width: `${progressPercent}%` }}
               />
             </div>
             <p className="text-xs text-slate-500 mb-5">
-              {course.completedLessons} / {course.totalLessons} レッスン完了
+              {completedLessons} / {totalLessonCount} レッスン完了
             </p>
 
             {/* Chapter-by-chapter mini progress */}
             <div className="space-y-3 mb-5 pt-4 border-t border-slate-100">
               <h5 className="text-xs font-bold text-slate-600 uppercase tracking-wide">チャプター別進捗</h5>
-              {course.chapters.map((chapter) => {
+              {chapters.map((chapter) => {
                 const progress = getChapterProgress(chapter);
                 return (
                   <div key={chapter.number} className="flex items-center gap-3">
@@ -774,7 +783,7 @@ export default function CourseDetailPage({
               コース情報
             </h4>
             <div className="space-y-4">
-              {course.info.map((item, i) => (
+              {infoItems.map((item, i) => (
                 <div key={i}>
                   {i > 0 && <div className="border-t border-slate-100 mb-4" />}
                   <div className="flex items-center justify-between">
@@ -794,7 +803,7 @@ export default function CourseDetailPage({
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
             <h4 className="font-bold text-slate-800 text-sm mb-4">タグ</h4>
             <div className="flex flex-wrap gap-2">
-              {course.tags.map((tag) => (
+              {tags.map((tag) => (
                 <span
                   key={tag}
                   className="text-xs bg-cyan-50 text-cyan-600 px-3 py-1.5 rounded-full border border-cyan-100 hover:bg-cyan-100 cursor-pointer transition-colors"
