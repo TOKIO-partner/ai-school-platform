@@ -33,22 +33,19 @@ CORS_ALLOW_CREDENTIALS = True
 # Connection string format: postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require
 # --------------------------------------------------------------------------
 _database_url = os.environ.get('DATABASE_URL', '')
-if _database_url:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=_database_url,
-            conn_max_age=600,
-            conn_health_checks=True,
-            ssl_require=True,
-        )
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':memory:',
-        }
-    }
+if not _database_url:
+    raise RuntimeError(
+        'DATABASE_URL environment variable is required in production. '
+        'Set it in the Render dashboard to your Neon PostgreSQL connection string.'
+    )
+DATABASES = {
+    'default': dj_database_url.config(
+        default=_database_url,
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True,
+    )
+}
 
 # --------------------------------------------------------------------------
 # Security
