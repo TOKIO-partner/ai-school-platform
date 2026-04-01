@@ -195,3 +195,90 @@ Vercel は既にデプロイ済み。API 接続の設定のみ:
 | 成長期 | ~1,000 | Neon Launch ($19) | +$19/月 |
 | 安定期 | ~10,000 | Render Pro ($25), Upstash Pro ($10) | +$30/月 |
 | 大規模 | 10,000+ | VPS or クラスタ構成を検討 | 要見積もり |
+
+---
+
+## インフラコスト比較 & 推奨構成
+
+> **結論: 現構成を維持。変更不要。**
+> AWS Lightsailは3〜6倍、Vultrは約4倍のコスト。Supabaseは Django 13アプリの全面書き換えが必要で現時点では非現実的。
+
+### 現在の構成（設定済み）
+
+| サービス | 用途 | 月額 |
+|---------|------|------|
+| Vercel | Frontend (Next.js) | $0 |
+| Render Starter | Django API | $7 |
+| Render Worker | Celery（不要なら省略可） | $7 |
+| Neon PostgreSQL | サーバーレスDB | $0 (Free tier) |
+| Upstash Redis | Celery Broker | $0 (Free tier) |
+| Cloudflare R2 | メディア保存 | $0 (Free 10GB/月) |
+| Cloudflare | DNS/CDN | $0 |
+| **合計** | | **$7〜14/月** |
+
+> コードベースはAWS S3やLightsailを使っていない。Cloudflare R2（S3互換API）を使用中。
+
+### コスト比較
+
+| 構成 | サーバー | DB | ストレージ | キャッシュ | 月額合計 | 備考 |
+|------|---------|-----|----------|----------|---------|------|
+| **現構成 (Render)** | $7 | $0 (Neon Free) | $0 (R2 Free) | $0 (Upstash Free) | **$7〜14** | 設定済み・変更不要 |
+| AWS Lightsail + S3 | $5〜10 | $15 (Managed DB) | $3〜5 (S3) | $0〜15 (ElastiCache) | **$23〜45** | セルフ管理必要 |
+| Vultr VPS | $6 | $15 (Managed DB) | $5 (Object Storage) | 自前Redis | **$26〜30** | サーバー管理必要 |
+| Supabase (全面移行) | $0〜25 | 含む | 含む | なし | **$0〜25** | Django全廃棄・大規模書換 |
+
+### 各選択肢の詳細分析
+
+#### 1. 現構成を維持（Render + Neon + R2）— 推奨
+
+**メリット:**
+- 既に全設定完了（render.yaml, production.py, .env.example）
+- Free tierの組合せで最安（$7/月〜）
+- Neon: サーバーレスDB、自動スケール、無料枠0.5GB
+- R2: S3互換で無料10GB/月、エグレス料金なし
+- デプロイはgit pushのみ（Render Blueprint）
+
+**デメリット:**
+- Render Starterはスリープあり（15分無操作で停止、初回アクセス遅延）
+- Neon Free tierはコンピュート制限あり
+
+#### 2. AWS Lightsail + S3 — 非推奨
+
+**コスト内訳:**
+- Lightsail 1GB: $5/月（2GB: $10）
+- Lightsail PostgreSQL: $15/月〜
+- S3: $0.025/GB + PUT/GET課金 + エグレス課金
+- Redis: ElastiCache $13/月〜 or 自前Lightsailで追加$5
+
+**なぜ高い:** マネージドDB最低$15/月（Neonなら$0）。S3はエグレス課金あり（R2は$0）。合計$23〜45/月 = 現構成の3〜6倍。
+
+#### 3. Vultr VPS — 部分的に検討可
+
+**コスト内訳:**
+- VPS 1GB: $6/月、Managed PostgreSQL: $15/月、Object Storage (250GB): $5/月
+
+**メリット:** スリープなし。東京リージョンあり（レイテンシ改善）。
+**デメリット:** サーバー構築・管理が全て自前（nginx, SSL, systemd）。セキュリティパッチ、OS更新も自己責任。合計$26/月〜 = 現構成の約4倍。
+
+#### 4. Supabase全面移行 — 現時点では非推奨
+
+**何が変わる:** Django + DRF バックエンドを全廃棄。Supabaseの認証・DB・Storage・Edge Functionsに全面移行。
+
+**コスト:** Free $0（500MB DB, 1GB Storage, 50K MAU）/ Pro $25/月
+
+**なぜ現時点で非推奨:** Djangoバックエンドに13アプリ（accounts, courses, enrollments, ai, billing...）が実装済み。移行工数は数週間〜1ヶ月規模。Celery非同期処理の代替も必要。
+
+### 推奨判断まとめ
+
+| 判断基準 | 結論 |
+|---------|------|
+| コスト | 現構成が最安（$7/月） |
+| 変更工数 | ゼロ（既に設定済み） |
+| スケーラビリティ | Neon/Render共にスケール可能 |
+| 運用負荷 | PaaS/サーバーレスで最小 |
+
+### 現構成で改善できるポイント（必要時のみ）
+
+1. **Render Starterのスリープ問題** — UptimeRobot等で定期pingすれば回避可（無料）
+2. **東京リージョンでのレイテンシ** — Neon/UpstashにTokyo追加、Renderはオレゴン/シンガポールのみ
+3. **将来的にSupabase検討** — 新規プロジェクトや次バージョンで採用を検討
