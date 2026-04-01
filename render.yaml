@@ -29,7 +29,9 @@ services:
       - key: CSRF_TRUSTED_ORIGINS
         sync: false  # Set manually: https://your-frontend.vercel.app
       - key: DATABASE_URL
-        sync: false  # Neon PostgreSQL connection string
+        fromDatabase:
+          name: momocri-db
+          property: connectionString
       - key: CELERY_BROKER_URL
         sync: false  # Upstash Redis URL (rediss://...)
       - key: CELERY_RESULT_BACKEND
@@ -63,7 +65,9 @@ services:
           type: web
           envVarKey: DJANGO_SECRET_KEY
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: momocri-db
+          property: connectionString
       - key: CELERY_BROKER_URL
         sync: false
       - key: CELERY_RESULT_BACKEND
@@ -76,3 +80,10 @@ services:
         sync: false
       - key: R2_SECRET_ACCESS_KEY
         sync: false
+
+databases:
+  - name: momocri-db
+    plan: free          # Free tier (90 days, 256MB) → upgrade to starter for production
+    region: singapore
+    databaseName: momocri_db
+    user: momocri

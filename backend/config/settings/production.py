@@ -2,8 +2,7 @@
 Production settings for MOMOCRI AI School Platform.
 
 Services:
-- Render: Django + Celery hosting
-- Neon: Serverless PostgreSQL (DATABASE_URL)
+- Render: Django + Celery hosting + PostgreSQL (DATABASE_URL)
 - Upstash: Serverless Redis (CELERY_BROKER_URL)
 - Cloudflare R2: S3-compatible object storage
 - Cloudflare: DNS/CDN
@@ -29,21 +28,19 @@ CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')
 CORS_ALLOW_CREDENTIALS = True
 
 # --------------------------------------------------------------------------
-# Database: Neon PostgreSQL (serverless)
-# Connection string format: postgresql://user:pass@ep-xxx.region.aws.neon.tech/dbname?sslmode=require
+# Database: Render PostgreSQL (built-in, auto-provisioned via render.yaml)
 # --------------------------------------------------------------------------
 _database_url = os.environ.get('DATABASE_URL', '')
 if not _database_url:
     raise RuntimeError(
         'DATABASE_URL environment variable is required in production. '
-        'Set it in the Render dashboard to your Neon PostgreSQL connection string.'
+        'It should be auto-set by the Render PostgreSQL database.'
     )
 DATABASES = {
     'default': dj_database_url.config(
         default=_database_url,
         conn_max_age=600,
         conn_health_checks=True,
-        ssl_require=True,
     )
 }
 
