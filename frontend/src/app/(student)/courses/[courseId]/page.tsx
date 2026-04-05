@@ -531,7 +531,7 @@ export default function CourseDetailPage({
   const enrollment = enrollmentsData?.results.find(
     (e) => e.course.id === courseData.id
   );
-  const progressPercent = enrollment ? Number(enrollment.progress_percent) : 0;
+  const progressPercent = enrollment ? Number(enrollment.progress_percent ?? 0) : 0;
 
   // Build UI chapters from API data with derived lesson statuses
   // Flatten all lessons across chapters to compute completed count from progress_percent

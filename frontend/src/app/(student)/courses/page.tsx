@@ -44,7 +44,7 @@ export default function CoursesPage() {
 
   // Build a map of courseId -> progress for enrolled courses
   const progressMap = new Map(
-    enrollments.map((e) => [e.course.id, Number(e.progress_percent)]),
+    enrollments.map((e) => [e.course.id, Number(e.progress_percent ?? 0)]),
   );
 
   return (
