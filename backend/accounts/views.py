@@ -62,9 +62,8 @@ class CookieTokenRefreshView(TokenRefreshView):
         if not request.data.get('refresh'):
             refresh = request.COOKIES.get(cookie_name)
             if refresh:
-                request.data._mutable = True  # type: ignore[union-attr]
-                request.data['refresh'] = refresh
-                request.data._mutable = False  # type: ignore[union-attr]
+                # request.data may be dict (JSON) or QueryDict (form)
+                request._full_data = {**request.data, 'refresh': refresh}
 
         response = super().post(request, *args, **kwargs)
         return response
