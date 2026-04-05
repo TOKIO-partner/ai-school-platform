@@ -31,21 +31,62 @@ class RegisterView(generics.CreateAPIView):
 
 
 class LoginView(TokenObtainPairView):
-    """JWT login endpoint."""
+    """JWT login endpoint — sets refresh token as HTTP-only cookie."""
     permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        if response.status_code == 200:
+            from django.conf import settings
+            jwt_cfg = getattr(settings, 'SIMPLE_JWT', {})
+            refresh = response.data.get('refresh', '')
+            response.set_cookie(
+                key=jwt_cfg.get('AUTH_COOKIE', 'refresh_token'),
+                value=refresh,
+                httponly=jwt_cfg.get('AUTH_COOKIE_HTTP_ONLY', True),
+                samesite=jwt_cfg.get('AUTH_COOKIE_SAMESITE', 'Lax'),
+                secure=jwt_cfg.get('AUTH_COOKIE_SECURE', False),
+                max_age=int(jwt_cfg.get('REFRESH_TOKEN_LIFETIME', __import__('datetime').timedelta(days=7)).total_seconds()),
+            )
+        return response
+
+
+class CookieTokenRefreshView(TokenRefreshView):
+    """Read refresh token from HTTP-only cookie if not in body."""
+
+    def post(self, request, *args, **kwargs):
+        from django.conf import settings
+        jwt_cfg = getattr(settings, 'SIMPLE_JWT', {})
+        cookie_name = jwt_cfg.get('AUTH_COOKIE', 'refresh_token')
+
+        if not request.data.get('refresh'):
+            refresh = request.COOKIES.get(cookie_name)
+            if refresh:
+                request.data._mutable = True  # type: ignore[union-attr]
+                request.data['refresh'] = refresh
+                request.data._mutable = False  # type: ignore[union-attr]
+
+        response = super().post(request, *args, **kwargs)
+        return response
 
 
 class LogoutView(APIView):
     """Blacklist refresh token on logout."""
 
     def post(self, request):
+        from django.conf import settings
+        jwt_cfg = getattr(settings, 'SIMPLE_JWT', {})
+        cookie_name = jwt_cfg.get('AUTH_COOKIE', 'refresh_token')
+
+        refresh_token = request.data.get('refresh') or request.COOKIES.get(cookie_name, '')
         try:
-            refresh_token = request.data.get('refresh')
             token = RefreshToken(refresh_token)
             token.blacklist()
-            return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            pass
+        response = Response(status=status.HTTP_205_RESET_CONTENT)
+        response.delete_cookie(cookie_name)
+        return response
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
