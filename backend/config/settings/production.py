@@ -58,6 +58,7 @@ SECURE_HSTS_PRELOAD = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SIMPLE_JWT['AUTH_COOKIE_SECURE'] = True  # noqa: F405
+SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] = 'None'  # noqa: F405  — cross-origin (Vercel↔Render)
 
 # Trust Render's proxy
 CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
