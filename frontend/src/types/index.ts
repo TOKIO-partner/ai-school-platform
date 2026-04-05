@@ -189,3 +189,17 @@ export interface RefundRequestRecord {
   status: "pending" | "approved" | "rejected";
   created_at: string;
 }
+
+// AI Coach types
+
+export interface AIChatMessage {
+  id: number;
+  role: "user" | "assistant";
+  content: string;
+  created_at: string;
+}
+
+export interface AILessonComment {
+  time_label: string;
+  text: string;
+}

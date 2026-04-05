@@ -54,6 +54,72 @@ class ApiClient {
   delete<T>(path: string, token?: string): Promise<T> {
     return this.request<T>("DELETE", path, undefined, token);
   }
+
+  /**
+   * POST with SSE streaming response.
+   * Reads `data: {...}` lines and invokes callbacks.
+   */
+  async streamPost(
+    path: string,
+    body: unknown,
+    token: string | undefined,
+    callbacks: {
+      onChunk: (content: string) => void;
+      onDone: () => void;
+      onError?: (message: string) => void;
+    },
+  ): Promise<void> {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const res = await fetch(`${this.baseUrl}${path}`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body),
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({ detail: "Request failed" }));
+      callbacks.onError?.(error.detail || "Request failed");
+      return;
+    }
+
+    const reader = res.body?.getReader();
+    if (!reader) return;
+
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() ?? "";
+
+      for (const line of lines) {
+        if (!line.startsWith("data: ")) continue;
+        try {
+          const data = JSON.parse(line.slice(6));
+          if (data.type === "chunk") {
+            callbacks.onChunk(data.content);
+          } else if (data.type === "done") {
+            callbacks.onDone();
+          } else if (data.type === "error") {
+            callbacks.onError?.(data.content);
+          }
+        } catch {
+          // skip malformed lines
+        }
+      }
+    }
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);

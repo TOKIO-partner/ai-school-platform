@@ -1,9 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Send, Check, Play, Lock, ChevronDown, ChevronRight, Loader2 } from "lucide-react";
 import { useCourse } from "@/lib/queries/use-courses";
 import { useMyEnrollments } from "@/lib/queries/use-enrollments";
+import { useAIChatHistory, useAILessonComments } from "@/lib/queries/use-ai";
+import { useAuth } from "@/lib/auth";
+import { apiClient } from "@/lib/api-client";
+import type { AILessonComment } from "@/types";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -48,7 +52,7 @@ const initialChatMessages: ChatMessage[] = [
     role: "ai",
     label: "AI Coach",
     content:
-      "こんにちは！AIコーチの「アイ」です。前回の課題、配色のバランスがとても良くなりましたね。今日はFlexboxの復習から始めましょうか？",
+      "こんにちは！AIコーチの「アイ」です。このレッスンについて質問があれば、何でも聞いてくださいね！",
   },
 ];
 
@@ -57,7 +61,9 @@ const initialChatMessages: ChatMessage[] = [
 // ---------------------------------------------------------------------------
 
 /** CSS-art AI Tuber character overlay shown on the video player */
-function AiTuberOverlay() {
+function AiTuberOverlay({ comment }: { comment?: string }) {
+  if (!comment) return null;
+
   return (
     <div className="absolute bottom-4 right-4 w-32 h-32 md:w-48 md:h-48 pointer-events-none z-10">
       <div className="relative w-full h-full filter drop-shadow-xl">
@@ -108,33 +114,60 @@ function AiTuberOverlay() {
 
         {/* Speech Bubble */}
         <div className="absolute top-0 right-0 bg-white/95 backdrop-blur-md border-2 border-cyan-200 p-3 rounded-2xl rounded-bl-none text-xs text-slate-700 max-w-[150px] animate-fade-in-up shadow-lg font-bold flex flex-col gap-1 z-40">
-          <span className="text-[10px] text-fuchsia-500">AI Coach Eye</span>
-          <span>
-            ここは重要ポイントです！
-            <br />
-            メモしておきましょう
-          </span>
+          <span className="text-[10px] text-fuchsia-500">AI Coach アイ</span>
+          <span>{comment}</span>
         </div>
       </div>
     </div>
   );
 }
 
-/** HTML5 video player with native controls */
+/** Parse "MM:SS" to seconds */
+function parseTimeLabel(label: string): number {
+  const parts = label.split(":");
+  if (parts.length === 2) {
+    return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+  }
+  return 0;
+}
+
+/** HTML5 video player with native controls and AI comment matching */
 function VideoPlayer({
   lesson,
   aiTuberEnabled,
+  aiComments,
 }: {
   lesson: Lesson;
   aiTuberEnabled: boolean;
+  aiComments: AILessonComment[];
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [activeComment, setActiveComment] = useState<string | undefined>();
 
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.load();
+      setActiveComment(undefined);
     }
   }, [lesson.video_url]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !aiComments.length) return;
+
+    const handleTimeUpdate = () => {
+      const currentTime = video.currentTime;
+      // Find comment within 5-second window
+      const match = aiComments.find((c) => {
+        const t = parseTimeLabel(c.time_label);
+        return currentTime >= t && currentTime < t + 5;
+      });
+      setActiveComment(match?.text);
+    };
+
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    return () => video.removeEventListener("timeupdate", handleTimeUpdate);
+  }, [aiComments]);
 
   return (
     <div className="relative aspect-video bg-black rounded-2xl overflow-hidden shadow-xl border border-slate-200 ring-4 ring-slate-100">
@@ -151,7 +184,7 @@ function VideoPlayer({
       </video>
 
       {/* AI Tuber Overlay */}
-      {aiTuberEnabled && <AiTuberOverlay />}
+      {aiTuberEnabled && <AiTuberOverlay comment={activeComment} />}
     </div>
   );
 }
@@ -305,21 +338,127 @@ function LessonNav({
   );
 }
 
-/** AI Chat tab content */
+/** Self-contained AI Chat panel with streaming */
 function AiChatPanel({
-  messages,
-  inputValue,
-  onInputChange,
-  onSend,
+  lessonId,
+  courseTitle,
 }: {
-  messages: ChatMessage[];
-  inputValue: string;
-  onInputChange: (value: string) => void;
-  onSend: () => void;
+  lessonId: string;
+  courseTitle: string;
 }) {
+  const { accessToken } = useAuth();
+  const isDemo = accessToken === "demo-token";
+  const [messages, setMessages] = useState<ChatMessage[]>(initialChatMessages);
+  const [inputValue, setInputValue] = useState("");
+  const [isStreaming, setIsStreaming] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Load chat history from API
+  const { data: history } = useAIChatHistory(lessonId);
+
+  useEffect(() => {
+    if (history && history.length > 0) {
+      const mapped: ChatMessage[] = history.map((msg) => ({
+        id: String(msg.id),
+        role: msg.role === "assistant" ? "ai" : "user",
+        label: msg.role === "assistant" ? "AI Coach" : undefined,
+        content: msg.content,
+      }));
+      setMessages(mapped);
+    }
+  }, [history]);
+
+  // Auto-scroll to bottom
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  const handleSend = useCallback(async () => {
+    const trimmed = inputValue.trim();
+    if (!trimmed || isStreaming) return;
+
+    const userMsg: ChatMessage = {
+      id: `user-${Date.now()}`,
+      role: "user",
+      content: trimmed,
+    };
+    setMessages((prev) => [...prev, userMsg]);
+    setInputValue("");
+
+    // Demo mode: fallback response
+    if (isDemo) {
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `ai-${Date.now()}`,
+            role: "ai",
+            label: "AI Coach",
+            content:
+              "良い質問ですね！それについて詳しく説明しましょう。今回のレッスンのポイントと合わせて考えてみてください。",
+          },
+        ]);
+      }, 800);
+      return;
+    }
+
+    // Real API: SSE streaming
+    setIsStreaming(true);
+    const aiMsgId = `ai-${Date.now()}`;
+
+    // Add empty AI message placeholder
+    setMessages((prev) => [
+      ...prev,
+      { id: aiMsgId, role: "ai", label: "AI Coach", content: "" },
+    ]);
+
+    try {
+      await apiClient.streamPost(
+        "/ai/chat/",
+        { lesson_id: Number(lessonId), message: trimmed },
+        accessToken || undefined,
+        {
+          onChunk: (content) => {
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === aiMsgId
+                  ? { ...msg, content: msg.content + content }
+                  : msg
+              )
+            );
+          },
+          onDone: () => {
+            setIsStreaming(false);
+          },
+          onError: (errMsg) => {
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === aiMsgId
+                  ? { ...msg, content: errMsg || "エラーが発生しました。" }
+                  : msg
+              )
+            );
+            setIsStreaming(false);
+          },
+        }
+      );
+    } catch {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === aiMsgId
+            ? { ...msg, content: "接続エラーが発生しました。再試行してください。" }
+            : msg
+        )
+      );
+      setIsStreaming(false);
+    }
+  }, [inputValue, isStreaming, isDemo, lessonId, accessToken]);
+
   return (
     <>
-      <div className="flex-1 overflow-y-auto p-4 bg-slate-50/50 space-y-4">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 bg-slate-50/50 space-y-4">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -337,7 +476,9 @@ function AiChatPanel({
                   {msg.label}
                 </span>
               )}
-              {msg.content}
+              {msg.content || (
+                <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
+              )}
             </div>
           </div>
         ))}
@@ -348,20 +489,26 @@ function AiChatPanel({
             type="text"
             placeholder="AIに質問する..."
             value={inputValue}
-            onChange={(e) => onInputChange(e.target.value)}
+            onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.nativeEvent.isComposing) {
                 e.preventDefault();
-                onSend();
+                handleSend();
               }
             }}
-            className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-4 pr-10 py-3 text-sm text-slate-800 focus:outline-none focus:border-cyan-500 focus:bg-white transition-all shadow-inner"
+            disabled={isStreaming}
+            className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-4 pr-10 py-3 text-sm text-slate-800 focus:outline-none focus:border-cyan-500 focus:bg-white transition-all shadow-inner disabled:opacity-50"
           />
           <button
-            onClick={onSend}
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-cyan-500 hover:bg-cyan-50 rounded-md transition-colors"
+            onClick={handleSend}
+            disabled={isStreaming}
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-cyan-500 hover:bg-cyan-50 rounded-md transition-colors disabled:opacity-50"
           >
-            <Send className="w-4 h-4" />
+            {isStreaming ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Send className="w-4 h-4" />
+            )}
           </button>
         </div>
       </div>
@@ -440,9 +587,6 @@ export default function LearningPage() {
   const [activeTab, setActiveTab] = useState<SidePanelTab>("ai-chat");
   const [aiTuberEnabled, setAiTuberEnabled] = useState(true);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
-  const [chatMessages, setChatMessages] =
-    useState<ChatMessage[]>(initialChatMessages);
-  const [chatInput, setChatInput] = useState("");
 
   const { data: enrollmentsData, isLoading: enrollmentsLoading } = useMyEnrollments();
   const firstEnrollment = enrollmentsData?.results?.[0];
@@ -451,6 +595,9 @@ export default function LearningPage() {
   const { data: courseData, isLoading: courseLoading } = useCourse(
     enrollmentCourseId ?? 0
   );
+
+  // AI lesson comments
+  const { data: aiComments } = useAILessonComments(currentLesson?.id);
 
   const isLoading = enrollmentsLoading || (!!enrollmentCourseId && courseLoading);
 
@@ -510,30 +657,6 @@ export default function LearningPage() {
     }
   }, [defaultLesson, currentLesson]);
 
-  const handleSendMessage = () => {
-    const trimmed = chatInput.trim();
-    if (!trimmed) return;
-
-    const userMsg: ChatMessage = {
-      id: `user-${Date.now()}`,
-      role: "user",
-      content: trimmed,
-    };
-    setChatMessages((prev) => [...prev, userMsg]);
-    setChatInput("");
-
-    setTimeout(() => {
-      const aiMsg: ChatMessage = {
-        id: `ai-${Date.now()}`,
-        role: "ai",
-        label: "AI Coach",
-        content:
-          "良い質問ですね！それについて詳しく説明しましょう。今回のレッスンのポイントと合わせて考えてみてください。",
-      };
-      setChatMessages((prev) => [...prev, aiMsg]);
-    }, 800);
-  };
-
   const sidePanelTabs: { key: SidePanelTab; label: string }[] = [
     { key: "ai-chat", label: "AI Chat" },
     { key: "assignment", label: "課題提出" },
@@ -566,7 +689,11 @@ export default function LearningPage() {
     <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-8rem)]">
       {/* Main Content (Video + Lesson Nav) */}
       <div className="flex-1 flex flex-col min-h-0">
-        <VideoPlayer lesson={currentLesson} aiTuberEnabled={aiTuberEnabled} />
+        <VideoPlayer
+          lesson={currentLesson}
+          aiTuberEnabled={aiTuberEnabled}
+          aiComments={aiComments ?? []}
+        />
         <LessonNav
           chapters={chapters}
           courseTitle={courseTitle}
@@ -599,10 +726,8 @@ export default function LearningPage() {
         {/* Tab Content */}
         {activeTab === "ai-chat" ? (
           <AiChatPanel
-            messages={chatMessages}
-            inputValue={chatInput}
-            onInputChange={setChatInput}
-            onSend={handleSendMessage}
+            lessonId={currentLesson.id}
+            courseTitle={courseTitle}
           />
         ) : (
           <AssignmentPanel />

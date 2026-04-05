@@ -157,3 +157,11 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Tokyo'
+
+# AI (Anthropic Claude)
+import os
+ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+AI_CHAT_MODEL = 'claude-sonnet-4-6'
+AI_COMMENT_MODEL = 'claude-haiku-4-5'
+AI_CHAT_MAX_TOKENS = 1024
+AI_COMMENT_MAX_TOKENS = 512
