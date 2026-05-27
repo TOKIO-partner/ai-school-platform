@@ -31,10 +31,20 @@ class RegisterView(generics.CreateAPIView):
 
 
 class LoginView(TokenObtainPairView):
-    """JWT login endpoint — sets refresh token as HTTP-only cookie."""
+    """JWT login endpoint — sets refresh token as HTTP-only cookie.
+    Accepts email or username in the 'username' field.
+    """
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
+        # Allow login by email: look up username from email
+        username_value = request.data.get('username', '')
+        if '@' in username_value:
+            try:
+                user = User.objects.get(email=username_value)
+                request._full_data = {**request.data, 'username': user.username}
+            except User.DoesNotExist:
+                pass
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200:
             from django.conf import settings
