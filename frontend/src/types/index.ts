@@ -190,6 +190,27 @@ export interface RefundRequestRecord {
   created_at: string;
 }
 
+// Admin Course types
+
+export interface AdminCourse extends Course {
+  chapter_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminChapter extends Chapter {
+  course: number;
+  lesson_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminLesson extends Lesson {
+  chapter: number;
+  created_at: string;
+  updated_at: string;
+}
+
 // AI Coach types
 
 export interface AIChatMessage {

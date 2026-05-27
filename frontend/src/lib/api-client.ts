@@ -55,6 +55,30 @@ class ApiClient {
     return this.request<T>("DELETE", path, undefined, token);
   }
 
+  async upload<T>(path: string, file: File, token?: string): Promise<T> {
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch(`${this.baseUrl}${path}`, {
+      method: "POST",
+      headers,
+      body: formData,
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({ detail: "Upload failed" }));
+      throw new Error(error.detail || JSON.stringify(error));
+    }
+
+    return res.json();
+  }
+
   /**
    * POST with SSE streaming response.
    * Reads `data: {...}` lines and invokes callbacks.
