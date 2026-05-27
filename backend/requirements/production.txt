@@ -1,5 +1,5 @@
 -r base.txt
 whitenoise==6.9.0
 dj-database-url==2.3.0
-django-storages==1.14.4
-boto3==1.35.99
+django-storages>=1.14
+boto3>=1.35
