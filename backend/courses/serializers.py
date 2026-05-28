@@ -57,8 +57,8 @@ class AdminLessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = ['id', 'chapter', 'title', 'description', 'video_url',
-                  'duration_seconds', 'duration_label', 'order', 'lesson_type',
-                  'created_at', 'updated_at']
+                  'transcript', 'duration_seconds', 'duration_label', 'order',
+                  'lesson_type', 'created_at', 'updated_at']
         read_only_fields = ['created_at', 'updated_at']
 
 

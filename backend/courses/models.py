@@ -74,6 +74,7 @@ class Lesson(TimestampedModel):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, default='')
     video_url = models.URLField(blank=True, default='')
+    transcript = models.TextField(blank=True, default='')
     duration_seconds = models.PositiveIntegerField(default=0)
     duration_label = models.CharField(max_length=50, blank=True, default='')
     order = models.PositiveIntegerField(default=0)

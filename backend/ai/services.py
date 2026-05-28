@@ -52,6 +52,10 @@ def build_lesson_context(lesson):
     ]
     if lesson.description:
         parts.append(f"レッスン説明: {lesson.description}")
+    if lesson.transcript:
+        # トークン制限考慮: 先頭4000文字に切り詰め
+        transcript = lesson.transcript[:4000]
+        parts.append(f"レッスン内容（文字起こし）:\n{transcript}")
     parts.append(f"レッスンタイプ: {lesson.get_lesson_type_display()}")
     if lesson.duration_seconds:
         m = lesson.duration_seconds // 60
