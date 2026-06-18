@@ -33,6 +33,7 @@ export function useMyEnrollments() {
         accessToken || undefined,
       );
     },
+    enabled: !!accessToken,
   });
 }
 
@@ -49,6 +50,7 @@ export function useMyStats() {
         accessToken || undefined,
       );
     },
+    enabled: !!accessToken,
   });
 }
 
@@ -60,11 +62,13 @@ export function useMySkills() {
     queryKey: ["enrollments", "me", "skills"],
     queryFn: async () => {
       if (isDemo) return mockSkills;
-      return apiClient.get<SkillPoint[]>(
+      const data = await apiClient.get<SkillPoint[] | PaginatedResponse<SkillPoint>>(
         "/enrollments/me/skills/",
         accessToken || undefined,
       );
+      return Array.isArray(data) ? data : (data.results ?? []);
     },
+    enabled: !!accessToken,
   });
 }
 
@@ -76,11 +80,13 @@ export function useMyBadges() {
     queryKey: ["enrollments", "me", "badges"],
     queryFn: async () => {
       if (isDemo) return mockBadges;
-      return apiClient.get<UserBadge[]>(
+      const data = await apiClient.get<UserBadge[] | PaginatedResponse<UserBadge>>(
         "/enrollments/me/badges/",
         accessToken || undefined,
       );
+      return Array.isArray(data) ? data : (data.results ?? []);
     },
+    enabled: !!accessToken,
   });
 }
 

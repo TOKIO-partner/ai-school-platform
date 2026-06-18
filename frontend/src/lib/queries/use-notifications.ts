@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
 import { useAuth } from "@/lib/auth";
 import { mockNotifications } from "@/lib/mock-data";
-import type { Notification } from "@/types";
+import type { Notification, PaginatedResponse } from "@/types";
 
 const NOTIFICATIONS_KEY = ["notifications", "me"];
 
@@ -16,10 +16,11 @@ export function useNotifications() {
     queryKey: NOTIFICATIONS_KEY,
     queryFn: async () => {
       if (isDemo) return mockNotifications;
-      return apiClient.get<Notification[]>(
+      const data = await apiClient.get<Notification[] | PaginatedResponse<Notification>>(
         "/notifications/me/",
         accessToken || undefined,
       );
+      return Array.isArray(data) ? data : (data.results ?? []);
     },
     enabled: !!accessToken,
   });
