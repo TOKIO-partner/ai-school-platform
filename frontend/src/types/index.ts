@@ -54,6 +54,7 @@ export interface Lesson {
   title: string;
   description: string;
   video_url: string;
+  thumbnail?: string;
   duration_seconds: number;
   duration_label: string;
   order: number;

@@ -44,6 +44,7 @@ interface Lesson {
   duration: string;
   status: LessonStatus;
   type: LessonType;
+  thumbnail: string;
 }
 
 interface Chapter {
@@ -342,6 +343,17 @@ function CurriculumTab({
                   }`}
                 >
                   <LessonStatusIcon status={lesson.status} />
+                  {lesson.thumbnail ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={lesson.thumbnail}
+                      alt=""
+                      loading="lazy"
+                      className="w-20 aspect-video object-cover rounded-md bg-slate-100 shrink-0"
+                    />
+                  ) : (
+                    <div className="w-20 aspect-video rounded-md bg-slate-100 shrink-0" />
+                  )}
                   <div className="flex items-center gap-1.5 shrink-0">
                     <LessonTypeIcon type={lesson.type} />
                   </div>
@@ -608,6 +620,7 @@ export default function CourseDetailPage({
         duration: apiLesson.duration_label || "",
         status,
         type: apiLesson.lesson_type as LessonType,
+        thumbnail: apiLesson.thumbnail || "",
       };
     });
 

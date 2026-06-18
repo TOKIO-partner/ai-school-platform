@@ -29,6 +29,7 @@ interface Lesson {
   title: string;
   duration: string;
   video_url: string;
+  thumbnail: string;
   status: "completed" | "in-progress" | "available" | "locked";
 }
 
@@ -179,6 +180,7 @@ function VideoPlayer({
         controls
         autoPlay={false}
         preload="metadata"
+        poster={lesson.thumbnail || undefined}
         key={lesson.id}
       >
         <source src={lesson.video_url} type="video/mp4" />
@@ -656,6 +658,7 @@ function LearningStudio() {
           title: l.title,
           duration,
           video_url: videoUrl,
+          thumbnail: l.thumbnail || "",
           status,
         };
       }),
