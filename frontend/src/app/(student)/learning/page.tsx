@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import { Send, Check, Play, Lock, ChevronDown, ChevronRight, Loader2 } from "lucide-react";
+import { useState, useRef, useEffect, useCallback, Suspense } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Send, Check, Play, Lock, ChevronDown, ChevronRight, Loader2, BookOpen } from "lucide-react";
 import { useCourse } from "@/lib/queries/use-courses";
 import { useMyEnrollments } from "@/lib/queries/use-enrollments";
 import { useAIChatHistory, useAILessonComments } from "@/lib/queries/use-ai";
@@ -27,7 +29,8 @@ interface Lesson {
   title: string;
   duration: string;
   video_url: string;
-  status: "completed" | "in-progress" | "locked";
+  thumbnail: string;
+  status: "completed" | "in-progress" | "available" | "locked";
 }
 
 interface Chapter {
@@ -177,6 +180,7 @@ function VideoPlayer({
         controls
         autoPlay={false}
         preload="metadata"
+        poster={lesson.thumbnail || undefined}
         key={lesson.id}
       >
         <source src={lesson.video_url} type="video/mp4" />
@@ -307,8 +311,10 @@ function LessonNav({
                             <Check className="w-4 h-4 text-emerald-500" />
                           ) : lesson.status === "in-progress" || isCurrent ? (
                             <Play className="w-4 h-4 text-cyan-500 fill-cyan-500" />
-                          ) : (
+                          ) : isLocked ? (
                             <Lock className="w-4 h-4 text-slate-300" />
+                          ) : (
+                            <Play className="w-4 h-4 text-slate-400" />
                           )}
                         </span>
                         <span
@@ -583,31 +589,46 @@ function formatDuration(seconds: number): string {
 // Page Component
 // ---------------------------------------------------------------------------
 
-export default function LearningPage() {
+function LearningStudio() {
+  const searchParams = useSearchParams();
+  const courseParam = searchParams.get("course");
+  const lessonParam = searchParams.get("lesson");
+
   const [activeTab, setActiveTab] = useState<SidePanelTab>("ai-chat");
   const [aiTuberEnabled, setAiTuberEnabled] = useState(true);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
 
   const { data: enrollmentsData, isLoading: enrollmentsLoading } = useMyEnrollments();
-  const firstEnrollment = enrollmentsData?.results?.[0];
-  const enrollmentCourseId = firstEnrollment?.course?.id;
+  const enrollments = enrollmentsData?.results ?? [];
+
+  // Target course: explicit ?course= param wins, otherwise fall back to the
+  // first enrolled course. This lets non-enrolled users (incl. admins) view a
+  // course directly via /learning?course=<id>.
+  const targetCourseId = courseParam
+    ? Number(courseParam)
+    : enrollments[0]?.course?.id;
 
   const { data: courseData, isLoading: courseLoading } = useCourse(
-    enrollmentCourseId ?? 0
+    targetCourseId ?? 0
   );
+
+  // Enrollment for the target course (undefined when not enrolled)
+  const enrollment = targetCourseId
+    ? enrollments.find((e) => e.course?.id === targetCourseId)
+    : undefined;
 
   // AI lesson comments
   const { data: aiComments } = useAILessonComments(currentLesson?.id);
 
-  const isLoading = enrollmentsLoading || (!!enrollmentCourseId && courseLoading);
+  const isLoading = enrollmentsLoading || (!!targetCourseId && courseLoading);
 
   // Derive chapters from API data
   const { chapters, courseTitle, defaultLesson } = (() => {
-    if (!courseData || !firstEnrollment) {
+    if (!courseData) {
       return { chapters: [] as Chapter[], courseTitle: "", defaultLesson: null as Lesson | null };
     }
 
-    const progressPercent = Number(firstEnrollment.progress_percent ?? 0);
+    const progressPercent = Number(enrollment?.progress_percent ?? 0);
     const apiChapters = courseData.chapters ?? [];
     const allApiLessons = apiChapters.flatMap((ch) => ch.lessons ?? []);
     const totalLessons = allApiLessons.length;
@@ -620,7 +641,10 @@ export default function LearningPage() {
       lessons: (ch.lessons ?? []).map((l): Lesson => {
         const idx = lessonIndex++;
         let status: Lesson["status"];
-        if (idx < completedCount) {
+        if (!enrollment) {
+          // Not enrolled (e.g. admin / preview): all lessons viewable
+          status = "available";
+        } else if (idx < completedCount) {
           status = "completed";
         } else if (idx === completedCount) {
           status = "in-progress";
@@ -634,14 +658,19 @@ export default function LearningPage() {
           title: l.title,
           duration,
           video_url: videoUrl,
+          thumbnail: l.thumbnail || "",
           status,
         };
       }),
     }));
 
     const flat = mappedChapters.flatMap((ch) => ch.lessons);
+    // Prefer the lesson from the ?lesson= param, then in-progress, then first.
     const def =
-      flat.find((l) => l.status === "in-progress") ?? flat[0] ?? null;
+      (lessonParam && flat.find((l) => l.id === lessonParam)) ||
+      flat.find((l) => l.status === "in-progress") ||
+      flat[0] ||
+      null;
 
     return {
       chapters: mappedChapters,
@@ -650,12 +679,16 @@ export default function LearningPage() {
     };
   })();
 
-  // Set initial lesson once data arrives
+  // Select the default lesson when the course/lesson target changes.
+  // Keyed on ids so that clicking a different lesson in the nav (which only
+  // updates currentLesson) does not get overwritten on the next render.
+  const defaultLessonId = defaultLesson?.id;
   useEffect(() => {
-    if (!currentLesson && defaultLesson) {
+    if (defaultLesson) {
       setCurrentLesson(defaultLesson);
     }
-  }, [defaultLesson, currentLesson]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targetCourseId, lessonParam, defaultLessonId]);
 
   const sidePanelTabs: { key: SidePanelTab; label: string }[] = [
     { key: "ai-chat", label: "AI Chat" },
@@ -674,12 +707,22 @@ export default function LearningPage() {
     );
   }
 
-  // No enrollments state
+  // No course selected / no content — guide the user to pick a course
   if (!currentLesson || chapters.length === 0) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-8rem)]">
-        <div className="flex flex-col items-center gap-3 text-slate-500">
-          <p className="text-sm font-medium">受講中のコースがありません。</p>
+        <div className="flex flex-col items-center gap-4 text-slate-500 text-center">
+          <BookOpen className="w-10 h-10 text-slate-300" />
+          <p className="text-sm font-medium">
+            まだ視聴するコースが選ばれていません。
+          </p>
+          <Link
+            href="/courses"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm hover:shadow-lg hover:shadow-cyan-500/25 transition-all"
+          >
+            <BookOpen className="w-4 h-4" />
+            コースを選ぶ
+          </Link>
         </div>
       </div>
     );
@@ -734,5 +777,20 @@ export default function LearningPage() {
         )}
       </div>
     </div>
+  );
+}
+
+// useSearchParams() requires a Suspense boundary in the App Router.
+export default function LearningPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center h-[calc(100vh-8rem)]">
+          <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
+        </div>
+      }
+    >
+      <LearningStudio />
+    </Suspense>
   );
 }
