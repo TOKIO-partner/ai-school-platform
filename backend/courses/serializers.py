@@ -5,8 +5,8 @@ from .models import Course, Chapter, Lesson
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ['id', 'title', 'description', 'video_url', 'duration_seconds',
-                  'duration_label', 'order', 'lesson_type']
+        fields = ['id', 'title', 'description', 'video_url', 'thumbnail',
+                  'duration_seconds', 'duration_label', 'order', 'lesson_type']
 
 
 class ChapterSerializer(serializers.ModelSerializer):
@@ -57,8 +57,8 @@ class AdminLessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = ['id', 'chapter', 'title', 'description', 'video_url',
-                  'transcript', 'duration_seconds', 'duration_label', 'order',
-                  'lesson_type', 'created_at', 'updated_at']
+                  'thumbnail', 'transcript', 'duration_seconds', 'duration_label',
+                  'order', 'lesson_type', 'created_at', 'updated_at']
         read_only_fields = ['created_at', 'updated_at']
 
 

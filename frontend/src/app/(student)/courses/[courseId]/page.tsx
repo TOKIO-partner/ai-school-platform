@@ -2,6 +2,7 @@
 
 import { use } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   Signal,
@@ -34,7 +35,7 @@ import { useMyEnrollments } from "@/lib/queries/use-enrollments";
 // Types
 // ---------------------------------------------------------------------------
 
-type LessonStatus = "completed" | "in-progress" | "locked";
+type LessonStatus = "completed" | "in-progress" | "available" | "locked";
 type LessonType = "video" | "article" | "quiz" | "exercise";
 
 interface Lesson {
@@ -43,6 +44,7 @@ interface Lesson {
   duration: string;
   status: LessonStatus;
   type: LessonType;
+  thumbnail: string;
 }
 
 interface Chapter {
@@ -169,6 +171,12 @@ function LessonStatusIcon({ status }: { status: LessonStatus }) {
           <Play className="w-3 h-3" />
         </div>
       );
+    case "available":
+      return (
+        <div className="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center shrink-0">
+          <Play className="w-3 h-3" />
+        </div>
+      );
     case "locked":
       return (
         <div className="w-6 h-6 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center shrink-0">
@@ -247,7 +255,13 @@ function CircularProgress({ percent, size = 100, strokeWidth = 8 }: { percent: n
 // Tab Content Components
 // ---------------------------------------------------------------------------
 
-function CurriculumTab({ chapters }: { chapters: Chapter[] }) {
+function CurriculumTab({
+  chapters,
+  onSelectLesson,
+}: {
+  chapters: Chapter[];
+  onSelectLesson: (lessonId: number) => void;
+}) {
   return (
     <div className="space-y-4">
       {chapters.map((chapter) => {
@@ -303,13 +317,43 @@ function CurriculumTab({ chapters }: { chapters: Chapter[] }) {
               {chapter.lessons.map((lesson) => (
                 <div
                   key={lesson.id}
-                  className={`flex items-center gap-3 px-5 py-3 transition-colors cursor-pointer ${
+                  role="button"
+                  tabIndex={lesson.status === "locked" ? -1 : 0}
+                  aria-disabled={lesson.status === "locked"}
+                  onClick={() => {
+                    if (lesson.status !== "locked") onSelectLesson(lesson.id);
+                  }}
+                  onKeyDown={(e) => {
+                    if (
+                      lesson.status !== "locked" &&
+                      (e.key === "Enter" || e.key === " ")
+                    ) {
+                      e.preventDefault();
+                      onSelectLesson(lesson.id);
+                    }
+                  }}
+                  className={`flex items-center gap-3 px-5 py-3 transition-colors ${
+                    lesson.status === "locked"
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
+                  } ${
                     lesson.status === "in-progress"
                       ? "bg-cyan-50/50 border-l-2 border-l-cyan-500"
                       : "hover:bg-slate-50"
                   }`}
                 >
                   <LessonStatusIcon status={lesson.status} />
+                  {lesson.thumbnail ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={lesson.thumbnail}
+                      alt=""
+                      loading="lazy"
+                      className="w-20 aspect-video object-cover rounded-md bg-slate-100 shrink-0"
+                    />
+                  ) : (
+                    <div className="w-20 aspect-video rounded-md bg-slate-100 shrink-0" />
+                  )}
                   <div className="flex items-center gap-1.5 shrink-0">
                     <LessonTypeIcon type={lesson.type} />
                   </div>
@@ -505,6 +549,7 @@ export default function CourseDetailPage({
   params: Promise<{ courseId: string }>;
 }) {
   const { courseId } = use(params);
+  const router = useRouter();
 
   const { data: courseData, isLoading: courseLoading } = useCourse(courseId);
   const { data: enrollmentsData, isLoading: enrollmentsLoading } = useMyEnrollments();
@@ -521,11 +566,25 @@ export default function CourseDetailPage({
 
   if (!courseData) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <p className="text-slate-500">コースが見つかりませんでした。</p>
+        <Link
+          href="/courses"
+          className="inline-flex items-center gap-1 text-sm font-bold text-cyan-600 hover:text-cyan-700"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          コース一覧に戻る
+        </Link>
       </div>
     );
   }
+
+  // Navigate to the learning studio for a specific lesson (or first lesson)
+  const goToLearning = (lessonId?: number) => {
+    const params = new URLSearchParams({ course: String(courseData.id) });
+    if (lessonId != null) params.set("lesson", String(lessonId));
+    router.push(`/learning?${params.toString()}`);
+  };
 
   // Find enrollment for this course
   const enrollment = enrollmentsData?.results.find(
@@ -545,9 +604,12 @@ export default function CourseDetailPage({
     const mappedLessons: Lesson[] = apiChapter.lessons.map((apiLesson) => {
       const globalIndex = lessonIndexCounter++;
       let status: LessonStatus;
-      if (globalIndex < completedLessonCount) {
+      if (!enrollment) {
+        // Not enrolled (e.g. admin or browsing): every lesson is viewable, none locked
+        status = "available";
+      } else if (globalIndex < completedLessonCount) {
         status = "completed";
-      } else if (globalIndex === completedLessonCount && progressPercent < 100 && enrollment) {
+      } else if (globalIndex === completedLessonCount && progressPercent < 100) {
         status = "in-progress";
       } else {
         status = "locked";
@@ -558,6 +620,7 @@ export default function CourseDetailPage({
         duration: apiLesson.duration_label || "",
         status,
         type: apiLesson.lesson_type as LessonType,
+        thumbnail: apiLesson.thumbnail || "",
       };
     });
 
@@ -695,7 +758,7 @@ export default function CourseDetailPage({
 
               <div className="p-6 md:p-8">
                 <TabsContent value="curriculum">
-                  <CurriculumTab chapters={chapters} />
+                  <CurriculumTab chapters={chapters} onSelectLesson={goToLearning} />
                 </TabsContent>
 
                 <TabsContent value="plan">
@@ -766,15 +829,15 @@ export default function CourseDetailPage({
               })}
             </div>
 
-            <Link
-              href="/learning"
+            <button
+              onClick={() => goToLearning()}
               className="block w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-center hover:shadow-lg hover:shadow-cyan-500/25 transition-all text-sm"
             >
               <span className="flex items-center justify-center gap-2">
                 <Play className="w-4 h-4 fill-current" />
                 学習を続ける
               </span>
-            </Link>
+            </button>
           </div>
 
           {/* Course Info */}
@@ -816,7 +879,10 @@ export default function CourseDetailPage({
 
           {/* CTA Button */}
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-            <button className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-center hover:shadow-lg hover:shadow-cyan-500/25 transition-all text-sm flex items-center justify-center gap-2">
+            <button
+              onClick={() => goToLearning()}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-center hover:shadow-lg hover:shadow-cyan-500/25 transition-all text-sm flex items-center justify-center gap-2"
+            >
               <Rocket className="w-4 h-4" />
               受講を開始する
             </button>

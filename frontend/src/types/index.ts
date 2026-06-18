@@ -54,6 +54,7 @@ export interface Lesson {
   title: string;
   description: string;
   video_url: string;
+  thumbnail?: string;
   duration_seconds: number;
   duration_label: string;
   order: number;
@@ -122,6 +123,7 @@ export interface Notification {
   type: string;
   title: string;
   message: string;
+  link?: string;
   is_read: boolean;
   created_at: string;
 }
