@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { BarChart2, Users, FileBarChart, Home, Monitor, BookOpen } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { BarChart2, Users, FileBarChart, Home, Monitor, BookOpen, LogOut } from "lucide-react";
 import { Logo } from "./logo";
 import { cn } from "@/lib/utils";
 import { Settings } from "lucide-react";
+import { useAuth } from "@/lib/auth";
+import { getDisplayName, getInitials, getPlanLabel } from "@/lib/user-display";
 
 const navItems = [
   { href: "/dashboard", label: "ダッシュボード", icon: Home },
@@ -20,6 +22,13 @@ const navItems = [
 
 export function CorpSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout } = useAuth();
+
+  async function handleLogout() {
+    await logout();
+    router.push("/login");
+  }
 
   return (
     <div className="w-64 bg-white border-r border-slate-200 flex flex-col z-30 shadow-xl lg:shadow-none hidden lg:flex">
@@ -74,14 +83,21 @@ export function CorpSidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-slate-100">
+      <div className="p-4 border-t border-slate-100 space-y-2">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition-all duration-200"
+        >
+          <LogOut className="w-5 h-5" />
+          <span className="font-medium">ログアウト</span>
+        </button>
         <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
           <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-fuchsia-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md">
-            AS
+            {getInitials(user)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-slate-700 truncate">長谷川 麻子</p>
-            <p className="text-xs text-slate-500 truncate">Pro Plan</p>
+            <p className="text-sm font-bold text-slate-700 truncate">{getDisplayName(user)}</p>
+            <p className="text-xs text-slate-500 truncate">{getPlanLabel(user) || "法人管理者"}</p>
           </div>
           <Link href="/settings">
             <Settings className="w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600" />

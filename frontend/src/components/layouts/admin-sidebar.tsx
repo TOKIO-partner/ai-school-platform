@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   BarChart,
   Users,
@@ -13,9 +13,12 @@ import {
   CreditCard,
   Cpu,
   Settings,
+  LogOut,
 } from "lucide-react";
 import { Logo } from "./logo";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
+import { getDisplayName, getInitials, getRoleLabel } from "@/lib/user-display";
 
 const navItems = [
   { href: "/admin", label: "ダッシュボード", icon: BarChart, exact: true },
@@ -32,6 +35,13 @@ const navItems = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout } = useAuth();
+
+  async function handleLogout() {
+    await logout();
+    router.push("/login");
+  }
 
   return (
     <div className="w-64 bg-white border-r border-slate-200 flex flex-col z-30 shadow-xl lg:shadow-none hidden lg:flex">
@@ -66,16 +76,25 @@ export function AdminSidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-slate-100">
+      <div className="p-4 border-t border-slate-100 space-y-2">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition-all duration-200"
+        >
+          <LogOut className="w-5 h-5" />
+          <span className="font-medium text-sm">ログアウト</span>
+        </button>
         <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
           <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-red-500 to-orange-500 flex items-center justify-center text-white font-bold shadow-md">
-            AD
+            {getInitials(user)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-slate-700 truncate">Admin User</p>
-            <p className="text-xs text-slate-500 truncate">管理者</p>
+            <p className="text-sm font-bold text-slate-700 truncate">{getDisplayName(user)}</p>
+            <p className="text-xs text-slate-500 truncate">{getRoleLabel(user) || "管理者"}</p>
           </div>
-          <Settings className="w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600" />
+          <Link href="/admin/system">
+            <Settings className="w-5 h-5 text-slate-400 cursor-pointer hover:text-slate-600" />
+          </Link>
         </div>
       </div>
     </div>
