@@ -19,17 +19,19 @@ CHAT_SYSTEM_PROMPT = """あなたはオンライン学習プラットフォー�
 - 回答は簡潔にまとめる（長すぎない）
 - コースの文脈を踏まえて回答する"""
 
-COMMENT_SYSTEM_PROMPT = """あなたはオンライン学習プラットフォームのAIアシスタントです。
-レッスン内容を分析し、学習者向けのタイムスタンプ付きコメントを生成してください。
+COMMENT_SYSTEM_PROMPT = """あなたはオンライン学習プラットフォームのAI Vtuber「アイ」です。
+動画レッスンの内容（文字起こし）を分析し、再生中に表示するタイムスタンプ付きコメントを生成してください。
 
 出力はJSON配列のみ。説明文は不要です。
 フォーマット: [{"time_label": "MM:SS", "text": "コメント"}]
 
 ルール:
-- 3〜5個のコメントを生成
-- 重要ポイント、ヒント、励ましを混ぜる
-- 各コメントは30文字以内
-- time_labelはレッスン時間内で均等に分布させる"""
+- 指定された個数ちょうどのコメントを生成すること
+- 文字起こしの話題（章・セクション）の切り替わりに合わせてtime_labelを置く。話題が変わるたびにコメントが変わるようにする
+- time_labelは 00:00 から指定されたレッスン長さまでの範囲で、動画全体に分散させること（冒頭に偏らせない）
+- 各コメントはその時点で話している内容に即した具体的な内容にする（重要ポイント、補足、ヒント、励ましを混ぜる）
+- 各コメントは40文字以内、親しみやすい口調
+- time_labelは時間順（昇順）で並べる"""
 
 
 def _get_client():
@@ -65,26 +67,37 @@ def build_lesson_context(lesson):
     return "\n".join(parts)
 
 
-def generate_lesson_comments(lesson):
+def generate_lesson_comments(lesson, force=False):
     """Generate AI comments for a lesson. Uses DB cache via LessonAIComment.
 
     Returns list of {"time_label": "MM:SS", "text": "..."}.
+    When ``force`` is True the cache is bypassed and comments are regenerated.
     """
-    # Check DB cache first
-    try:
-        cached = LessonAIComment.objects.get(lesson=lesson)
-        return cached.comments
-    except LessonAIComment.DoesNotExist:
-        pass
-
-    # Check Redis cache (in case DB write failed previously)
     cache_key = f"ai_comments:lesson:{lesson.pk}"
-    cached_redis = cache.get(cache_key)
-    if cached_redis:
-        return cached_redis
+
+    if not force:
+        # Check DB cache first
+        try:
+            cached = LessonAIComment.objects.get(lesson=lesson)
+            return cached.comments
+        except LessonAIComment.DoesNotExist:
+            pass
+
+        # Check Redis cache (in case DB write failed previously)
+        cached_redis = cache.get(cache_key)
+        if cached_redis:
+            return cached_redis
 
     context = build_lesson_context(lesson)
-    duration_min = max(1, lesson.duration_seconds // 60)
+    duration_sec = lesson.duration_seconds or 0
+    duration_min = max(1, duration_sec // 60)
+    # Scale comment count to length: ~1 per 75s, clamped to [5, 12]
+    target_count = min(12, max(5, round(duration_sec / 75))) if duration_sec else 5
+    if duration_sec:
+        m, s = duration_sec // 60, duration_sec % 60
+        length_label = f"{m}分{s}秒（{duration_sec}秒）"
+    else:
+        length_label = "不明（推定で全体に分散させること）"
 
     client = _get_client()
     try:
@@ -96,7 +109,10 @@ def generate_lesson_comments(lesson):
                 "role": "user",
                 "content": (
                     f"以下のレッスン情報に基づいてコメントを生成してください。\n"
-                    f"レッスン時間は約{duration_min}分です。\n\n{context}"
+                    f"レッスンの長さ: {length_label}\n"
+                    f"生成するコメント数: ちょうど{target_count}個\n"
+                    f"time_labelは 00:00 〜 {duration_min}分台 の範囲で、"
+                    f"動画全体（最後の方まで）に分散させてください。\n\n{context}"
                 ),
             }],
         )

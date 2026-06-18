@@ -93,5 +93,10 @@ def lesson_comments(request, lesson_id):
             status=status.HTTP_404_NOT_FOUND,
         )
 
-    comments = generate_lesson_comments(lesson)
+    # Only staff/admin may force regeneration to avoid abuse + cost
+    force = (
+        request.query_params.get('refresh') in ('1', 'true', 'True')
+        and (request.user.is_staff or getattr(request.user, 'role', '') == 'admin')
+    )
+    comments = generate_lesson_comments(lesson, force=force)
     return Response(comments)
