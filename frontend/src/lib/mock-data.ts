@@ -14,6 +14,7 @@ import type {
   RefundRequestRecord,
   PaginatedResponse,
   User,
+  Notification,
 } from "@/types";
 
 const SAMPLE_VIDEO =
@@ -311,3 +312,53 @@ export const mockAdminUsers: PaginatedResponse<User> = {
     { id: 6, email: "nakamura@example.com", username: "student_nakamura", first_name: "健太", last_name: "中村", role: "student", plan: "free", avatar: null, bio: "", is_active: false, organization_name: "", date_joined: "2025-11-20T00:00:00Z", last_login: "2026-01-15T10:00:00Z" },
   ],
 };
+
+// ─── Notifications ───────────────────────────────────────────────────────────
+
+export const mockNotifications: Notification[] = [
+  {
+    id: 1,
+    type: "system",
+    title: "システムメンテナンスのお知らせ",
+    message:
+      "3月15日 AM2:00〜AM5:00 にシステムメンテナンスを実施いたします。メンテナンス中はサービスをご利用いただけません。",
+    is_read: false,
+    created_at: "2026-03-12T09:55:00Z",
+  },
+  {
+    id: 2,
+    type: "instructor",
+    title: "田中先生からメッセージが届いています",
+    message:
+      "「Webデザイン基礎」の課題について、フィードバックをお送りしました。ご確認の上、修正をお願いいたします。",
+    is_read: false,
+    created_at: "2026-03-12T09:30:00Z",
+  },
+  {
+    id: 3,
+    type: "event",
+    title: "AIデザインワークショップ開催のお知らせ",
+    message:
+      "3月20日(土) 14:00〜16:00 にオンラインワークショップを開催します。AIツールを使った実践的なデザイン手法を学びましょう。",
+    is_read: false,
+    created_at: "2026-03-12T08:00:00Z",
+  },
+  {
+    id: 4,
+    type: "feedback",
+    title: "課題「レスポンシブレイアウト」が承認されました",
+    message:
+      "提出された課題が講師により承認されました。スキルポイント +50pt を獲得しました。おめでとうございます！",
+    is_read: true,
+    created_at: "2026-03-11T18:00:00Z",
+  },
+  {
+    id: 5,
+    type: "course",
+    title: "新しいコースが追加されました",
+    message:
+      "「AI活用 プロンプトエンジニアリング入門」コースが新たに公開されました。今すぐ確認してみましょう。",
+    is_read: true,
+    created_at: "2026-03-10T10:00:00Z",
+  },
+];
