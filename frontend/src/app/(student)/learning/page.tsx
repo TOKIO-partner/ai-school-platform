@@ -63,9 +63,12 @@ const initialChatMessages: ChatMessage[] = [
 // Sub-components
 // ---------------------------------------------------------------------------
 
-/** CSS-art AI Tuber character overlay shown on the video player */
+/** CSS-art AI Tuber character overlay shown on the video player.
+ *  The character is always visible; the speech bubble shows the current
+ *  section's comment (falls back to a friendly default when none yet). */
 function AiTuberOverlay({ comment }: { comment?: string }) {
-  if (!comment) return null;
+  const bubbleText =
+    comment || "再生すると、内容に合わせて私がコメントするよ！";
 
   return (
     <div className="absolute bottom-4 right-4 w-32 h-32 md:w-48 md:h-48 pointer-events-none z-10">
@@ -118,7 +121,7 @@ function AiTuberOverlay({ comment }: { comment?: string }) {
         {/* Speech Bubble */}
         <div className="absolute top-0 right-0 bg-white/95 backdrop-blur-md border-2 border-cyan-200 p-3 rounded-2xl rounded-bl-none text-xs text-slate-700 max-w-[150px] animate-fade-in-up shadow-lg font-bold flex flex-col gap-1 z-40">
           <span className="text-[10px] text-fuchsia-500">AI Coach アイ</span>
-          <span>{comment}</span>
+          <span>{bubbleText}</span>
         </div>
       </div>
     </div>
@@ -147,29 +150,45 @@ function VideoPlayer({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [activeComment, setActiveComment] = useState<string | undefined>();
 
+  // Comments sorted by time, ascending
+  const sortedComments = [...aiComments].sort(
+    (a, b) => parseTimeLabel(a.time_label) - parseTimeLabel(b.time_label)
+  );
+
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.load();
-      setActiveComment(undefined);
     }
+    // Reset to the intro comment for the new lesson
+    setActiveComment(sortedComments[0]?.text);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson.video_url]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !aiComments.length) return;
+    if (!video) return;
 
-    const handleTimeUpdate = () => {
+    // Show the comment for the current section: the LAST comment whose
+    // timestamp has passed. Before the first one, show the intro comment.
+    // The comment persists until the next section begins, so the Vtuber's
+    // line changes only when the video moves into a new section.
+    const pickComment = () => {
       const currentTime = video.currentTime;
-      // Find comment within 5-second window
-      const match = aiComments.find((c) => {
-        const t = parseTimeLabel(c.time_label);
-        return currentTime >= t && currentTime < t + 5;
-      });
-      setActiveComment(match?.text);
+      let current = sortedComments[0];
+      for (const c of sortedComments) {
+        if (parseTimeLabel(c.time_label) <= currentTime) {
+          current = c;
+        } else {
+          break;
+        }
+      }
+      setActiveComment(current?.text);
     };
 
-    video.addEventListener("timeupdate", handleTimeUpdate);
-    return () => video.removeEventListener("timeupdate", handleTimeUpdate);
+    pickComment();
+    video.addEventListener("timeupdate", pickComment);
+    return () => video.removeEventListener("timeupdate", pickComment);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [aiComments]);
 
   return (
