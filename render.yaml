@@ -83,7 +83,7 @@ services:
 
 databases:
   - name: momocri-db
-    plan: free          # Free tier (90 days, 256MB) → upgrade to starter for production
+    plan: basic_256mb   # Paid tier (~$6/mo, 256MB) — do NOT use free: expires in 30 days and suspends production DB
     region: singapore
     databaseName: momocri_db
     user: momocri
