@@ -2,12 +2,15 @@
 Django base settings for MOMOCRI AI School Platform.
 """
 
+import os
 from pathlib import Path
 from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-SECRET_KEY = 'django-insecure-change-me-in-production'
+# Dev fallback only. Production overrides this with an env-provided key
+# (see config/settings/production.py — os.environ['DJANGO_SECRET_KEY']).
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-dev-only-change-me')
 
 ALLOWED_HOSTS = []
 
@@ -127,6 +130,15 @@ REST_FRAMEWORK = {
         'rest_framework.filters.OrderingFilter',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '60/min',
+        'user': '600/min',
+        'login': '5/min',  # brute-force guard on auth endpoints (ScopedRateThrottle)
+    },
 }
 
 # JWT
