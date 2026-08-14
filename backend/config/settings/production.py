@@ -24,7 +24,7 @@ ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
 # --------------------------------------------------------------------------
 # CORS (Vercel frontend → Render backend)
 # --------------------------------------------------------------------------
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',')
+CORS_ALLOWED_ORIGINS = [o for o in os.environ.get('CORS_ALLOWED_ORIGINS', '').split(',') if o]
 CORS_ALLOW_CREDENTIALS = True
 
 # --------------------------------------------------------------------------
@@ -56,12 +56,13 @@ SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
 SIMPLE_JWT['AUTH_COOKIE_SECURE'] = True  # noqa: F405
 SIMPLE_JWT['AUTH_COOKIE_SAMESITE'] = 'None'  # noqa: F405  — cross-origin (Vercel↔Render)
 
 # Trust Render's proxy
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
+CSRF_TRUSTED_ORIGINS = [o for o in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if o]
 
 # --------------------------------------------------------------------------
 # Static files: WhiteNoise (serve from Django, no separate Nginx needed)
