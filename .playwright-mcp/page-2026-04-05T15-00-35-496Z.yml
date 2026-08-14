@@ -1,0 +1,252 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "MOMOCRI Admin" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e7]
+        - generic [ref=e9]: MOMOCRI
+        - generic [ref=e10]: Admin
+      - navigation [ref=e11]:
+        - link "ダッシュボード" [ref=e12] [cursor=pointer]:
+          - /url: /admin
+          - img [ref=e13]
+          - generic [ref=e14]: ダッシュボード
+        - link "ユーザー管理" [ref=e15] [cursor=pointer]:
+          - /url: /admin/users
+          - img [ref=e16]
+          - generic [ref=e21]: ユーザー管理
+        - link "コース管理" [ref=e22] [cursor=pointer]:
+          - /url: /admin/courses
+          - img [ref=e23]
+          - generic [ref=e25]: コース管理
+        - link "コンテンツ管理" [ref=e26] [cursor=pointer]:
+          - /url: /admin/contents
+          - img [ref=e27]
+          - generic [ref=e30]: コンテンツ管理
+        - link "コミュニティ管理" [ref=e32] [cursor=pointer]:
+          - /url: /admin/community
+          - img [ref=e33]
+          - generic [ref=e35]: コミュニティ管理
+        - link "イベント管理" [ref=e36] [cursor=pointer]:
+          - /url: /admin/events
+          - img [ref=e37]
+          - generic [ref=e39]: イベント管理
+        - link "お知らせ管理" [ref=e40] [cursor=pointer]:
+          - /url: /admin/announcements
+          - img [ref=e41]
+          - generic [ref=e44]: お知らせ管理
+        - link "売上・決済" [ref=e45] [cursor=pointer]:
+          - /url: /admin/billing
+          - img [ref=e46]
+          - generic [ref=e48]: 売上・決済
+        - link "AI設定" [ref=e49] [cursor=pointer]:
+          - /url: /admin/ai-settings
+          - img [ref=e50]
+          - generic [ref=e53]: AI設定
+        - link "システム設定" [ref=e54] [cursor=pointer]:
+          - /url: /admin/system
+          - img [ref=e55]
+          - generic [ref=e58]: システム設定
+      - generic [ref=e60]:
+        - generic [ref=e61]: AD
+        - generic [ref=e62]:
+          - paragraph [ref=e63]: Admin User
+          - paragraph [ref=e64]: 管理者
+        - img [ref=e65] [cursor=pointer]
+    - generic [ref=e68]:
+      - banner [ref=e69]:
+        - generic [ref=e70]:
+          - heading "コンテンツ管理" [level=1] [ref=e71]
+          - generic [ref=e72]: Admin
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - img [ref=e75]
+            - textbox "Search..." [ref=e78]
+          - button [ref=e79]:
+            - img [ref=e80]
+          - generic [ref=e86] [cursor=pointer]: AS
+      - main [ref=e87]:
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - generic [ref=e90]:
+              - heading "コンテンツ管理" [level=2] [ref=e91]
+              - paragraph [ref=e92]: アップロード済みファイルの管理
+            - button "アップロード" [ref=e93]:
+              - img [ref=e94]
+              - text: アップロード
+          - generic [ref=e98]:
+            - generic [ref=e99]:
+              - img [ref=e100]
+              - generic [ref=e102]: "使用容量: 12.4 GB / 50 GB"
+            - generic [ref=e103]: 24.8%
+          - generic [ref=e106]:
+            - button "すべて" [ref=e107]
+            - button "動画" [ref=e108]
+            - button "PDF" [ref=e109]
+            - button "画像" [ref=e110]
+            - button "その他" [ref=e111]
+          - table [ref=e114]:
+            - rowgroup [ref=e115]:
+              - row "ファイル名 タイプ サイズ 関連コース アップロード日 操作" [ref=e116]:
+                - columnheader [ref=e117]:
+                  - checkbox [ref=e118]
+                - columnheader "ファイル名" [ref=e119]
+                - columnheader "タイプ" [ref=e120]
+                - columnheader "サイズ" [ref=e121]
+                - columnheader "関連コース" [ref=e122]
+                - columnheader "アップロード日" [ref=e123]
+                - columnheader "操作" [ref=e124]
+            - rowgroup [ref=e125]:
+              - row "lesson01_design_basics.mp4 動画 1.2 GB AI活用Webデザイン基礎 2026/03/10" [ref=e126]:
+                - cell [ref=e127]:
+                  - checkbox [ref=e128]
+                - cell "lesson01_design_basics.mp4" [ref=e129]:
+                  - generic [ref=e130]:
+                    - img [ref=e132]
+                    - generic [ref=e134]: lesson01_design_basics.mp4
+                - cell "動画" [ref=e135]
+                - cell "1.2 GB" [ref=e136]
+                - cell "AI活用Webデザイン基礎" [ref=e137]
+                - cell "2026/03/10" [ref=e138]
+                - cell [ref=e139]:
+                  - generic [ref=e140]:
+                    - button "ダウンロード" [ref=e141]:
+                      - img [ref=e142]
+                    - button "編集" [ref=e145]:
+                      - img [ref=e146]
+                    - button "削除" [ref=e149]:
+                      - img [ref=e150]
+              - row "color_theory_guide.pdf PDF 4.5 MB AI活用Webデザイン基礎 2026/03/09" [ref=e153]:
+                - cell [ref=e154]:
+                  - checkbox [ref=e155]
+                - cell "color_theory_guide.pdf" [ref=e156]:
+                  - generic [ref=e157]:
+                    - img [ref=e159]
+                    - generic [ref=e162]: color_theory_guide.pdf
+                - cell "PDF" [ref=e163]
+                - cell "4.5 MB" [ref=e164]
+                - cell "AI活用Webデザイン基礎" [ref=e165]
+                - cell "2026/03/09" [ref=e166]
+                - cell [ref=e167]:
+                  - generic [ref=e168]:
+                    - button "ダウンロード" [ref=e169]:
+                      - img [ref=e170]
+                    - button "編集" [ref=e173]:
+                      - img [ref=e174]
+                    - button "削除" [ref=e177]:
+                      - img [ref=e178]
+              - row "react_fundamentals.mp4 動画 890 MB Next.js 14 & React実践 2026/03/08" [ref=e181]:
+                - cell [ref=e182]:
+                  - checkbox [ref=e183]
+                - cell "react_fundamentals.mp4" [ref=e184]:
+                  - generic [ref=e185]:
+                    - img [ref=e187]
+                    - generic [ref=e189]: react_fundamentals.mp4
+                - cell "動画" [ref=e190]
+                - cell "890 MB" [ref=e191]
+                - cell "Next.js 14 & React実践" [ref=e192]
+                - cell "2026/03/08" [ref=e193]
+                - cell [ref=e194]:
+                  - generic [ref=e195]:
+                    - button "ダウンロード" [ref=e196]:
+                      - img [ref=e197]
+                    - button "編集" [ref=e200]:
+                      - img [ref=e201]
+                    - button "削除" [ref=e204]:
+                      - img [ref=e205]
+              - row "ui_components_sample.png 画像 2.8 MB AI活用Webデザイン基礎 2026/03/07" [ref=e208]:
+                - cell [ref=e209]:
+                  - checkbox [ref=e210]
+                - cell "ui_components_sample.png" [ref=e211]:
+                  - generic [ref=e212]:
+                    - img [ref=e214]
+                    - generic [ref=e218]: ui_components_sample.png
+                - cell "画像" [ref=e219]
+                - cell "2.8 MB" [ref=e220]
+                - cell "AI活用Webデザイン基礎" [ref=e221]
+                - cell "2026/03/07" [ref=e222]
+                - cell [ref=e223]:
+                  - generic [ref=e224]:
+                    - button "ダウンロード" [ref=e225]:
+                      - img [ref=e226]
+                    - button "編集" [ref=e229]:
+                      - img [ref=e230]
+                    - button "削除" [ref=e233]:
+                      - img [ref=e234]
+              - row "prompt_engineering_slides.pdf PDF 1.8 MB プロンプトエンジニアリング入門 2026/03/05" [ref=e237]:
+                - cell [ref=e238]:
+                  - checkbox [ref=e239]
+                - cell "prompt_engineering_slides.pdf" [ref=e240]:
+                  - generic [ref=e241]:
+                    - img [ref=e243]
+                    - generic [ref=e246]: prompt_engineering_slides.pdf
+                - cell "PDF" [ref=e247]
+                - cell "1.8 MB" [ref=e248]
+                - cell "プロンプトエンジニアリング入門" [ref=e249]
+                - cell "2026/03/05" [ref=e250]
+                - cell [ref=e251]:
+                  - generic [ref=e252]:
+                    - button "ダウンロード" [ref=e253]:
+                      - img [ref=e254]
+                    - button "編集" [ref=e257]:
+                      - img [ref=e258]
+                    - button "削除" [ref=e261]:
+                      - img [ref=e262]
+              - row "ai_tools_overview.mp4 動画 1.5 GB プロンプトエンジニアリング入門 2026/03/03" [ref=e265]:
+                - cell [ref=e266]:
+                  - checkbox [ref=e267]
+                - cell "ai_tools_overview.mp4" [ref=e268]:
+                  - generic [ref=e269]:
+                    - img [ref=e271]
+                    - generic [ref=e273]: ai_tools_overview.mp4
+                - cell "動画" [ref=e274]
+                - cell "1.5 GB" [ref=e275]
+                - cell "プロンプトエンジニアリング入門" [ref=e276]
+                - cell "2026/03/03" [ref=e277]
+                - cell [ref=e278]:
+                  - generic [ref=e279]:
+                    - button "ダウンロード" [ref=e280]:
+                      - img [ref=e281]
+                    - button "編集" [ref=e284]:
+                      - img [ref=e285]
+                    - button "削除" [ref=e288]:
+                      - img [ref=e289]
+              - row "thumbnail_template.png 画像 540 KB 画像生成AI マスター 2026/02/28" [ref=e292]:
+                - cell [ref=e293]:
+                  - checkbox [ref=e294]
+                - cell "thumbnail_template.png" [ref=e295]:
+                  - generic [ref=e296]:
+                    - img [ref=e298]
+                    - generic [ref=e302]: thumbnail_template.png
+                - cell "画像" [ref=e303]
+                - cell "540 KB" [ref=e304]
+                - cell "画像生成AI マスター" [ref=e305]
+                - cell "2026/02/28" [ref=e306]
+                - cell [ref=e307]:
+                  - generic [ref=e308]:
+                    - button "ダウンロード" [ref=e309]:
+                      - img [ref=e310]
+                    - button "編集" [ref=e313]:
+                      - img [ref=e314]
+                    - button "削除" [ref=e317]:
+                      - img [ref=e318]
+              - row "course_materials.zip その他 32 MB データ分析基礎 2026/02/25" [ref=e321]:
+                - cell [ref=e322]:
+                  - checkbox [ref=e323]
+                - cell "course_materials.zip" [ref=e324]:
+                  - generic [ref=e325]:
+                    - img [ref=e327]
+                    - generic [ref=e330]: course_materials.zip
+                - cell "その他" [ref=e331]
+                - cell "32 MB" [ref=e332]
+                - cell "データ分析基礎" [ref=e333]
+                - cell "2026/02/25" [ref=e334]
+                - cell [ref=e335]:
+                  - generic [ref=e336]:
+                    - button "ダウンロード" [ref=e337]:
+                      - img [ref=e338]
+                    - button "編集" [ref=e341]:
+                      - img [ref=e342]
+                    - button "削除" [ref=e345]:
+                      - img [ref=e346]
+  - alert [ref=e349]

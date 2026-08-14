@@ -1,0 +1,2 @@
+[    9784ms] [ERROR] Access to fetch at 'http://localhost:8000/api/v1/auth/token/refresh/' from origin 'https://ai-school-platform-roan.vercel.app' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'. @ https://ai-school-platform-roan.vercel.app/courses:0
+[    9784ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost:8000/api/v1/auth/token/refresh/:0

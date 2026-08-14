@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd frontend && grep -rn \\\"NEXT_PUBLIC_API\\\\|onrender\\\\|localhost:8000\\\\|API_URL\\\\|baseURL\\\\|BASE_URL\\\" src/ 2>/dev/null | grep -iv \\\"test\\\\|spec\\\" | head -20\",\"description\":\"Find API URL u...",
+  "error": "Exit code 1\n(eval):cd:1: no such file or directory: frontend",
+  "timestamp": "2026-06-30T07:04:15.979Z",
+  "retry_count": 1
+}

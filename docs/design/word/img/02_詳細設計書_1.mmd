@@ -1,0 +1,25 @@
+sequenceDiagram
+  participant FE as Frontend
+  participant BE as Backend(DRF)
+  participant DB as PostgreSQL
+
+  FE->>BE: POST auth/register (username,email,password,...)
+  BE->>DB: User作成
+  BE-->>FE: 201 Created
+
+  FE->>BE: POST auth/login (email/username, password)
+  BE->>DB: 認証
+  BE-->>FE: 200 + Set-Cookie(access 15分 / refresh HttpOnly)
+
+  Note over FE,BE: 以降 access Cookie を自動送信
+
+  FE->>BE: GET users/me (Cookie)
+  BE-->>FE: 200 プロフィール
+
+  Note over FE,BE: access 期限切れ時
+  FE->>BE: POST auth/token/refresh (refresh Cookie)
+  BE->>BE: refresh検証 + ローテーション(新refresh発行)
+  BE-->>FE: 200 + 新access Cookie
+
+  FE->>BE: POST auth/logout
+  BE-->>FE: 200 + Cookie破棄

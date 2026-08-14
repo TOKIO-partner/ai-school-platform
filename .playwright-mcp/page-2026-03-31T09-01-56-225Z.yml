@@ -1,0 +1,134 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "Render" [ref=e7] [cursor=pointer]:
+            - /url: /
+            - img "Render" [ref=e8]
+          - button "m momocri共有's workspace" [ref=e12] [cursor=pointer]:
+            - generic [ref=e13]:
+              - generic [ref=e14]: m
+              - generic "momocri共有's workspace" [ref=e15]
+              - img [ref=e16]
+        - generic [ref=e20]:
+          - navigation [ref=e21]:
+            - list [ref=e22]:
+              - listitem [ref=e23]:
+                - generic [ref=e24]:
+                  - img [ref=e25]
+                  - generic [ref=e30]: New Blueprint
+          - button "Search Command + K" [ref=e32] [cursor=pointer]:
+            - img [ref=e34]
+            - text: Search
+            - generic [ref=e36]:
+              - img [ref=e37]
+              - generic [ref=e39]: Command
+              - generic [ref=e40]: +
+              - generic [ref=e41]: K
+              - generic [ref=e42]: K
+        - generic [ref=e43]:
+          - button "New" [ref=e45] [cursor=pointer]:
+            - generic [ref=e46]:
+              - img [ref=e47]
+              - generic [ref=e49]: New
+          - button "Upgrade" [ref=e51] [cursor=pointer]:
+            - generic [ref=e52]:
+              - img [ref=e53]
+              - generic [ref=e55]: Upgrade
+          - button "Help" [ref=e57] [cursor=pointer]:
+            - img "Help" [ref=e58]
+          - button "m" [ref=e63] [cursor=pointer]:
+            - generic [ref=e65]: m
+      - main [ref=e68]:
+        - generic [ref=e69]:
+          - heading "Create a new Blueprint Instance in momocri共有's workspace" [level=1] [ref=e70]:
+            - text: Create a new
+            - link "Blueprint Instance" [ref=e71] [cursor=pointer]:
+              - /url: https://render.com/docs/infrastructure-as-code
+            - text: in
+            - link "momocri共有's workspace" [ref=e72] [cursor=pointer]:
+              - /url: /w/tea-d75olgruibrs73brkv6g/settings
+          - generic [ref=e75]: Connect your Git repository or use an existing public repository URL.
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - generic [ref=e79]:
+              - heading "Connect a repository" [level=4] [ref=e84]
+              - generic [ref=e88]:
+                - heading "Connect Git provider" [level=2] [ref=e92]
+                - generic [ref=e95]:
+                  - paragraph [ref=e96]: Connect your Git provider to deploy from your existing repositories.
+                  - generic [ref=e97]:
+                    - button "GitHub GitHub" [ref=e99] [cursor=pointer]:
+                      - generic [ref=e100]:
+                        - img "GitHub" [ref=e101]
+                        - generic [ref=e103]: GitHub
+                    - button "GitLab" [ref=e105] [cursor=pointer]:
+                      - generic [ref=e106]:
+                        - img [ref=e107]
+                        - generic [ref=e113]: GitLab
+                    - button "Bitbucket" [ref=e115] [cursor=pointer]:
+                      - generic [ref=e116]:
+                        - img [ref=e117]
+                        - generic [ref=e121]: Bitbucket
+            - generic [ref=e123]:
+              - generic [ref=e126]:
+                - heading "Public Git Repository" [level=4] [ref=e128]
+                - generic [ref=e129]:
+                  - text: Use a public repository by entering the URL below. Features like
+                  - link "PR Previews" [ref=e130] [cursor=pointer]:
+                    - /url: https://render.com/docs/service-previews#pull-request-previews-git-backed
+                  - text: and
+                  - link "Auto-Deploy" [ref=e131] [cursor=pointer]:
+                    - /url: https://render.com/docs/deploys
+                  - text: are not available if the repository has not been configured for Render.
+              - generic [ref=e133]:
+                - generic [ref=e135]:
+                  - generic [ref=e136]: Repository URL
+                  - textbox "Repository URL" [ref=e138]:
+                    - /placeholder: https://github.com/render-examples/temporal
+                - button "Continue" [disabled] [ref=e139]
+          - generic [ref=e140]:
+            - generic [ref=e141]:
+              - generic [ref=e142]:
+                - img "GitHub" [ref=e144]
+                - text: GitHub
+              - list
+              - button "Connect account" [active] [ref=e146] [cursor=pointer]:
+                - text: Connect account
+                - img [ref=e148]
+            - generic [ref=e150]:
+              - generic [ref=e151]:
+                - img "GitLab" [ref=e153]
+                - text: GitLab
+              - list
+              - button "Connect account" [ref=e158] [cursor=pointer]:
+                - text: Connect account
+                - img [ref=e160]
+            - generic [ref=e162]:
+              - generic [ref=e163]:
+                - img [ref=e165]
+                - text: Bitbucket
+              - list
+              - button "Connect account" [ref=e169] [cursor=pointer]:
+                - text: Connect account
+                - img [ref=e171]
+    - generic:
+      - generic:
+        - generic: "0 services selected:"
+        - generic:
+          - generic:
+            - generic:
+              - button:
+                - generic:
+                  - img
+                - generic: Move
+                - img
+      - generic:
+        - separator
+        - generic:
+          - generic:
+            - button:
+              - img
+  - iframe [ref=e173]:
+    

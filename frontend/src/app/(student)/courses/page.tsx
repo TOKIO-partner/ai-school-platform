@@ -109,10 +109,23 @@ export default function CoursesPage() {
               >
                 {/* Card Thumbnail */}
                 <div
-                  className="h-48 w-full relative shrink-0"
+                  className="h-48 w-full relative shrink-0 overflow-hidden"
                   style={{ background: gradient }}
                 >
-                  <div className="absolute top-3 left-3 flex gap-2">
+                  {course.thumbnail && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={course.thumbnail}
+                      alt={course.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        // Fall back to the category gradient if the image fails.
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  )}
+                  <div className="absolute top-3 left-3 flex gap-2 z-10">
                     <span className="px-2 py-1 rounded bg-white/90 backdrop-blur text-xs font-bold text-slate-800 shadow-sm">
                       {course.category.charAt(0).toUpperCase() + course.category.slice(1)}
                     </span>

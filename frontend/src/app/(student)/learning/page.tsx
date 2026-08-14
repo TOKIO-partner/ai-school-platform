@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Send, Check, Play, Lock, ChevronDown, ChevronRight, Loader2, BookOpen } from "lucide-react";
+import { Send, Check, Play, Lock, ChevronDown, ChevronRight, Loader2, BookOpen, Volume2, VolumeX } from "lucide-react";
 import { useCourse } from "@/lib/queries/use-courses";
 import { useMyEnrollments } from "@/lib/queries/use-enrollments";
 import { useAIChatHistory, useAILessonComments } from "@/lib/queries/use-ai";
@@ -70,6 +70,63 @@ function AiTuberOverlay({ comment }: { comment?: string }) {
   const bubbleText =
     comment || "再生すると、内容に合わせて私がコメントするよ！";
 
+  // Persisted mute preference (default: voice on).
+  const [muted, setMuted] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setMuted(window.localStorage.getItem("ai-tuber-muted") === "1");
+  }, []);
+
+  // Speak the comment via the browser's built-in TTS whenever it changes.
+  // Only real section comments are voiced — the intro default is skipped.
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    if (muted || !comment) return;
+
+    const synth = window.speechSynthesis;
+    const speak = () => {
+      const utter = new SpeechSynthesisUtterance(comment);
+      utter.lang = "ja-JP";
+      const jaVoice = synth
+        .getVoices()
+        .find((v) => v.lang && v.lang.toLowerCase().startsWith("ja"));
+      if (jaVoice) utter.voice = jaVoice;
+      synth.cancel(); // stop any in-flight utterance before speaking the new one
+      synth.speak(utter);
+    };
+
+    // getVoices() is often empty on first call; retry once voices load.
+    if (synth.getVoices().length === 0) {
+      const onVoices = () => {
+        speak();
+        synth.removeEventListener("voiceschanged", onVoices);
+      };
+      synth.addEventListener("voiceschanged", onVoices);
+      return () => synth.removeEventListener("voiceschanged", onVoices);
+    }
+    speak();
+  }, [comment, muted]);
+
+  // Stop speech when the overlay unmounts (e.g. lesson switch).
+  useEffect(() => {
+    return () => {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  const toggleMute = () => {
+    setMuted((prev) => {
+      const next = !prev;
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("ai-tuber-muted", next ? "1" : "0");
+        if (next && "speechSynthesis" in window) window.speechSynthesis.cancel();
+      }
+      return next;
+    });
+  };
+
   return (
     <div className="absolute bottom-4 right-4 w-32 h-32 md:w-48 md:h-48 pointer-events-none z-10">
       <div className="relative w-full h-full filter drop-shadow-xl">
@@ -120,7 +177,22 @@ function AiTuberOverlay({ comment }: { comment?: string }) {
 
         {/* Speech Bubble */}
         <div className="absolute top-0 right-0 bg-white/95 backdrop-blur-md border-2 border-cyan-200 p-3 rounded-2xl rounded-bl-none text-xs text-slate-700 max-w-[150px] animate-fade-in-up shadow-lg font-bold flex flex-col gap-1 z-40">
-          <span className="text-[10px] text-fuchsia-500">AI Coach アイ</span>
+          <div className="flex items-center justify-between gap-1">
+            <span className="text-[10px] text-fuchsia-500">AI Coach アイ</span>
+            <button
+              type="button"
+              onClick={toggleMute}
+              aria-label={muted ? "音声をオンにする" : "音声をミュートする"}
+              title={muted ? "音声オン" : "ミュート"}
+              className="pointer-events-auto text-slate-400 hover:text-fuchsia-500 transition-colors"
+            >
+              {muted ? (
+                <VolumeX className="w-3.5 h-3.5" />
+              ) : (
+                <Volume2 className="w-3.5 h-3.5" />
+              )}
+            </button>
+          </div>
           <span>{bubbleText}</span>
         </div>
       </div>

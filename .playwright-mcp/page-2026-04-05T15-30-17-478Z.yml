@@ -1,0 +1,202 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "MOMOCRI Admin" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e7]
+        - generic [ref=e9]: MOMOCRI
+        - generic [ref=e10]: Admin
+      - navigation [ref=e11]:
+        - link "ダッシュボード" [ref=e12] [cursor=pointer]:
+          - /url: /admin
+          - img [ref=e13]
+          - generic [ref=e14]: ダッシュボード
+        - link "ユーザー管理" [ref=e15] [cursor=pointer]:
+          - /url: /admin/users
+          - img [ref=e16]
+          - generic [ref=e21]: ユーザー管理
+        - link "コース管理" [ref=e22] [cursor=pointer]:
+          - /url: /admin/courses
+          - img [ref=e23]
+          - generic [ref=e25]: コース管理
+        - link "コンテンツ管理" [ref=e26] [cursor=pointer]:
+          - /url: /admin/contents
+          - img [ref=e27]
+          - generic [ref=e30]: コンテンツ管理
+        - link "コミュニティ管理" [ref=e31] [cursor=pointer]:
+          - /url: /admin/community
+          - img [ref=e32]
+          - generic [ref=e34]: コミュニティ管理
+        - link "イベント管理" [ref=e35] [cursor=pointer]:
+          - /url: /admin/events
+          - img [ref=e36]
+          - generic [ref=e38]: イベント管理
+        - link "お知らせ管理" [ref=e39] [cursor=pointer]:
+          - /url: /admin/announcements
+          - img [ref=e40]
+          - generic [ref=e43]: お知らせ管理
+        - link "売上・決済" [ref=e44] [cursor=pointer]:
+          - /url: /admin/billing
+          - img [ref=e45]
+          - generic [ref=e47]: 売上・決済
+        - link "AI設定" [ref=e48] [cursor=pointer]:
+          - /url: /admin/ai-settings
+          - img [ref=e49]
+          - generic [ref=e52]: AI設定
+        - link "システム設定" [ref=e53] [cursor=pointer]:
+          - /url: /admin/system
+          - img [ref=e54]
+          - generic [ref=e57]: システム設定
+      - generic [ref=e60]:
+        - generic [ref=e61]: AD
+        - generic [ref=e62]:
+          - paragraph [ref=e63]: Admin User
+          - paragraph [ref=e64]: 管理者
+        - img [ref=e65] [cursor=pointer]
+    - generic [ref=e68]:
+      - banner [ref=e69]:
+        - generic [ref=e70]:
+          - heading "システム設定" [level=1] [ref=e71]
+          - generic [ref=e72]: Admin
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - img [ref=e75]
+            - textbox "Search..." [ref=e78]
+          - button [ref=e79]:
+            - img [ref=e80]
+          - generic [ref=e86] [cursor=pointer]: AS
+      - main [ref=e87]:
+        - generic [ref=e88]:
+          - heading "システム設定" [level=2] [ref=e89]
+          - paragraph [ref=e90]: サイト全体の設定、API連携、メンテナンスモードの管理
+        - generic [ref=e91]:
+          - generic [ref=e92]:
+            - heading "サイト設定" [level=3] [ref=e95]
+            - generic [ref=e96]:
+              - generic [ref=e97]:
+                - generic [ref=e98]:
+                  - generic [ref=e99]: サイト名
+                  - textbox [ref=e100]: MOMOCRI AIスクール
+                - generic [ref=e101]:
+                  - generic [ref=e102]: サイトURL
+                  - textbox [ref=e103]: https://school.momocri.com
+              - generic [ref=e104]:
+                - generic [ref=e105]: サイト説明
+                - textbox [ref=e106]: MOMOCRI AIスクールは、AIとプログラミングを楽しく学べるオンライン学習プラットフォームです。AI Tuberキャラクターと一緒に、初心者から上級者まで自分のペースで学習できます。
+              - generic [ref=e107]:
+                - generic [ref=e108]:
+                  - generic [ref=e109]: ロゴアップロード
+                  - generic [ref=e110]:
+                    - img [ref=e112]
+                    - generic [ref=e114]:
+                      - button "ファイルを選択" [ref=e115]
+                      - paragraph [ref=e116]: "PNG, SVG（推奨: 512x512px）"
+                - generic [ref=e117]:
+                  - generic [ref=e118]: ファビコンアップロード
+                  - generic [ref=e119]:
+                    - img [ref=e122]
+                    - generic [ref=e124]:
+                      - button "ファイルを選択" [ref=e125]
+                      - paragraph [ref=e126]: "ICO, PNG（推奨: 32x32px）"
+          - generic [ref=e127]:
+            - heading "メールテンプレート" [level=3] [ref=e130]
+            - generic [ref=e131]:
+              - generic [ref=e132]:
+                - generic [ref=e134] [cursor=pointer]:
+                  - generic [ref=e135]:
+                    - img [ref=e136]
+                    - generic [ref=e140]:
+                      - paragraph [ref=e141]: 登録確認
+                      - paragraph [ref=e142]: 新規ユーザー登録時
+                  - button "編集" [ref=e143]
+                - generic [ref=e145] [cursor=pointer]:
+                  - generic [ref=e146]:
+                    - img [ref=e147]
+                    - generic [ref=e151]:
+                      - paragraph [ref=e152]: パスワードリセット
+                      - paragraph [ref=e153]: パスワード再設定時
+                  - button "編集" [ref=e154]
+                - generic [ref=e156] [cursor=pointer]:
+                  - generic [ref=e157]:
+                    - img [ref=e158]
+                    - generic [ref=e161]:
+                      - paragraph [ref=e162]: お知らせ
+                      - paragraph [ref=e163]: お知らせ配信時
+                  - button "編集" [ref=e164]
+                - generic [ref=e166] [cursor=pointer]:
+                  - generic [ref=e167]:
+                    - img [ref=e168]
+                    - generic [ref=e171]:
+                      - paragraph [ref=e172]: 進捗リマインド
+                      - paragraph [ref=e173]: 学習リマインダー
+                  - button "編集" [ref=e174]
+              - generic [ref=e175]:
+                - generic [ref=e176]:
+                  - paragraph [ref=e177]: "プレビュー: 登録確認メール"
+                  - button "テスト送信" [ref=e179]
+                - generic [ref=e181]:
+                  - generic [ref=e182]:
+                    - img [ref=e184]
+                    - heading "MOMOCRI AIスクール" [level=4] [ref=e186]
+                  - generic [ref=e187]:
+                    - paragraph [ref=e188]: "{{user_name}} 様"
+                    - paragraph [ref=e189]: MOMOCRI AIスクールへのご登録ありがとうございます。
+                    - paragraph [ref=e190]: 以下のボタンをクリックして、メールアドレスの確認を完了してください。
+                    - generic [ref=e192]: メールアドレスを確認
+                    - paragraph [ref=e193]: このリンクは24時間有効です。
+                  - paragraph [ref=e194]: © 2026 MOMOCRI AIスクール
+          - generic [ref=e195]:
+            - heading "API連携" [level=3] [ref=e198]
+            - generic [ref=e199]:
+              - generic [ref=e200]:
+                - generic [ref=e201]:
+                  - img [ref=e203]
+                  - generic [ref=e205]:
+                    - paragraph [ref=e206]: Stripe API Key
+                    - paragraph [ref=e207]: sk_live_****************************3xFg
+                - generic [ref=e208]:
+                  - generic [ref=e209]: 接続済み
+                  - button "設定" [ref=e211]
+              - generic [ref=e212]:
+                - generic [ref=e213]:
+                  - img [ref=e215]
+                  - generic [ref=e223]:
+                    - paragraph [ref=e224]: OpenAI API Key
+                    - paragraph [ref=e225]: sk-proj-****************************7mKa
+                - generic [ref=e226]:
+                  - generic [ref=e227]: 接続済み
+                  - button "設定" [ref=e229]
+              - generic [ref=e230]:
+                - generic [ref=e231]:
+                  - img [ref=e233]
+                  - generic [ref=e238]:
+                    - paragraph [ref=e239]: Google OAuth設定
+                    - paragraph [ref=e240]: Googleアカウントでのログイン
+                - generic [ref=e241]:
+                  - generic [ref=e242]: 接続済み
+                  - button "設定" [ref=e244]
+              - generic [ref=e245]:
+                - generic [ref=e246]:
+                  - img [ref=e248]
+                  - generic [ref=e251]:
+                    - paragraph [ref=e252]: GitHub OAuth設定
+                    - paragraph [ref=e253]: GitHubアカウントでのログイン
+                - generic [ref=e254]:
+                  - generic [ref=e255]: 未接続
+                  - button "接続" [ref=e257]
+          - generic [ref=e258]:
+            - heading "メンテナンスモード" [level=3] [ref=e261]
+            - generic [ref=e262]:
+              - generic [ref=e263]:
+                - generic [ref=e264]:
+                  - paragraph [ref=e265]: メンテナンスモードを有効にする
+                  - paragraph [ref=e266]: 有効にすると、管理者以外のユーザーはサイトにアクセスできなくなります
+                - switch [ref=e267]
+              - generic [ref=e269]:
+                - generic [ref=e270]: メンテナンスメッセージ
+                - textbox [ref=e271]: ただいまシステムメンテナンスを実施しております。ご不便をおかけして申し訳ございません。メンテナンス完了予定時刻は本日18:00です。しばらくお待ちください。
+                - paragraph [ref=e272]: メンテナンス中にユーザーに表示されるメッセージです
+          - button "設定を保存" [ref=e274]:
+            - img [ref=e275]
+            - text: 設定を保存
+  - alert [ref=e279]

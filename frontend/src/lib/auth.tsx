@@ -8,7 +8,7 @@ interface AuthContextType {
   user: User | null;
   accessToken: string | null;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User | null>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
   demoLogin: () => void;
@@ -30,13 +30,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchProfile = useCallback(async (token: string) => {
+  const fetchProfile = useCallback(async (token: string): Promise<User | null> => {
     try {
       const res = await apiClient.get<User>("/users/me/", token);
       setUser(res);
+      return res;
     } catch {
       setUser(null);
       setAccessToken(null);
+      return null;
     }
   }, []);
 
@@ -81,10 +83,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshAuth();
   }, [fetchProfile, demoLogin]);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<User | null> => {
     const res = await apiClient.post<{ access: string; refresh: string }>("/auth/login/", { username: email, password });
     setAccessToken(res.access);
-    await fetchProfile(res.access);
+    return fetchProfile(res.access);
   };
 
   const register = async (data: RegisterData) => {

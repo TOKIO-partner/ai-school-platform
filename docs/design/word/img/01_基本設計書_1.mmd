@@ -1,0 +1,19 @@
+flowchart LR
+  subgraph Client["ブラウザ"]
+    U[利用者]
+  end
+  subgraph Vercel["Vercel（Frontend）"]
+    FE["Next.js 16 App Router<br/>React 19 / Tailwind"]
+  end
+  subgraph Render["Render（Backend）"]
+    BE["Django REST Framework<br/>JWT認証 / Celery"]
+  end
+  DB[("PostgreSQL")]
+  R2[("Cloudflare R2<br/>レッスン動画")]
+  AI["AI（LLM）<br/>チャット / Vtuberコメント生成"]
+
+  U --> FE
+  FE -- "REST /api/v1 (Cookie JWT)" --> BE
+  BE --> DB
+  FE -- "動画配信" --> R2
+  BE --> AI

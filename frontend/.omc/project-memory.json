@@ -1,0 +1,410 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775399932509,
+  "projectRoot": "/Users/tokiohata/Projects/TOKIO-partner/ai-school-platform/frontend",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "next",
+        "version": "16.1.6",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "19.2.3",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.3",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "pnpm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "pnpm build",
+    "testCommand": null,
+    "lintCommand": "pnpm lint",
+    "devCommand": "pnpm dev",
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "eslint"
+    }
+  },
+  "conventions": {
+    "namingStyle": "camelCase",
+    "importStyle": "ES modules",
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": true,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 5,
+      "lastAccessed": 1775399932500,
+      "keyFiles": [
+        "file.svg",
+        "globe.svg",
+        "next.svg",
+        "vercel.svg",
+        "window.svg"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 1,
+      "lastAccessed": 1775399932503,
+      "keyFiles": [
+        "middleware.ts"
+      ]
+    },
+    "src/app": {
+      "path": "src/app",
+      "purpose": "Application code",
+      "fileCount": 3,
+      "lastAccessed": 1775399932504,
+      "keyFiles": [
+        "favicon.ico",
+        "globals.css",
+        "layout.tsx"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 0,
+      "lastAccessed": 1775399932504,
+      "keyFiles": []
+    },
+    "src/lib": {
+      "path": "src/lib",
+      "purpose": "Library code",
+      "fileCount": 4,
+      "lastAccessed": 1775399932504,
+      "keyFiles": [
+        "api-client.ts",
+        "auth.tsx",
+        "mock-data.ts"
+      ]
+    },
+    "src/types": {
+      "path": "src/types",
+      "purpose": "Type definitions",
+      "fileCount": 1,
+      "lastAccessed": 1775399932504,
+      "keyFiles": [
+        "index.ts"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/app/(student)/learning/page.tsx",
+      "accessCount": 25,
+      "lastAccessed": 1786671126601,
+      "type": "file"
+    },
+    {
+      "path": "src/types/index.ts",
+      "accessCount": 17,
+      "lastAccessed": 1781743226485,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/use-enrollments.ts",
+      "accessCount": 16,
+      "lastAccessed": 1782803509668,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/auth.tsx",
+      "accessCount": 14,
+      "lastAccessed": 1782803276971,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(student)/courses/[courseId]/page.tsx",
+      "accessCount": 13,
+      "lastAccessed": 1782803329212,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 11,
+      "lastAccessed": 1775406018908,
+      "type": "directory"
+    },
+    {
+      "path": "src/lib/mock-data.ts",
+      "accessCount": 9,
+      "lastAccessed": 1781740886027,
+      "type": "directory"
+    },
+    {
+      "path": "src/app/(admin)/admin/billing/page.tsx",
+      "accessCount": 9,
+      "lastAccessed": 1782803330081,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/use-courses.ts",
+      "accessCount": 9,
+      "lastAccessed": 1782803509236,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/api-client.ts",
+      "accessCount": 8,
+      "lastAccessed": 1782803268105,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(student)/progress/page.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1782803314422,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(admin)/admin/users/page.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1782803368141,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/use-notifications.ts",
+      "accessCount": 7,
+      "lastAccessed": 1782803510249,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layouts/admin-sidebar.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1786670813835,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 6,
+      "lastAccessed": 1779878561566,
+      "type": "directory"
+    },
+    {
+      "path": "src/lib/queries/use-admin.ts",
+      "accessCount": 6,
+      "lastAccessed": 1782803275682,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(admin)/admin/page.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1775009876638,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(public)/login/page.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1779878564700,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layouts/student-sidebar.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1781740999171,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layouts/corp-sidebar.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1781741047446,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(student)/notifications/page.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1782803294956,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(student)/dashboard/page.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1782803315183,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(student)/courses/page.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1782803340309,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(student)/layout.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1781744226295,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layouts/dashboard-header.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1782803295864,
+      "type": "file"
+    },
+    {
+      "path": "src/types",
+      "accessCount": 2,
+      "lastAccessed": 1775009797932,
+      "type": "directory"
+    },
+    {
+      "path": "src/components/shared/course-card.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1775383283460,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(admin)/admin/lessons/[lessonId]/edit/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1775383406071,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/use-ai.ts",
+      "accessCount": 2,
+      "lastAccessed": 1782803269585,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/queries/use-admin-courses.ts",
+      "accessCount": 2,
+      "lastAccessed": 1782803276633,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 1,
+      "lastAccessed": 1775383256110,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ui/dialog.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775383266562,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "accessCount": 1,
+      "lastAccessed": 1775383275029,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ui/input.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775383278043,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ui/button.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775383278480,
+      "type": "file"
+    },
+    {
+      "path": "src/components/shared/user-avatar.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775383279612,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ui/textarea.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775383284077,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(admin)/admin/ai-settings/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1775383404893,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(public)/login",
+      "accessCount": 1,
+      "lastAccessed": 1775399553421,
+      "type": "directory"
+    },
+    {
+      "path": "src/lib",
+      "accessCount": 1,
+      "lastAccessed": 1775400002469,
+      "type": "directory"
+    },
+    {
+      "path": "src/app",
+      "accessCount": 1,
+      "lastAccessed": 1779878552546,
+      "type": "directory"
+    },
+    {
+      "path": ".env.local",
+      "accessCount": 1,
+      "lastAccessed": 1781740381116,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/user-display.ts",
+      "accessCount": 1,
+      "lastAccessed": 1781740924300,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(admin)/admin/courses/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1782803296856,
+      "type": "file"
+    },
+    {
+      "path": "src/app/(admin)/admin/courses/[courseId]/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1782803367178,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
