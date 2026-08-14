@@ -14,6 +14,13 @@ interface UploadResult {
   content_type: string;
 }
 
+// DRF list endpoints return a paginated object ({ count, results }) by default,
+// but some nested list views return a plain array. Normalize both to an array.
+function unwrapList<T>(res: T[] | { results?: T[] } | null | undefined): T[] {
+  if (Array.isArray(res)) return res;
+  return res?.results ?? [];
+}
+
 // ---------------------------------------------------------------------------
 // Queries
 // ---------------------------------------------------------------------------
@@ -50,10 +57,11 @@ export function useAdminCourses(params?: {
       if (params?.status) query.set("status", params.status);
       if (params?.search) query.set("search", params.search);
       const qs = query.toString();
-      return apiClient.get<AdminCourse[]>(
+      const res = await apiClient.get<AdminCourse[] | { results?: AdminCourse[] }>(
         `/admin/courses/${qs ? `?${qs}` : ""}`,
         accessToken || undefined,
       );
+      return unwrapList(res);
     },
   });
 }
@@ -91,10 +99,11 @@ export function useAdminChapters(courseId: number | null) {
         const course = mockCourses.find((c) => c.id === courseId);
         return (course?.chapters ?? []) as AdminChapter[];
       }
-      return apiClient.get<AdminChapter[]>(
+      const res = await apiClient.get<AdminChapter[] | { results?: AdminChapter[] }>(
         `/admin/courses/${courseId}/chapters/`,
         accessToken || undefined,
       );
+      return unwrapList(res);
     },
   });
 }
@@ -112,10 +121,11 @@ export function useAdminLessons(courseId: number | null, chapterId: number | nul
         const chapter = course?.chapters?.find((ch) => ch.id === chapterId);
         return (chapter?.lessons ?? []) as AdminLesson[];
       }
-      return apiClient.get<AdminLesson[]>(
+      const res = await apiClient.get<AdminLesson[] | { results?: AdminLesson[] }>(
         `/admin/courses/${courseId}/chapters/${chapterId}/lessons/`,
         accessToken || undefined,
       );
+      return unwrapList(res);
     },
   });
 }
