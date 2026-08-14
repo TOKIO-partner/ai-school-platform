@@ -1,0 +1,7 @@
+{
+  "tool_name": "mcp__notion__notion-create-pages",
+  "tool_input_preview": "{\"parent\":{\"page_id\":\"2892f1fb-af81-8083-9e15-c0d9b34d7f80\"},\"pages\":[{\"properties\":{\"title\":\"01_基本設計書\"},\"content\":\"設計対象: **MOMOCRI AI School Platform**（AIスクール型オンライン学習SaaS）。実装済みコード（backend / frontend）...",
+  "error": "{\"name\":\"APIResponseError\",\"code\":\"object_not_found\",\"status\":404,\"headers\":{},\"body\":\"{\\\"object\\\":\\\"error\\\",\\\"status\\\":404,\\\"code\\\":\\\"object_not_found\\\",\\\"message\\\":\\\"Could not find page with ID: 2892f1fb-af81-8083-9e15-c0d9b34d7f80. Check that you have access and that you're authenticated to the correct workspace.\\\",\\\"additional_data\\\":{\\\"integration_id\\\":\\\"1f8d872b-594c-80a4-b2f4-00370af2b13f\\\"},\\\"request_id\\\":\\\"f66e9e11-1f34-40a2-81f8-416c6f43b6a1\\\"}\",\"additional_data\":{\"integration_id\":\"1f8...",
+  "timestamp": "2026-07-09T15:22:35.713Z",
+  "retry_count": 1
+}

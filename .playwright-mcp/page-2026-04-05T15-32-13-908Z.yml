@@ -1,0 +1,138 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "MOMOCRI" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e7]
+        - generic [ref=e9]: MOMOCRI
+      - navigation [ref=e10]:
+        - link "ダッシュボード" [ref=e11] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e12]
+          - generic [ref=e15]: ダッシュボード
+        - link "学習ルーム" [ref=e16] [cursor=pointer]:
+          - /url: /learning
+          - img [ref=e17]
+          - generic [ref=e19]: 学習ルーム
+        - link "コース一覧" [ref=e20] [cursor=pointer]:
+          - /url: /courses
+          - img [ref=e21]
+          - generic [ref=e23]: コース一覧
+        - link "コミュニティ" [ref=e24] [cursor=pointer]:
+          - /url: /community
+          - img [ref=e25]
+          - generic [ref=e30]: コミュニティ
+      - generic [ref=e32]:
+        - generic [ref=e33]: AS
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: 長谷川 麻子
+          - paragraph [ref=e36]: Pro Plan
+        - link [ref=e37] [cursor=pointer]:
+          - /url: /settings
+          - img [ref=e38]
+    - generic [ref=e41]:
+      - banner [ref=e42]:
+        - heading "Portfolio" [level=1] [ref=e44]
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - img [ref=e47]
+            - textbox "Search..." [ref=e50]
+          - button [ref=e51]:
+            - img [ref=e52]
+          - generic [ref=e58] [cursor=pointer]: AS
+      - main [ref=e59]:
+        - generic [ref=e60]:
+          - heading "ポートフォリオ" [level=2] [ref=e61]
+          - button "作品を追加" [ref=e62]:
+            - img [ref=e63]
+            - text: 作品を追加
+        - generic [ref=e64]:
+          - generic [ref=e65]:
+            - img [ref=e66]
+            - heading "公開ポートフォリオリンク" [level=3] [ref=e69]
+          - generic [ref=e70]:
+            - generic [ref=e71]: https://momocri.school/portfolio/hasegawa-asako-2024
+            - button "コピー" [ref=e72]:
+              - img [ref=e73]
+              - text: コピー
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - generic [ref=e81]:
+              - img [ref=e82]
+              - text: 公開
+            - generic [ref=e85]:
+              - heading "AIチャットボット UI デザイン" [level=4] [ref=e86]
+              - paragraph [ref=e87]: ChatGPTライクなインターフェースを独自のデザインシステムで再構築。レスポンシブ対応とダークモードを実装。
+              - generic [ref=e88]:
+                - generic [ref=e89]: "#UI/UX"
+                - generic [ref=e90]: "#React"
+                - generic [ref=e91]: "#AI"
+              - generic [ref=e92]:
+                - generic [ref=e93]: 2024年3月15日
+                - generic [ref=e94]:
+                  - button "編集" [ref=e95]:
+                    - img [ref=e96]
+                  - button "公開設定" [ref=e99]:
+                    - img [ref=e100]
+                  - button "削除" [ref=e103]:
+                    - img [ref=e104]
+          - generic [ref=e107]:
+            - generic [ref=e111]:
+              - img [ref=e112]
+              - text: 公開
+            - generic [ref=e115]:
+              - heading "ECサイト リニューアル" [level=4] [ref=e116]
+              - paragraph [ref=e117]: Next.js 14とStripeを使ったECサイトのフルリニューアル。決済フローの最適化とパフォーマンス改善を実施。
+              - generic [ref=e118]:
+                - generic [ref=e119]: "#Next.js"
+                - generic [ref=e120]: "#EC"
+                - generic [ref=e121]: "#Stripe"
+              - generic [ref=e122]:
+                - generic [ref=e123]: 2024年2月28日
+                - generic [ref=e124]:
+                  - button "編集" [ref=e125]:
+                    - img [ref=e126]
+                  - button "公開設定" [ref=e129]:
+                    - img [ref=e130]
+                  - button "削除" [ref=e133]:
+                    - img [ref=e134]
+          - generic [ref=e137]:
+            - generic [ref=e141]:
+              - img [ref=e142]
+              - text: 非公開
+            - generic [ref=e145]:
+              - heading "ダッシュボード分析ツール" [level=4] [ref=e146]
+              - paragraph [ref=e147]: データビジュアライゼーションを活用した管理者向けダッシュボード。Rechartsによるインタラクティブなグラフ表示。
+              - generic [ref=e148]:
+                - generic [ref=e149]: "#Dashboard"
+                - generic [ref=e150]: "#Recharts"
+              - generic [ref=e151]:
+                - generic [ref=e152]: 2024年2月10日
+                - generic [ref=e153]:
+                  - button "編集" [ref=e154]:
+                    - img [ref=e155]
+                  - button "公開設定" [ref=e158]:
+                    - img [ref=e159]
+                  - button "削除" [ref=e164]:
+                    - img [ref=e165]
+          - generic [ref=e168]:
+            - generic [ref=e172]:
+              - img [ref=e173]
+              - text: 公開
+            - generic [ref=e176]:
+              - heading "レシピ共有アプリ" [level=4] [ref=e177]
+              - paragraph [ref=e178]: AIが食材から最適なレシピを提案するモバイルファーストのWebアプリケーション。画像認識機能を搭載。
+              - generic [ref=e179]:
+                - generic [ref=e180]: "#モバイル"
+                - generic [ref=e181]: "#AI"
+                - generic [ref=e182]: "#PWA"
+              - generic [ref=e183]:
+                - generic [ref=e184]: 2024年1月20日
+                - generic [ref=e185]:
+                  - button "編集" [ref=e186]:
+                    - img [ref=e187]
+                  - button "公開設定" [ref=e190]:
+                    - img [ref=e191]
+                  - button "削除" [ref=e194]:
+                    - img [ref=e195]
+  - alert [ref=e198]

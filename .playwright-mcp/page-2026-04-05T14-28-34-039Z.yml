@@ -1,0 +1,321 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e5]:
+        - link "M MOMOCRI" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8]: M
+          - generic [ref=e9]: MOMOCRI
+        - generic [ref=e10]:
+          - link "特徴" [ref=e11] [cursor=pointer]:
+            - /url: "#features"
+          - link "コース" [ref=e12] [cursor=pointer]:
+            - /url: "#courses"
+          - link "料金" [ref=e13] [cursor=pointer]:
+            - /url: "#pricing"
+          - link "お客様の声" [ref=e14] [cursor=pointer]:
+            - /url: "#testimonials"
+        - generic [ref=e15]:
+          - link "Login" [ref=e16] [cursor=pointer]:
+            - /url: /login
+          - link "無料体験" [ref=e17] [cursor=pointer]:
+            - /url: /signup
+    - generic [ref=e18]:
+      - generic [ref=e24]:
+        - generic [ref=e27]: 2026年 春期受講生 募集中
+        - heading "AIと学ぶ、 次世代Webデザイン" [level=1] [ref=e28]:
+          - text: AIと学ぶ、
+          - text: 次世代Webデザイン
+        - paragraph [ref=e29]:
+          - text: AI技術を活用した革新的な学習体験で、Webデザインスキルを効率的に習得。
+          - text: AI Tuberがあなたの学習をサポートします。
+        - generic [ref=e30]:
+          - link "無料で始める" [ref=e31] [cursor=pointer]:
+            - /url: /signup
+            - text: 無料で始める
+            - img [ref=e32]
+          - link "詳しく見る" [ref=e34] [cursor=pointer]:
+            - /url: "#features"
+            - text: 詳しく見る
+            - img [ref=e35]
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e39]: 5,000+
+            - generic [ref=e40]: 受講生
+          - generic [ref=e41]:
+            - generic [ref=e42]: 98%
+            - generic [ref=e43]: 満足度
+          - generic [ref=e44]:
+            - generic [ref=e45]: 200+
+            - generic [ref=e46]: コンテンツ
+      - img [ref=e48]
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - paragraph [ref=e54]: Features
+        - heading "MOMOCRIが選ばれる理由" [level=2] [ref=e55]
+        - paragraph [ref=e56]: 最新のAI技術と実践的なカリキュラムで、あなたの学習を最大限にサポートします。
+      - generic [ref=e57]:
+        - generic [ref=e58]:
+          - img [ref=e60]
+          - heading "AI学習サポート" [level=3] [ref=e63]
+          - paragraph [ref=e64]: AIがあなたの学習進捗を分析し、最適な学習プランを個別に提案。効率的にスキルアップできます。
+        - generic [ref=e65]:
+          - img [ref=e67]
+          - heading "AI Tuber講師" [level=3] [ref=e70]
+          - paragraph [ref=e71]: AIキャラクター「アイ」がリアルタイムであなたの質問に回答。24時間いつでも学習をサポートします。
+        - generic [ref=e72]:
+          - img [ref=e74]
+          - heading "実践型カリキュラム" [level=3] [ref=e77]
+          - paragraph [ref=e78]: 現場で使えるスキルを実践的に習得。実際のプロジェクトを通じて即戦力を身につけます。
+        - generic [ref=e79]:
+          - img [ref=e81]
+          - heading "コミュニティ" [level=3] [ref=e86]
+          - paragraph [ref=e87]: 仲間と繋がり、共に成長。受講生同士の交流や勉強会で、モチベーションを維持できます。
+    - generic [ref=e89]:
+      - generic [ref=e90]:
+        - paragraph [ref=e91]: Courses
+        - heading "コースカテゴリー" [level=2] [ref=e92]
+        - paragraph [ref=e93]: 目的に合わせた多彩なコースをご用意。基礎から応用まで体系的に学べます。
+      - generic [ref=e94]:
+        - generic [ref=e98]:
+          - generic [ref=e99]:
+            - img [ref=e101]
+            - heading "Design" [level=3] [ref=e107]
+            - paragraph [ref=e108]: UI/UXデザイン、Figma、デザインシステムの構築まで幅広く学習。
+          - generic [ref=e109]:
+            - generic [ref=e110]: 12コース
+            - img [ref=e111]
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - img [ref=e119]
+            - heading "Development" [level=3] [ref=e121]
+            - paragraph [ref=e122]: HTML/CSS、JavaScript、React、Next.jsなどのフロントエンド開発。
+          - generic [ref=e123]:
+            - generic [ref=e124]: 18コース
+            - img [ref=e125]
+        - generic [ref=e130]:
+          - generic [ref=e131]:
+            - img [ref=e133]
+            - heading "AI" [level=3] [ref=e136]
+            - paragraph [ref=e137]: 生成AI、ChatGPT活用、AIを使ったデザインワークフロー。
+          - generic [ref=e138]:
+            - generic [ref=e139]: 8コース
+            - img [ref=e140]
+        - generic [ref=e145]:
+          - generic [ref=e146]:
+            - img [ref=e148]
+            - heading "Business" [level=3] [ref=e151]
+            - paragraph [ref=e152]: フリーランス独立、ポートフォリオ戦略、クライアントワーク。
+          - generic [ref=e153]:
+            - generic [ref=e154]: 6コース
+            - img [ref=e155]
+    - generic [ref=e158]:
+      - generic [ref=e159]:
+        - paragraph [ref=e160]: Pricing
+        - heading "料金プラン" [level=2] [ref=e161]
+        - paragraph [ref=e162]: あなたの目標に合わせた最適なプランをお選びください。
+      - generic [ref=e163]:
+        - generic [ref=e164]:
+          - generic [ref=e165]:
+            - heading "個人プラン" [level=3] [ref=e166]
+            - paragraph [ref=e167]: 個人学習に最適なスタンダードプラン
+          - generic [ref=e168]:
+            - generic [ref=e169]:
+              - generic [ref=e170]: ¥15,000
+              - generic [ref=e171]: /月
+            - paragraph [ref=e172]: 年額 ¥150,000（年払いで2ヶ月分お得）
+          - list [ref=e173]:
+            - listitem [ref=e174]:
+              - img [ref=e175]
+              - text: 全コースへのアクセス
+            - listitem [ref=e177]:
+              - img [ref=e178]
+              - text: AI Tuber「アイ」の学習サポート
+            - listitem [ref=e180]:
+              - img [ref=e181]
+              - text: コミュニティへの参加
+            - listitem [ref=e183]:
+              - img [ref=e184]
+              - text: 月2回のライブ講義
+            - listitem [ref=e186]:
+              - img [ref=e187]
+              - text: 修了証明書の発行
+          - link "無料で始める" [ref=e189] [cursor=pointer]:
+            - /url: /signup
+        - generic [ref=e190]:
+          - generic [ref=e192]:
+            - img [ref=e193]
+            - text: POPULAR
+          - generic [ref=e195]:
+            - heading "Proプラン" [level=3] [ref=e196]
+            - paragraph [ref=e197]: 本気でスキルアップしたい方に
+          - generic [ref=e198]:
+            - generic [ref=e199]:
+              - generic [ref=e200]: ¥25,000
+              - generic [ref=e201]: /月
+            - paragraph [ref=e202]: 年額 ¥250,000（年払いで2ヶ月分お得）
+          - list [ref=e203]:
+            - listitem [ref=e204]:
+              - img [ref=e205]
+              - text: 個人プランの全機能
+            - listitem [ref=e207]:
+              - img [ref=e208]
+              - text: 1on1メンタリング（月4回）
+            - listitem [ref=e210]:
+              - img [ref=e211]
+              - text: ポートフォリオレビュー
+            - listitem [ref=e213]:
+              - img [ref=e214]
+              - text: 転職・案件獲得サポート
+            - listitem [ref=e216]:
+              - img [ref=e217]
+              - text: 限定ワークショップへの参加
+            - listitem [ref=e219]:
+              - img [ref=e220]
+              - text: 優先サポート対応
+          - link "無料で始める" [ref=e222] [cursor=pointer]:
+            - /url: /signup
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - heading "法人プラン" [level=3] [ref=e225]
+            - paragraph [ref=e226]: チームでの研修・育成に
+          - generic [ref=e227]:
+            - generic [ref=e228]:
+              - generic [ref=e229]: ¥80,000~
+              - generic [ref=e230]: /月
+            - paragraph [ref=e231]: ご要望に合わせたカスタムプラン
+          - list [ref=e232]:
+            - listitem [ref=e233]:
+              - img [ref=e234]
+              - text: Proプランの全機能
+            - listitem [ref=e236]:
+              - img [ref=e237]
+              - text: アカウント数 無制限
+            - listitem [ref=e239]:
+              - img [ref=e240]
+              - text: 管理ダッシュボード
+            - listitem [ref=e242]:
+              - img [ref=e243]
+              - text: カスタムカリキュラム作成
+            - listitem [ref=e245]:
+              - img [ref=e246]
+              - text: 専任カスタマーサクセス
+            - listitem [ref=e248]:
+              - img [ref=e249]
+              - text: 請求書払い対応
+          - link "お問い合わせ" [ref=e251] [cursor=pointer]:
+            - /url: mailto:contact@momocri.com
+    - generic [ref=e253]:
+      - generic [ref=e254]:
+        - paragraph [ref=e255]: Testimonials
+        - heading "お客様の声" [level=2] [ref=e256]
+        - paragraph [ref=e257]: MOMOCRIで学んだ受講生の声をご紹介します。
+      - generic [ref=e258]:
+        - generic [ref=e259]:
+          - generic [ref=e260]:
+            - img [ref=e261]
+            - img [ref=e263]
+            - img [ref=e265]
+            - img [ref=e267]
+            - img [ref=e269]
+          - paragraph [ref=e271]: 「AI Tuberのアイちゃんのおかげで、つまずいた時もすぐに解決できました。未経験からわずか3ヶ月でWebデザイナーとして転職できたのは、MOMOCRIのおかげです。」
+          - generic [ref=e272]:
+            - generic [ref=e273]: 田
+            - generic [ref=e274]:
+              - generic [ref=e275]: 田中 美咲
+              - generic [ref=e276]: Webデザイナー / 25歳
+        - generic [ref=e277]:
+          - generic [ref=e278]:
+            - img [ref=e279]
+            - img [ref=e281]
+            - img [ref=e283]
+            - img [ref=e285]
+            - img [ref=e287]
+          - paragraph [ref=e289]: 「実践型のカリキュラムが素晴らしい。学んだことをすぐに業務に活かせるので、会社での評価も上がりました。AIを活用した学習方法は本当に効率的です。」
+          - generic [ref=e290]:
+            - generic [ref=e291]: 鈴
+            - generic [ref=e292]:
+              - generic [ref=e293]: 鈴木 健太
+              - generic [ref=e294]: フロントエンドエンジニア / 32歳
+        - generic [ref=e295]:
+          - generic [ref=e296]:
+            - img [ref=e297]
+            - img [ref=e299]
+            - img [ref=e301]
+            - img [ref=e303]
+            - img [ref=e305]
+          - paragraph [ref=e307]: 「コミュニティの仲間との交流が最高でした。同じ目標を持つ人たちと切磋琢磨できる環境は、独学では得られない大きな価値です。」
+          - generic [ref=e308]:
+            - generic [ref=e309]: 佐
+            - generic [ref=e310]:
+              - generic [ref=e311]: 佐藤 あかり
+              - generic [ref=e312]: フリーランスデザイナー / 28歳
+    - generic [ref=e317]:
+      - heading "今すぐ始めましょう" [level=2] [ref=e318]
+      - paragraph [ref=e319]: まずは無料体験から。AIと一緒に、あなたのWebデザインキャリアをスタートさせましょう。
+      - link "無料体験に申し込む" [ref=e321] [cursor=pointer]:
+        - /url: /signup
+        - text: 無料体験に申し込む
+        - img [ref=e322]
+      - paragraph [ref=e324]: クレジットカード不要 ・ 7日間無料トライアル
+    - contentinfo [ref=e325]:
+      - generic [ref=e326]:
+        - generic [ref=e327]:
+          - generic [ref=e328]:
+            - link "M MOMOCRI" [ref=e329] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e331]: M
+              - generic [ref=e332]: MOMOCRI
+            - paragraph [ref=e333]: AI技術を活用した次世代Webデザインスクール。あなたの学習を最適化します。
+          - generic [ref=e334]:
+            - heading "サービス" [level=4] [ref=e335]
+            - list [ref=e336]:
+              - listitem [ref=e337]:
+                - link "特徴" [ref=e338] [cursor=pointer]:
+                  - /url: "#features"
+              - listitem [ref=e339]:
+                - link "コース" [ref=e340] [cursor=pointer]:
+                  - /url: "#courses"
+              - listitem [ref=e341]:
+                - link "料金" [ref=e342] [cursor=pointer]:
+                  - /url: "#pricing"
+              - listitem [ref=e343]:
+                - link "お客様の声" [ref=e344] [cursor=pointer]:
+                  - /url: "#testimonials"
+          - generic [ref=e345]:
+            - heading "アカウント" [level=4] [ref=e346]
+            - list [ref=e347]:
+              - listitem [ref=e348]:
+                - link "ログイン" [ref=e349] [cursor=pointer]:
+                  - /url: /login
+              - listitem [ref=e350]:
+                - link "新規登録" [ref=e351] [cursor=pointer]:
+                  - /url: /signup
+              - listitem [ref=e352]:
+                - link "ダッシュボード" [ref=e353] [cursor=pointer]:
+                  - /url: /dashboard
+          - generic [ref=e354]:
+            - heading "法的情報" [level=4] [ref=e355]
+            - list [ref=e356]:
+              - listitem [ref=e357]:
+                - link "利用規約" [ref=e358] [cursor=pointer]:
+                  - /url: /legal/terms
+              - listitem [ref=e359]:
+                - link "プライバシーポリシー" [ref=e360] [cursor=pointer]:
+                  - /url: /legal/privacy
+              - listitem [ref=e361]:
+                - link "特定商取引法に基づく表記" [ref=e362] [cursor=pointer]:
+                  - /url: /legal
+        - generic [ref=e363]:
+          - paragraph [ref=e364]: © 2026 MOMOCRI. All rights reserved.
+          - generic [ref=e365]:
+            - link [ref=e366] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e367]
+            - link [ref=e369] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e370]
+            - link [ref=e373] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e374]
+  - alert [ref=e377]

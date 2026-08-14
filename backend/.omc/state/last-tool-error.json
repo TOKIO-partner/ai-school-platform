@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"echo \\\"=== courses permission classes ===\\\" && grep -rn \\\"permission_classes\\\\|AllowAny\\\\|IsAuthenticated\\\" courses/views.py 2>/dev/null | head -20 && echo \\\"\\\" && echo \\\"=== auth refresh ...",
+  "error": "Exit code 2\n=== courses permission classes ===\ncourses/views.py:17:    permission_classes = [permissions.AllowAny]\ncourses/views.py:40:    permission_classes = [IsAdmin]\ncourses/views.py:63:    permission_classes = [IsAdmin]\ncourses/views.py:76:    permission_classes = [IsAdmin]\ncourses/views.py:90:    permission_classes = [IsAdmin]\ncourses/views.py:101:    permission_classes = [IsAdmin]\ncourses/views.py:116:    permission_classes = [IsAdmin]\n\n=== auth refresh view impl ===",
+  "timestamp": "2026-06-18T01:21:37.804Z",
+  "retry_count": 1
+}

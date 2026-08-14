@@ -1,0 +1,53 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - img [ref=e6]
+      - generic [ref=e8]: MOMOCRI
+    - generic [ref=e9]:
+      - heading "ログイン" [level=1] [ref=e10]
+      - paragraph [ref=e11]: アカウントにログインして学習を続けましょう
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: メールアドレス
+          - generic [ref=e15]:
+            - img [ref=e16]
+            - textbox "メールアドレス" [active] [ref=e19]:
+              - /placeholder: you@example.com
+        - generic [ref=e20]:
+          - generic [ref=e21]: パスワード
+          - generic [ref=e22]:
+            - img [ref=e23]
+            - textbox "パスワード" [ref=e26]:
+              - /placeholder: パスワードを入力
+            - button [ref=e27]:
+              - img [ref=e28]
+        - generic [ref=e31]:
+          - generic [ref=e32] [cursor=pointer]:
+            - checkbox "ログイン状態を保持" [ref=e33]
+            - generic [ref=e34]: ログイン状態を保持
+          - link "パスワードを忘れた方" [ref=e35] [cursor=pointer]:
+            - /url: /reset-password
+        - button "ログイン" [ref=e36]:
+          - img [ref=e37]
+          - text: ログイン
+      - generic [ref=e42]: or
+      - generic [ref=e44]:
+        - button "Googleでログイン" [ref=e45]:
+          - img [ref=e46]
+          - text: Googleでログイン
+        - button "GitHubでログイン" [ref=e51]:
+          - img [ref=e52]
+          - text: GitHubでログイン
+      - generic [ref=e57]: デモ
+      - button "デモアカウントでログイン" [ref=e59]:
+        - img [ref=e60]
+        - text: デモアカウントでログイン
+      - paragraph [ref=e64]:
+        - text: アカウントをお持ちでないですか？
+        - link "新規登録" [ref=e65] [cursor=pointer]:
+          - /url: /signup
+    - link "トップページに戻る" [ref=e67] [cursor=pointer]:
+      - /url: /
+      - img [ref=e68]
+      - text: トップページに戻る
+  - alert [ref=e70]

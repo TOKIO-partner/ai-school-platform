@@ -1,0 +1,13 @@
+flowchart TD
+  CDASH["/corp 法人ダッシュボード"]
+  MEM["/corp/members 受講者管理"]
+  REP["/corp/reports 進捗レポート"]
+  subgraph 受講者機能も利用可
+    L2["/learning"]
+    C2["/courses"]
+    D2["/dashboard"]
+  end
+  CDASH --> MEM
+  CDASH --> REP
+  CDASH --> D2
+  D2 --> C2 --> L2

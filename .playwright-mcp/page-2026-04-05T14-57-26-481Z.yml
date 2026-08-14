@@ -1,0 +1,45 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "MOMOCRI" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e7]
+        - generic [ref=e9]: MOMOCRI
+      - navigation [ref=e10]:
+        - link "ダッシュボード" [ref=e11] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e12]
+          - generic [ref=e15]: ダッシュボード
+        - link "学習ルーム" [ref=e17] [cursor=pointer]:
+          - /url: /learning
+          - img [ref=e18]
+          - generic [ref=e20]: 学習ルーム
+        - link "コース一覧" [ref=e21] [cursor=pointer]:
+          - /url: /courses
+          - img [ref=e22]
+          - generic [ref=e24]: コース一覧
+        - link "コミュニティ" [ref=e25] [cursor=pointer]:
+          - /url: /community
+          - img [ref=e26]
+          - generic [ref=e31]: コミュニティ
+      - generic [ref=e33]:
+        - generic [ref=e34]: AS
+        - generic [ref=e35]:
+          - paragraph [ref=e36]: 長谷川 麻子
+          - paragraph [ref=e37]: Pro Plan
+        - link [ref=e38] [cursor=pointer]:
+          - /url: /settings
+          - img [ref=e39]
+    - generic [ref=e42]:
+      - banner [ref=e43]:
+        - heading "Dashboard" [level=1] [ref=e45]
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - img [ref=e48]
+            - textbox "Search..." [ref=e51]
+          - button [ref=e52]:
+            - img [ref=e53]
+          - generic [ref=e59] [cursor=pointer]: AS
+      - main [ref=e60]:
+        - img [ref=e62]
+  - alert [ref=e64]

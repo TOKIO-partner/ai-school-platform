@@ -1,0 +1,12 @@
+flowchart TD
+  LP["/ ランディング"] --> LOGIN["/login ログイン"]
+  LP --> SIGNUP["/signup 新規登録"]
+  LOGIN --> RESET["/reset-password"]
+  SIGNUP --> LOGIN
+
+  LOGIN --> ROLE{ロール判定}
+  ROLE -->|student| SDASH["/dashboard 受講者"]
+  ROLE -->|corp_admin| CDASH["/corp 法人管理"]
+  ROLE -->|admin| ADASH["/admin 運営管理"]
+
+  LP -.-> LEGAL["/legal/terms・privacy"]
