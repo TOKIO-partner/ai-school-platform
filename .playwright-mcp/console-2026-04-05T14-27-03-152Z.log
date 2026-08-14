@@ -1,0 +1,10 @@
+[    1205ms] Error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at rD (https://ai-school-platform.vercel.app/_next/static/chunks/4bd1b696-c023c6e3521b1417.js:1:35056)
+    at https://ai-school-platform.vercel.app/_next/static/chunks/4bd1b696-c023c6e3521b1417.js:1:119645
+    at ix (https://ai-school-platform.vercel.app/_next/static/chunks/4bd1b696-c023c6e3521b1417.js:1:122949)
+    at ik (https://ai-school-platform.vercel.app/_next/static/chunks/4bd1b696-c023c6e3521b1417.js:1:114737)
+    at https://ai-school-platform.vercel.app/_next/static/chunks/4bd1b696-c023c6e3521b1417.js:1:110724
+    at iu (https://ai-school-platform.vercel.app/_next/static/chunks/4bd1b696-c023c6e3521b1417.js:1:110825)
+    at iX (https://ai-school-platform.vercel.app/_next/static/chunks/4bd1b696-c023c6e3521b1417.js:1:132928)
+    at MessagePort.w (https://ai-school-platform.vercel.app/_next/static/chunks/493-549e27a9538cad60.js:1:113837)
+[    1190ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://grainy-gradients.vercel.app/noise.svg:0

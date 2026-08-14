@@ -1,0 +1,205 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "MOMOCRI Admin" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e7]
+        - generic [ref=e9]: MOMOCRI
+        - generic [ref=e10]: Admin
+      - navigation [ref=e11]:
+        - link "ダッシュボード" [ref=e12] [cursor=pointer]:
+          - /url: /admin
+          - img [ref=e13]
+          - generic [ref=e14]: ダッシュボード
+        - link "ユーザー管理" [ref=e15] [cursor=pointer]:
+          - /url: /admin/users
+          - img [ref=e16]
+          - generic [ref=e21]: ユーザー管理
+        - link "コース管理" [ref=e22] [cursor=pointer]:
+          - /url: /admin/courses
+          - img [ref=e23]
+          - generic [ref=e25]: コース管理
+        - link "コンテンツ管理" [ref=e26] [cursor=pointer]:
+          - /url: /admin/contents
+          - img [ref=e27]
+          - generic [ref=e30]: コンテンツ管理
+        - link "コミュニティ管理" [ref=e31] [cursor=pointer]:
+          - /url: /admin/community
+          - img [ref=e32]
+          - generic [ref=e34]: コミュニティ管理
+        - link "イベント管理" [ref=e35] [cursor=pointer]:
+          - /url: /admin/events
+          - img [ref=e36]
+          - generic [ref=e38]: イベント管理
+        - link "お知らせ管理" [ref=e39] [cursor=pointer]:
+          - /url: /admin/announcements
+          - img [ref=e40]
+          - generic [ref=e43]: お知らせ管理
+        - link "売上・決済" [ref=e45] [cursor=pointer]:
+          - /url: /admin/billing
+          - img [ref=e46]
+          - generic [ref=e48]: 売上・決済
+        - link "AI設定" [ref=e49] [cursor=pointer]:
+          - /url: /admin/ai-settings
+          - img [ref=e50]
+          - generic [ref=e53]: AI設定
+        - link "システム設定" [ref=e54] [cursor=pointer]:
+          - /url: /admin/system
+          - img [ref=e55]
+          - generic [ref=e58]: システム設定
+      - generic [ref=e60]:
+        - generic [ref=e61]: AD
+        - generic [ref=e62]:
+          - paragraph [ref=e63]: Admin User
+          - paragraph [ref=e64]: 管理者
+        - img [ref=e65] [cursor=pointer]
+    - generic [ref=e68]:
+      - banner [ref=e69]:
+        - generic [ref=e70]:
+          - heading "お知らせ管理" [level=1] [ref=e71]
+          - generic [ref=e72]: Admin
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - img [ref=e75]
+            - textbox "Search..." [ref=e78]
+          - button [ref=e79]:
+            - img [ref=e80]
+          - generic [ref=e86] [cursor=pointer]: AS
+      - main [ref=e87]:
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - generic [ref=e90]:
+              - heading "お知らせ管理" [level=2] [ref=e91]
+              - paragraph [ref=e92]: 配信済み・予約中のお知らせを管理します
+            - button "新規作成" [ref=e93]:
+              - img [ref=e94]
+              - text: 新規作成
+          - generic [ref=e95]:
+            - generic [ref=e96]:
+              - heading "お知らせ一覧" [level=3] [ref=e97]:
+                - img [ref=e98]
+                - text: お知らせ一覧
+              - combobox [ref=e102]:
+                - option "すべてのステータス" [selected]
+                - option "送信済み"
+                - option "予約済み"
+                - option "下書き"
+            - table [ref=e104]:
+              - rowgroup [ref=e105]:
+                - row "タイトル 対象 チャネル 配信日時 ステータス 操作" [ref=e106]:
+                  - columnheader "タイトル" [ref=e107]
+                  - columnheader "対象" [ref=e108]
+                  - columnheader "チャネル" [ref=e109]
+                  - columnheader "配信日時" [ref=e110]
+                  - columnheader "ステータス" [ref=e111]
+                  - columnheader "操作" [ref=e112]
+              - rowgroup [ref=e113]:
+                - row "システムメンテナンスのお知らせ 3/15 深夜メンテナンス 全員 メール アプリ内 2026/03/13 18:00 予約済み 編集 削除" [ref=e114]:
+                  - cell "システムメンテナンスのお知らせ 3/15 深夜メンテナンス" [ref=e115]:
+                    - generic [ref=e116]:
+                      - paragraph [ref=e117]: システムメンテナンスのお知らせ
+                      - paragraph [ref=e118]: 3/15 深夜メンテナンス
+                  - cell "全員" [ref=e119]
+                  - cell "メール アプリ内" [ref=e120]:
+                    - generic [ref=e121]:
+                      - generic [ref=e123]:
+                        - img [ref=e124]
+                        - text: メール
+                      - generic [ref=e128]:
+                        - img [ref=e129]
+                        - text: アプリ内
+                  - cell "2026/03/13 18:00" [ref=e132]
+                  - cell "予約済み" [ref=e133]
+                  - cell "編集 削除" [ref=e134]:
+                    - generic [ref=e135]:
+                      - button "編集" [ref=e136]:
+                        - img [ref=e137]
+                        - text: 編集
+                      - button "削除" [ref=e140]:
+                        - img [ref=e141]
+                        - text: 削除
+                - row "新コース「データ分析基礎」リリース 新コース公開のお知らせ 全員 アプリ内 2026/03/12 10:00 送信済み 編集 削除" [ref=e144]:
+                  - cell "新コース「データ分析基礎」リリース 新コース公開のお知らせ" [ref=e145]:
+                    - generic [ref=e146]:
+                      - paragraph [ref=e147]: 新コース「データ分析基礎」リリース
+                      - paragraph [ref=e148]: 新コース公開のお知らせ
+                  - cell "全員" [ref=e149]
+                  - cell "アプリ内" [ref=e150]:
+                    - generic [ref=e153]:
+                      - img [ref=e154]
+                      - text: アプリ内
+                  - cell "2026/03/12 10:00" [ref=e157]
+                  - cell "送信済み" [ref=e158]
+                  - cell "編集 削除" [ref=e159]:
+                    - generic [ref=e160]:
+                      - button "編集" [ref=e161]:
+                        - img [ref=e162]
+                        - text: 編集
+                      - button "削除" [ref=e165]:
+                        - img [ref=e166]
+                        - text: 削除
+                - row "プラン改定のお知らせ 4月からの料金変更について 個人ユーザー メール アプリ内 2026/03/10 09:00 送信済み 編集 削除" [ref=e169]:
+                  - cell "プラン改定のお知らせ 4月からの料金変更について" [ref=e170]:
+                    - generic [ref=e171]:
+                      - paragraph [ref=e172]: プラン改定のお知らせ
+                      - paragraph [ref=e173]: 4月からの料金変更について
+                  - cell "個人ユーザー" [ref=e174]
+                  - cell "メール アプリ内" [ref=e175]:
+                    - generic [ref=e176]:
+                      - generic [ref=e178]:
+                        - img [ref=e179]
+                        - text: メール
+                      - generic [ref=e183]:
+                        - img [ref=e184]
+                        - text: アプリ内
+                  - cell "2026/03/10 09:00" [ref=e187]
+                  - cell "送信済み" [ref=e188]
+                  - cell "編集 削除" [ref=e189]:
+                    - generic [ref=e190]:
+                      - button "編集" [ref=e191]:
+                        - img [ref=e192]
+                        - text: 編集
+                      - button "削除" [ref=e195]:
+                        - img [ref=e196]
+                        - text: 削除
+                - row "春のキャンペーン開始 Pro年額20%OFF 全員 メール 2026/03/08 12:00 送信済み 編集 削除" [ref=e199]:
+                  - cell "春のキャンペーン開始 Pro年額20%OFF" [ref=e200]:
+                    - generic [ref=e201]:
+                      - paragraph [ref=e202]: 春のキャンペーン開始
+                      - paragraph [ref=e203]: Pro年額20%OFF
+                  - cell "全員" [ref=e204]
+                  - cell "メール" [ref=e205]:
+                    - generic [ref=e208]:
+                      - img [ref=e209]
+                      - text: メール
+                  - cell "2026/03/08 12:00" [ref=e212]
+                  - cell "送信済み" [ref=e213]
+                  - cell "編集 削除" [ref=e214]:
+                    - generic [ref=e215]:
+                      - button "編集" [ref=e216]:
+                        - img [ref=e217]
+                        - text: 編集
+                      - button "削除" [ref=e220]:
+                        - img [ref=e221]
+                        - text: 削除
+                - row "コミュニティガイドライン更新 ルール改定のお知らせ 全員 アプリ内 2026/03/05 下書き 編集 削除" [ref=e224]:
+                  - cell "コミュニティガイドライン更新 ルール改定のお知らせ" [ref=e225]:
+                    - generic [ref=e226]:
+                      - paragraph [ref=e227]: コミュニティガイドライン更新
+                      - paragraph [ref=e228]: ルール改定のお知らせ
+                  - cell "全員" [ref=e229]
+                  - cell "アプリ内" [ref=e230]:
+                    - generic [ref=e233]:
+                      - img [ref=e234]
+                      - text: アプリ内
+                  - cell "2026/03/05" [ref=e237]
+                  - cell "下書き" [ref=e238]
+                  - cell "編集 削除" [ref=e239]:
+                    - generic [ref=e240]:
+                      - button "編集" [ref=e241]:
+                        - img [ref=e242]
+                        - text: 編集
+                      - button "削除" [ref=e245]:
+                        - img [ref=e246]
+                        - text: 削除
+  - alert [ref=e249]

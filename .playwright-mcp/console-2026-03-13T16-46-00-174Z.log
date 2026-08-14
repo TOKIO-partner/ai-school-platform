@@ -1,0 +1,2 @@
+[    4805ms] [ERROR] Access to fetch at 'http://localhost:8000/api/v1/auth/token/refresh/' from origin 'https://ai-school-platform-roan.vercel.app' has been blocked by CORS policy: Permission was denied for this request to access the `loopback` address space. @ https://ai-school-platform-roan.vercel.app/login:0
+[    4805ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost:8000/api/v1/auth/token/refresh/:0

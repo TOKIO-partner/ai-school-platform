@@ -1,0 +1,81 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e70]
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - link "MOMOCRI" [ref=e74] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e76]
+        - generic [ref=e78]: MOMOCRI
+      - navigation [ref=e79]:
+        - link "ダッシュボード" [ref=e80] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e81]
+          - generic [ref=e84]: ダッシュボード
+        - link "学習ルーム" [ref=e86] [cursor=pointer]:
+          - /url: /learning
+          - img [ref=e87]
+          - generic [ref=e89]: 学習ルーム
+        - link "コース一覧" [ref=e90] [cursor=pointer]:
+          - /url: /courses
+          - img [ref=e91]
+          - generic [ref=e93]: コース一覧
+        - link "コミュニティ" [ref=e94] [cursor=pointer]:
+          - /url: /community
+          - img [ref=e95]
+          - generic [ref=e100]: コミュニティ
+      - generic [ref=e102]:
+        - generic [ref=e103]: AS
+        - generic [ref=e104]:
+          - paragraph [ref=e105]: 長谷川 麻子
+          - paragraph [ref=e106]: Pro Plan
+        - link [ref=e107] [cursor=pointer]:
+          - /url: /settings
+          - img [ref=e108]
+    - generic [ref=e111]:
+      - banner [ref=e112]:
+        - heading "Dashboard" [level=1] [ref=e114]
+        - generic [ref=e115]:
+          - generic [ref=e116]:
+            - img [ref=e117]
+            - textbox "Search..." [ref=e120]
+          - button [ref=e121]:
+            - img [ref=e122]
+          - generic [ref=e128] [cursor=pointer]: AS
+      - main [ref=e129]:
+        - generic [ref=e131]:
+          - heading "Welcome back, Creator." [level=2] [ref=e132]
+          - paragraph [ref=e133]: 前回のセッションでは「レスポンシブデザイン」を学習しました。AIコーチがあなたの進捗に基づいて、次のカリキュラムを最適化しました。
+          - generic [ref=e134]:
+            - link "学習を再開する" [ref=e135] [cursor=pointer]:
+              - /url: /learning
+              - img [ref=e136]
+              - text: 学習を再開する
+            - link "ポートフォリオを見る" [ref=e138] [cursor=pointer]:
+              - /url: /portfolio
+        - generic [ref=e139]:
+          - generic [ref=e140]:
+            - generic [ref=e141]:
+              - img [ref=e143]
+              - generic [ref=e146]: LV.12
+            - heading "獲得スキルポイント" [level=3] [ref=e147]
+            - paragraph [ref=e148]: 0 pts
+          - generic [ref=e149]:
+            - generic [ref=e150]:
+              - img [ref=e152]
+              - generic [ref=e155]: AI Analysis
+            - heading "現在の学習集中度" [level=3] [ref=e156]
+            - paragraph [ref=e157]: High top 5%
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - img [ref=e161]
+              - generic [ref=e164]: Weekly
+            - heading "今週の完了レッスン" [level=3] [ref=e165]
+            - paragraph [ref=e166]: 0 lessons
+        - generic [ref=e168]:
+          - heading "Recommended for You" [level=3] [ref=e169]:
+            - img [ref=e170]
+            - text: Recommended for You
+          - link "すべて見る" [ref=e172] [cursor=pointer]:
+            - /url: /courses
+            - text: すべて見る
+            - img [ref=e173]

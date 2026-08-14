@@ -1,0 +1,155 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5] [cursor=pointer]:
+          - img [ref=e6]
+          - generic [ref=e9]:
+            - generic [ref=e10]: DEEP AI
+            - generic [ref=e11]: Academy
+        - generic [ref=e12]:
+          - button "RU EN" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: RU
+            - text: EN
+          - link "Доступ к Терминалу" [ref=e15] [cursor=pointer]:
+            - /url: /login
+          - link "Инициализация" [ref=e16] [cursor=pointer]:
+            - /url: /login
+            - button "Инициализация" [ref=e17]: Инициализация
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e23]: "СИСТЕМНОЕ ОПОВЕЩЕНИЕ: РЫНОК МЕНЯЕТСЯ"
+        - heading "ЭРА КОДЕРОВ ЗАКОНЧЕНА. СТАНЬ СИСТЕМНЫМ ДИЗАЙНЕРОМ." [level=1] [ref=e24]:
+          - text: ЭРА КОДЕРОВ
+          - text: ЗАКОНЧЕНА.
+          - text: СТАНЬ СИСТЕМНЫМ ДИЗАЙНЕРОМ.
+        - paragraph [ref=e25]: ИИ пишет код быстрее и дешевле. Твоя защита от безработицы — умение ПРОЕКТИРОВАТЬ сложные системы, которыми управляет ИИ.
+        - generic [ref=e26]:
+          - link "НАЧАТЬ ПРОЕКТИРОВАНИЕ" [ref=e27] [cursor=pointer]:
+            - /url: /login
+            - button "НАЧАТЬ ПРОЕКТИРОВАНИЕ" [ref=e28]:
+              - img [ref=e29]
+              - text: НАЧАТЬ ПРОЕКТИРОВАНИЕ
+          - button "ПРОГРАММА КУРСА" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+            - text: ПРОГРАММА КУРСА
+      - generic [ref=e35]:
+        - img [ref=e39]
+        - generic:
+          - generic: UPLOADING_NEURAL_WEIGHTS...
+    - generic [ref=e56]:
+      - heading "РЕMF6$GW9NSAEQXY" [level=2] [ref=e58]:
+        - generic [ref=e59]: РЕMF6$GW9NSAEQXY
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - img [ref=e64]
+          - heading "РЯДОВОЙ КОДЕР (УСТАРЕВАЕТ)" [level=3] [ref=e67]
+          - paragraph [ref=e68]: Пишет синтаксис вручную. Конкурирует с ИИ-помощниками. Легко заменим.
+          - list [ref=e69]:
+            - listitem [ref=e70]: Заучивание синтаксиса
+            - listitem [ref=e72]: Исправление багов
+            - listitem [ref=e74]: Фокус на одной функции
+        - generic [ref=e76]:
+          - generic [ref=e77]: Growth
+          - img [ref=e79]
+          - heading "СИСТЕМНЫЙ ДИЗАЙНЕР (ВОСТРЕБОВАН)" [level=3] [ref=e82]
+          - paragraph [ref=e83]: Создает системы. Управляет армией AI-агентов. Решает задачи бизнеса.
+          - list [ref=e84]:
+            - listitem [ref=e85]: Системный дизайн
+            - listitem [ref=e87]: Масштабируемая логика
+            - listitem [ref=e89]: Оркестрация ИИ
+    - generic [ref=e92]:
+      - generic [ref=e93]:
+        - 'heading "1 ГОД: ОТ НУЛЯ ДО СИСТЕМНОГО ДИЗАЙНЕРА" [level=2] [ref=e94]'
+        - paragraph [ref=e95]: КОНКРЕТНЫЕ РЕЗУЛЬТАТЫ ДЛЯ СТУДЕНТОВ И РОДИТЕЛЕЙ
+      - generic [ref=e96]:
+        - generic [ref=e97]:
+          - img [ref=e99]
+          - generic [ref=e103]:
+            - generic [ref=e105]: Логика и Реверс-Инжиниринг
+            - generic [ref=e106]: "ФАЗА 1: ФУНДАМЕНТ (Мес 1-3)"
+            - paragraph [ref=e107]: Прежде чем создавать ИИ, нужно понять машину. Мы дублируем классические алгоритмы, чтобы понять, как они «думают».
+        - generic [ref=e108]:
+          - img [ref=e110]
+          - generic [ref=e114]:
+            - generic [ref=e116]: Создание AI-инструментария
+            - generic [ref=e117]: "ФАЗА 2: ИНСТРУМЕНТЫ (Мес 4-6)"
+            - paragraph [ref=e118]: Локальные LLM, кастомные чат-боты, скрипты автоматизации. Хватит платить за SaaS, начни создавать их.
+        - generic [ref=e119]:
+          - img [ref=e121]
+          - generic [ref=e126]:
+            - generic [ref=e128]: Полномасштабный Системный Дизайн
+            - generic [ref=e129]: "ФАЗА 3: СИСТЕМЫ (Мес 7-12)"
+            - paragraph [ref=e130]: Автономные агенты, компьютерное зрение, системы анализа данных. Реальные продукты, реальная ценность.
+    - generic [ref=e133]:
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - text: CLASSIFIED
+          - heading "АКТИВНЫЕ ОПЕРАЦИИ" [level=2] [ref=e136]
+          - paragraph [ref=e137]: РЕАЛЬНЫЕ СИСТЕМЫ, КОТОРЫЕ ТЫ СОЗДАШЬ
+        - link "View Full Database" [ref=e138] [cursor=pointer]:
+          - /url: /login
+          - text: View Full Database
+          - img [ref=e139]
+      - generic [ref=e141]:
+        - generic [ref=e142]:
+          - generic [ref=e147]: SYS-73
+          - generic [ref=e148]:
+            - img [ref=e150]
+            - generic [ref=e158]: NLP
+          - heading "Разумный Чат-бот" [level=3] [ref=e159]
+          - paragraph [ref=e160]: Реверс-инжиниринг Трансформеров. Бот с долгосрочной памятью.
+        - generic [ref=e161]:
+          - generic [ref=e166]: SYS-122
+          - generic [ref=e167]:
+            - img [ref=e169]
+            - generic [ref=e174]: VISION
+          - heading "Система Безопасности" [level=3] [ref=e175]
+          - paragraph [ref=e176]: Логика FaceID. Домашняя система безопасности, узнающая семью.
+        - generic [ref=e177]:
+          - generic [ref=e182]: SYS-685
+          - generic [ref=e183]:
+            - img [ref=e185]
+            - generic [ref=e187]: AGI_LITE
+          - heading "Автономный Исследователь" [level=3] [ref=e188]
+          - paragraph [ref=e189]: ИИ, который сканирует веб, саммаризирует статьи и обучается новым темам рекурсивно.
+    - generic [ref=e191]:
+      - generic [ref=e192]:
+        - generic [ref=e193]:
+          - img [ref=e194]
+          - text: Neural Link Active
+        - heading "Code Deconstructor" [level=2] [ref=e202]
+        - paragraph [ref=e203]: "// INPUT: Raw Code. // PROCESS: AI Analysis. // OUTPUT: Logic & Vulnerabilities."
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - generic [ref=e208]: Terminal_Input_01
+          - generic [ref=e209]:
+            - generic [ref=e214]: SYS-226
+            - generic [ref=e215]:
+              - button "Drone.py" [ref=e216] [cursor=pointer]
+              - button "Bank.cpp" [ref=e217] [cursor=pointer]
+            - textbox [ref=e218]: "def navigate_drone(target): while pos != target: move_forward() # BUG: No battery check # RISK: Drone crash"
+            - button "EXECUTE ANALYSIS" [ref=e220] [cursor=pointer]:
+              - img [ref=e221]
+              - text: EXECUTE ANALYSIS
+        - generic [ref=e223]:
+          - generic [ref=e225]: Analysis_Output_01
+          - generic [ref=e227]:
+            - generic [ref=e232]: SYS-313
+            - generic [ref=e238]: GEMINI-V2-FLASH
+            - generic [ref=e240]:
+              - img [ref=e241]
+              - paragraph [ref=e243]: AWAITING_DATA_STREAM
+    - generic [ref=e246]:
+      - img [ref=e248]
+      - heading "КОД — ЭТО ТОВАР." [level=2] [ref=e253]
+      - heading "ДИЗАЙН — ЭТО ВЛАСТЬ." [level=2] [ref=e254]
+      - link "ОБЕСПЕЧИТЬ БУДУЩЕЕ" [ref=e256] [cursor=pointer]:
+        - /url: /login
+        - button "ОБЕСПЕЧИТЬ БУДУЩЕЕ" [ref=e257]
+    - contentinfo [ref=e258]:
+      - generic [ref=e259]:
+        - generic [ref=e262]: "SYSTEM_STATUS: ONLINE"
+        - generic [ref=e263]: AI.ARCHITECT ACADEMY // DECONSTRUCTING REALITY
+  - region "Notifications alt+T"
+  - alert [ref=e264]

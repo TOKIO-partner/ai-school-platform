@@ -1,0 +1,4 @@
+[     143ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://momo-ai-school-platform.com/login:0
+[     318ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://api.momo-ai-school-platform.com/api/v1/auth/token/refresh/:0
+[   25561ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://api.momo-ai-school-platform.com/api/v1/auth/token/refresh/:0
+[   34400ms] [ERROR] Failed to load resource: the server responded with a status of 500 () @ https://api.momo-ai-school-platform.com/api/v1/auth/token/refresh/:0

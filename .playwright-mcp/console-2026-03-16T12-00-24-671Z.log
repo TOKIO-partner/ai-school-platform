@@ -1,0 +1,13 @@
+[    1292ms] [WARNING] jQuery.Deferred exception: a(...).slick is not a function TypeError: a(...).slick is not a function
+    at HTMLDocument.<anonymous> (https://www.ryukke.com/wp-content/themes/diver/js/diver.min.js?ver=6.3.8&theme=6.0.50:1:733)
+    at e (https://www.ryukke.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.0&theme=6.0.50:2:26990)
+    at t (https://www.ryukke.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.0&theme=6.0.50:2:27292) undefined @ https://www.ryukke.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.0&theme=6.0.50:1
+[    1321ms] TypeError: a(...).slick is not a function
+    at HTMLDocument.<anonymous> (https://www.ryukke.com/wp-content/themes/diver/js/diver.min.js?ver=6.3.8&theme=6.0.50:1:733)
+    at e (https://www.ryukke.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.0&theme=6.0.50:2:26990)
+    at t (https://www.ryukke.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.0&theme=6.0.50:2:27292)
+[ 2214260ms] [WARNING] WebSocket connection to 'wss://heatmap.kenga.tech/cable' failed: WebSocket is closed before the connection is established. @ https://kenga.tech/heatmaps-qdlmgejihvgfglqs.js:0
+[ 2219755ms] [WARNING] WebSocket connection to 'wss://heatmap.kenga.tech/cable' failed: WebSocket is closed before the connection is established. @ https://kenga.tech/heatmaps-qdlmgejihvgfglqs.js:0
+[ 2613792ms] [WARNING] WebSocket connection to 'wss://heatmap.kenga.tech/cable' failed: WebSocket is closed before the connection is established. @ https://kenga.tech/heatmaps-qdlmgejihvgfglqs.js:0
+[ 2620725ms] [WARNING] WebSocket connection to 'wss://heatmap.kenga.tech/cable' failed: WebSocket is closed before the connection is established. @ https://kenga.tech/heatmaps-qdlmgejihvgfglqs.js:0
+[ 2628774ms] [WARNING] WebSocket connection to 'wss://heatmap.kenga.tech/cable' failed: WebSocket is closed before the connection is established. @ https://kenga.tech/heatmaps-qdlmgejihvgfglqs.js:0

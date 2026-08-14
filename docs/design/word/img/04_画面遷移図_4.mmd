@@ -1,0 +1,28 @@
+flowchart TD
+  A["/admin ダッシュボード"]
+  U["/admin/users ユーザー管理"]
+  UD["/admin/users/[userId]"]
+  C["/admin/courses コース管理"]
+  CN["/admin/courses/new 新規コース"]
+  CD["/admin/courses/[courseId]"]
+  L["/admin/lessons/[lessonId]"]
+  LE["/admin/lessons/[lessonId]/edit"]
+  CT["/admin/contents コンテンツ管理"]
+  CM["/admin/community コミュニティ管理"]
+  EV["/admin/events イベント管理"]
+  AN["/admin/announcements お知らせ管理"]
+  B["/admin/billing 売上・決済"]
+  AI["/admin/ai-settings AI設定"]
+  SY["/admin/system システム設定"]
+
+  A --> U --> UD
+  A --> C
+  C --> CN
+  C --> CD --> L --> LE
+  A --> CT
+  A --> CM
+  A --> EV
+  A --> AN
+  A --> B
+  A --> AI
+  A --> SY

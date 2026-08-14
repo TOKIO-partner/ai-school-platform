@@ -1,0 +1,139 @@
+# ER図 — MOMOCRI AI School Platform
+
+- 出典: `schema.dbml`（Django `models.py` 準拠 / 全17テーブル）
+- dbdocs公開版: https://dbdocs.io/DOL%20AI/MOMOCRI-AI-School
+- 表示: GitHub / VS Code / Mermaid対応ビューアで下記が図として描画
+
+```mermaid
+erDiagram
+  organizations ||--o{ users : "所属"
+  users ||--o{ courses : "講師"
+  courses ||--o{ chapters : ""
+  chapters ||--o{ lessons : ""
+  users ||--o{ enrollments : ""
+  courses ||--o{ enrollments : ""
+  enrollments ||--o{ lesson_progresses : ""
+  lessons ||--o{ lesson_progresses : ""
+  users ||--o{ skill_points : ""
+  users ||--o{ user_badges : ""
+  badges ||--o{ user_badges : ""
+  users ||--o{ ai_chat_sessions : ""
+  lessons ||--o{ ai_chat_sessions : ""
+  ai_chat_sessions ||--o{ ai_chat_messages : ""
+  lessons ||--|| ai_lesson_comments : ""
+  users ||--|| subscriptions : ""
+  users ||--o{ payments : ""
+  payments ||--o{ refund_requests : ""
+  users ||--o{ notifications : ""
+
+  organizations {
+    int id PK
+    varchar name
+    enum plan
+    int max_seats
+  }
+  users {
+    int id PK
+    varchar username UK
+    varchar email
+    enum role
+    enum plan
+    int organization_id FK
+  }
+  courses {
+    int id PK
+    varchar title
+    varchar slug UK
+    enum category
+    enum status
+    int instructor_id FK
+  }
+  chapters {
+    int id PK
+    int course_id FK
+    int order
+  }
+  lessons {
+    int id PK
+    int chapter_id FK
+    varchar video_url
+    enum lesson_type
+    int order
+  }
+  enrollments {
+    int id PK
+    int user_id FK
+    int course_id FK
+    decimal progress_percent
+  }
+  lesson_progresses {
+    int id PK
+    int enrollment_id FK
+    int lesson_id FK
+    bool is_completed
+  }
+  skill_points {
+    int id PK
+    int user_id FK
+    varchar category
+    int points
+    int level
+  }
+  badges {
+    int id PK
+    varchar name UK
+  }
+  user_badges {
+    int id PK
+    int user_id FK
+    int badge_id FK
+  }
+  ai_chat_sessions {
+    int id PK
+    int user_id FK
+    int lesson_id FK
+  }
+  ai_chat_messages {
+    int id PK
+    int session_id FK
+    enum role
+    text content
+  }
+  ai_lesson_comments {
+    int id PK
+    int lesson_id FK "UNIQUE 1:1"
+    json comments
+  }
+  subscriptions {
+    int id PK
+    int user_id FK "UNIQUE 1:1"
+    enum plan
+    enum status
+  }
+  payments {
+    int id PK
+    int user_id FK
+    decimal amount
+    enum status
+  }
+  refund_requests {
+    int id PK
+    int payment_id FK
+    enum status
+  }
+  notifications {
+    int id PK
+    int user_id FK
+    enum type
+    bool is_read
+  }
+```
+
+## リレーション要点
+- `organizations 1—N users`（法人メンバー / SET NULL）
+- `users 1—N courses`（講師）→ `courses 1—N chapters 1—N lessons`（3階層コンテンツ）
+- `users N—N courses`（`enrollments`）→ `enrollments 1—N lesson_progresses`
+- ゲーミフィケーション: `users 1—N skill_points` / `users N—N badges`（`user_badges`）
+- AI: `users×lessons 1—N ai_chat_sessions 1—N ai_chat_messages` / `lessons 1—1 ai_lesson_comments`
+- 決済: `users 1—1 subscriptions` / `users 1—N payments 1—N refund_requests`
+- 通知: `users 1—N notifications`
