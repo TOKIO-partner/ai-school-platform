@@ -1,9 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { AdminSidebar } from "@/components/layouts/admin-sidebar";
 import { DashboardHeader } from "@/components/layouts/dashboard-header";
 import { BackgroundDecoration } from "@/components/layouts/background-decoration";
+import { useAuth } from "@/lib/auth";
+
+// Only admins and instructors may access the admin area.
+const ADMIN_ROLES = ["admin", "instructor"];
 
 const titleMap: Record<string, string> = {
   "/admin": "管理ダッシュボード",
@@ -36,7 +41,16 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, isLoading } = useAuth();
   const title = getTitle(pathname);
+
+  // Redirect non-admin/instructor users away from the admin area once auth resolves.
+  useEffect(() => {
+    if (!isLoading && user && !ADMIN_ROLES.includes(user.role)) {
+      router.replace("/dashboard");
+    }
+  }, [isLoading, user, router]);
 
   return (
     <div className="flex h-screen overflow-hidden">
