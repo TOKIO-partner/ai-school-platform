@@ -1,0 +1,221 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "MOMOCRI Admin" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e7]
+        - generic [ref=e9]: MOMOCRI
+        - generic [ref=e10]: Admin
+      - navigation [ref=e11]:
+        - link "ダッシュボード" [ref=e12] [cursor=pointer]:
+          - /url: /admin
+          - img [ref=e13]
+          - generic [ref=e14]: ダッシュボード
+        - link "ユーザー管理" [ref=e15] [cursor=pointer]:
+          - /url: /admin/users
+          - img [ref=e16]
+          - generic [ref=e21]: ユーザー管理
+        - link "コース管理" [ref=e22] [cursor=pointer]:
+          - /url: /admin/courses
+          - img [ref=e23]
+          - generic [ref=e25]: コース管理
+        - link "コンテンツ管理" [ref=e26] [cursor=pointer]:
+          - /url: /admin/contents
+          - img [ref=e27]
+          - generic [ref=e30]: コンテンツ管理
+        - link "コミュニティ管理" [ref=e31] [cursor=pointer]:
+          - /url: /admin/community
+          - img [ref=e32]
+          - generic [ref=e34]: コミュニティ管理
+        - link "イベント管理" [ref=e35] [cursor=pointer]:
+          - /url: /admin/events
+          - img [ref=e36]
+          - generic [ref=e38]: イベント管理
+        - link "お知らせ管理" [ref=e39] [cursor=pointer]:
+          - /url: /admin/announcements
+          - img [ref=e40]
+          - generic [ref=e43]: お知らせ管理
+        - link "売上・決済" [ref=e44] [cursor=pointer]:
+          - /url: /admin/billing
+          - img [ref=e45]
+          - generic [ref=e47]: 売上・決済
+        - link "AI設定" [ref=e48] [cursor=pointer]:
+          - /url: /admin/ai-settings
+          - img [ref=e49]
+          - generic [ref=e52]: AI設定
+        - link "システム設定" [ref=e54] [cursor=pointer]:
+          - /url: /admin/system
+          - img [ref=e55]
+          - generic [ref=e58]: システム設定
+      - generic [ref=e60]:
+        - generic [ref=e61]: AD
+        - generic [ref=e62]:
+          - paragraph [ref=e63]: Admin User
+          - paragraph [ref=e64]: 管理者
+        - img [ref=e65] [cursor=pointer]
+    - generic [ref=e68]:
+      - banner [ref=e69]:
+        - generic [ref=e70]:
+          - heading "AI設定" [level=1] [ref=e71]
+          - generic [ref=e72]: Admin
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - img [ref=e75]
+            - textbox "Search..." [ref=e78]
+          - button [ref=e79]:
+            - img [ref=e80]
+          - generic [ref=e86] [cursor=pointer]: AS
+      - main [ref=e87]:
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - heading "AI設定" [level=2] [ref=e90]
+            - paragraph [ref=e91]: AIチャット、AI Tuberキャラクター、コンテキスト、利用制限の設定
+          - generic [ref=e92]:
+            - generic [ref=e94]:
+              - heading "AIチャット設定" [level=3] [ref=e95]
+              - paragraph [ref=e96]: AIチャットボットの基本設定
+            - generic [ref=e97]:
+              - generic [ref=e98]:
+                - generic [ref=e99]: 使用モデル
+                - combobox [ref=e100]:
+                  - option "GPT-4o" [selected]
+                  - option "GPT-4"
+                  - option "GPT-3.5"
+                - paragraph [ref=e101]: AIチャットで使用するモデルを選択してください
+              - generic [ref=e102]:
+                - generic [ref=e103]: システムプロンプト
+                - textbox [ref=e104]: あなたはMOMOCRI AIスクールの学習アシスタント「アイ」です。受講生の学習をサポートし、質問に丁寧に回答してください。 以下のルールに従ってください： - 日本語で回答すること - 専門用語は初心者にも分かりやすく説明すること - コード例を示す場合はコメントを付けること - 受講生の理解度に合わせて説明の詳細度を調整すること - 学習意欲を高めるポジティブなフィードバックを心がけること
+                - paragraph [ref=e105]: AIの振る舞いを定義するシステムプロンプトです
+              - generic [ref=e106]:
+                - generic [ref=e107]: 回答トーン
+                - generic [ref=e108]:
+                  - generic [ref=e109] [cursor=pointer]:
+                    - radio "フレンドリー" [checked] [ref=e110]
+                    - generic [ref=e111]: フレンドリー
+                  - generic [ref=e112] [cursor=pointer]:
+                    - radio "プロフェッショナル" [ref=e113]
+                    - generic [ref=e114]: プロフェッショナル
+                  - generic [ref=e115] [cursor=pointer]:
+                    - radio "カジュアル" [ref=e116]
+                    - generic [ref=e117]: カジュアル
+              - generic [ref=e118]:
+                - generic [ref=e119]: 最大トークン数
+                - generic [ref=e120]:
+                  - slider [ref=e121] [cursor=pointer]: "2048"
+                  - generic [ref=e122]: "2048"
+                - paragraph [ref=e123]: AIの回答1回あたりの最大トークン数（256 - 4096）
+          - generic [ref=e124]:
+            - generic [ref=e126]:
+              - heading "AI Tuberキャラクター管理" [level=3] [ref=e127]
+              - paragraph [ref=e128]: AI Tuberキャラクターの設定・管理
+            - generic [ref=e129]:
+              - generic [ref=e130]:
+                - generic [ref=e131]: メイン
+                - generic [ref=e132]:
+                  - img [ref=e134]
+                  - heading "アイ (Eye)" [level=4] [ref=e137]
+                  - paragraph [ref=e138]: メインキャラクター
+                - generic [ref=e139]:
+                  - generic [ref=e140]:
+                    - generic [ref=e141]: ボイス選択
+                    - combobox [ref=e142]:
+                      - option "日本語 - 女性（明るい）" [selected]
+                      - option "日本語 - 女性（落ち着き）"
+                      - option "日本語 - 男性（明るい）"
+                      - option "日本語 - 男性（落ち着き）"
+                  - generic [ref=e143]:
+                    - generic [ref=e144]: 性格・個性
+                    - textbox [ref=e145]: 明るく親しみやすい性格。初心者にも優しく丁寧に教えることが得意。時々ユーモアを交えて場を和ませる。プログラミングとAIが大好き。
+                  - generic [ref=e146]:
+                    - button "編集" [ref=e147]:
+                      - img [ref=e148]
+                      - text: 編集
+                    - button "プレビュー" [ref=e151]:
+                      - img [ref=e152]
+                      - text: プレビュー
+              - generic [ref=e155]:
+                - generic [ref=e156]:
+                  - img [ref=e158]
+                  - heading "レン (Ren)" [level=4] [ref=e161]
+                  - paragraph [ref=e162]: サブキャラクター
+                - generic [ref=e163]:
+                  - generic [ref=e164]:
+                    - generic [ref=e165]: ボイス選択
+                    - combobox [ref=e166]:
+                      - option "日本語 - 女性（明るい）"
+                      - option "日本語 - 女性（落ち着き）"
+                      - option "日本語 - 男性（明るい）" [selected]
+                      - option "日本語 - 男性（落ち着き）"
+                  - generic [ref=e167]:
+                    - generic [ref=e168]: 性格・個性
+                    - textbox [ref=e169]: 論理的で知的な性格。技術的な解説が得意で、複雑な概念をシンプルに説明する。やや真面目だが頼れる存在。
+                  - generic [ref=e170]:
+                    - button "編集" [ref=e171]:
+                      - img [ref=e172]
+                      - text: 編集
+                    - button "プレビュー" [ref=e175]:
+                      - img [ref=e176]
+                      - text: プレビュー
+          - generic [ref=e179]:
+            - generic [ref=e181]:
+              - heading "AIコンテキスト設定" [level=3] [ref=e182]
+              - paragraph [ref=e183]: AIが参照する教材・資料の管理
+            - generic [ref=e184]:
+              - generic [ref=e185]:
+                - generic [ref=e186]: 参考資料のアップロード
+                - generic [ref=e187] [cursor=pointer]:
+                  - img [ref=e188]
+                  - paragraph [ref=e191]: ファイルをドラッグ&ドロップ
+                  - paragraph [ref=e192]: PDF, TXT, MD, DOCX（最大 10MB）
+              - generic [ref=e193]:
+                - generic [ref=e194]: アップロード済みファイル
+                - generic [ref=e195]:
+                  - generic [ref=e196]:
+                    - generic [ref=e197]:
+                      - img [ref=e198]
+                      - generic [ref=e201]:
+                        - paragraph [ref=e202]: course_syllabus.pdf
+                        - paragraph [ref=e203]: 2.4 MB
+                    - button [ref=e204]:
+                      - img [ref=e205]
+                  - generic [ref=e208]:
+                    - generic [ref=e209]:
+                      - img [ref=e210]
+                      - generic [ref=e213]:
+                        - paragraph [ref=e214]: faq_database.md
+                        - paragraph [ref=e215]: 156 KB
+                    - button [ref=e216]:
+                      - img [ref=e217]
+                  - generic [ref=e220]:
+                    - generic [ref=e221]:
+                      - img [ref=e222]
+                      - generic [ref=e225]:
+                        - paragraph [ref=e226]: style_guide.txt
+                        - paragraph [ref=e227]: 24 KB
+                    - button [ref=e228]:
+                      - img [ref=e229]
+          - generic [ref=e232]:
+            - generic [ref=e234]:
+              - heading "利用制限" [level=3] [ref=e235]
+              - paragraph [ref=e236]: プラン別のAI利用上限設定
+            - generic [ref=e237]:
+              - generic [ref=e238]:
+                - generic [ref=e239]:
+                  - generic [ref=e240]: Freeプラン
+                  - generic [ref=e241]:
+                    - spinbutton [ref=e242]: "100"
+                    - generic [ref=e243]: 回 / 月
+                - generic [ref=e244]:
+                  - generic [ref=e245]: Proプラン
+                  - generic [ref=e246]:
+                    - textbox [disabled] [ref=e247]: 無制限
+                    - generic [ref=e248]: 回 / 月
+                - generic [ref=e249]:
+                  - generic [ref=e250]: Businessプラン
+                  - generic [ref=e251]:
+                    - textbox [disabled] [ref=e252]: 無制限
+                    - generic [ref=e253]: 回 / 月
+              - button "設定を保存" [ref=e255]:
+                - img [ref=e256]
+                - text: 設定を保存
+  - alert [ref=e260]

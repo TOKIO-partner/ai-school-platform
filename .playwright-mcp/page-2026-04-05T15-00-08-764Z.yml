@@ -1,0 +1,286 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "MOMOCRI Admin" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e7]
+        - generic [ref=e9]: MOMOCRI
+        - generic [ref=e10]: Admin
+      - navigation [ref=e11]:
+        - link "ダッシュボード" [ref=e12] [cursor=pointer]:
+          - /url: /admin
+          - img [ref=e13]
+          - generic [ref=e14]: ダッシュボード
+        - link "ユーザー管理" [ref=e15] [cursor=pointer]:
+          - /url: /admin/users
+          - img [ref=e16]
+          - generic [ref=e21]: ユーザー管理
+        - link "コース管理" [ref=e22] [cursor=pointer]:
+          - /url: /admin/courses
+          - img [ref=e23]
+          - generic [ref=e25]: コース管理
+        - link "コンテンツ管理" [ref=e27] [cursor=pointer]:
+          - /url: /admin/contents
+          - img [ref=e28]
+          - generic [ref=e31]: コンテンツ管理
+        - link "コミュニティ管理" [ref=e32] [cursor=pointer]:
+          - /url: /admin/community
+          - img [ref=e33]
+          - generic [ref=e35]: コミュニティ管理
+        - link "イベント管理" [ref=e36] [cursor=pointer]:
+          - /url: /admin/events
+          - img [ref=e37]
+          - generic [ref=e39]: イベント管理
+        - link "お知らせ管理" [ref=e40] [cursor=pointer]:
+          - /url: /admin/announcements
+          - img [ref=e41]
+          - generic [ref=e44]: お知らせ管理
+        - link "売上・決済" [ref=e45] [cursor=pointer]:
+          - /url: /admin/billing
+          - img [ref=e46]
+          - generic [ref=e48]: 売上・決済
+        - link "AI設定" [ref=e49] [cursor=pointer]:
+          - /url: /admin/ai-settings
+          - img [ref=e50]
+          - generic [ref=e53]: AI設定
+        - link "システム設定" [ref=e54] [cursor=pointer]:
+          - /url: /admin/system
+          - img [ref=e55]
+          - generic [ref=e58]: システム設定
+      - generic [ref=e60]:
+        - generic [ref=e61]: AD
+        - generic [ref=e62]:
+          - paragraph [ref=e63]: Admin User
+          - paragraph [ref=e64]: 管理者
+        - img [ref=e65] [cursor=pointer]
+    - generic [ref=e68]:
+      - banner [ref=e69]:
+        - generic [ref=e70]:
+          - heading "コース管理" [level=1] [ref=e71]
+          - generic [ref=e72]: Admin
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - img [ref=e75]
+            - textbox "Search..." [ref=e78]
+          - button [ref=e79]:
+            - img [ref=e80]
+          - generic [ref=e86] [cursor=pointer]: AS
+      - main [ref=e87]:
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - generic [ref=e90]:
+              - heading "コース管理" [level=2] [ref=e91]
+              - paragraph [ref=e92]: 6コース
+            - button "新規コース作成" [ref=e93]:
+              - img [ref=e94]
+              - text: 新規コース作成
+          - generic [ref=e95]:
+            - generic [ref=e96]:
+              - generic [ref=e97]: "カテゴリ:"
+              - combobox [ref=e98]:
+                - option "All" [selected]
+                - option "Design"
+                - option "Dev"
+                - option "AI"
+                - option "Business"
+            - generic [ref=e99]:
+              - generic [ref=e100]: "ステータス:"
+              - combobox [ref=e101]:
+                - option "全て" [selected]
+                - option "公開中"
+                - option "下書き"
+                - option "非公開"
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - img [ref=e105]
+              - generic [ref=e111]:
+                - generic [ref=e112]:
+                  - generic [ref=e113]: 公開中
+                  - generic [ref=e114]: Design
+                - heading "AI活用Webデザイン基礎" [level=4] [ref=e115]
+                - generic [ref=e116]:
+                  - generic [ref=e117]: 初級
+                  - generic [ref=e118]:
+                    - img [ref=e119]
+                    - text: 256名
+                - generic [ref=e124]:
+                  - img [ref=e125]
+                  - img [ref=e127]
+                  - img [ref=e129]
+                  - img [ref=e131]
+                  - img [ref=e133]
+                  - generic [ref=e135]: "4.8"
+                - generic [ref=e136]:
+                  - button "編集" [ref=e137]:
+                    - img [ref=e138]
+                    - text: 編集
+                  - button "複製" [ref=e141]:
+                    - img [ref=e142]
+                    - text: 複製
+                  - button "非公開" [ref=e145]:
+                    - img [ref=e146]
+                    - text: 非公開
+                  - button "削除" [ref=e151]:
+                    - img [ref=e152]
+                    - text: 削除
+            - generic [ref=e155]:
+              - img [ref=e157]
+              - generic [ref=e160]:
+                - generic [ref=e161]:
+                  - generic [ref=e162]: 公開中
+                  - generic [ref=e163]: Dev
+                - heading "Next.js 14 & React実践" [level=4] [ref=e164]
+                - generic [ref=e165]:
+                  - generic [ref=e166]: 中級
+                  - generic [ref=e167]:
+                    - img [ref=e168]
+                    - text: 189名
+                - generic [ref=e173]:
+                  - img [ref=e174]
+                  - img [ref=e176]
+                  - img [ref=e178]
+                  - img [ref=e180]
+                  - img [ref=e182]
+                  - generic [ref=e184]: "4.6"
+                - generic [ref=e185]:
+                  - button "編集" [ref=e186]:
+                    - img [ref=e187]
+                    - text: 編集
+                  - button "複製" [ref=e190]:
+                    - img [ref=e191]
+                    - text: 複製
+                  - button "非公開" [ref=e194]:
+                    - img [ref=e195]
+                    - text: 非公開
+                  - button "削除" [ref=e200]:
+                    - img [ref=e201]
+                    - text: 削除
+            - generic [ref=e204]:
+              - img [ref=e206]
+              - generic [ref=e214]:
+                - generic [ref=e215]:
+                  - generic [ref=e216]: 公開中
+                  - generic [ref=e217]: AI
+                - heading "プロンプトエンジニアリング入門" [level=4] [ref=e218]
+                - generic [ref=e219]:
+                  - generic [ref=e220]: 初級
+                  - generic [ref=e221]:
+                    - img [ref=e222]
+                    - text: 210名
+                - generic [ref=e227]:
+                  - img [ref=e228]
+                  - img [ref=e230]
+                  - img [ref=e232]
+                  - img [ref=e234]
+                  - img [ref=e236]
+                  - generic [ref=e238]: "4.5"
+                - generic [ref=e239]:
+                  - button "編集" [ref=e240]:
+                    - img [ref=e241]
+                    - text: 編集
+                  - button "複製" [ref=e244]:
+                    - img [ref=e245]
+                    - text: 複製
+                  - button "非公開" [ref=e248]:
+                    - img [ref=e249]
+                    - text: 非公開
+                  - button "削除" [ref=e254]:
+                    - img [ref=e255]
+                    - text: 削除
+            - generic [ref=e258]:
+              - img [ref=e260]
+              - generic [ref=e262]:
+                - generic [ref=e263]:
+                  - generic [ref=e264]: 下書き
+                  - generic [ref=e265]: Business
+                - heading "ビジネスAI活用戦略" [level=4] [ref=e266]
+                - generic [ref=e267]:
+                  - generic [ref=e268]: 中級
+                  - generic [ref=e269]:
+                    - img [ref=e270]
+                    - text: 45名
+                - generic [ref=e275]:
+                  - img [ref=e276]
+                  - img [ref=e278]
+                  - img [ref=e280]
+                  - img [ref=e282]
+                  - img [ref=e284]
+                  - generic [ref=e286]: "4.2"
+                - generic [ref=e287]:
+                  - button "編集" [ref=e288]:
+                    - img [ref=e289]
+                    - text: 編集
+                  - button "複製" [ref=e292]:
+                    - img [ref=e293]
+                    - text: 複製
+                  - button "公開" [ref=e296]:
+                    - img [ref=e297]
+                    - text: 公開
+                  - button "削除" [ref=e300]:
+                    - img [ref=e301]
+                    - text: 削除
+            - generic [ref=e304]:
+              - img [ref=e306]
+              - generic [ref=e310]:
+                - generic [ref=e311]:
+                  - generic [ref=e312]: 公開中
+                  - generic [ref=e313]: AI
+                - heading "画像生成AI マスター" [level=4] [ref=e314]
+                - generic [ref=e315]:
+                  - generic [ref=e316]: 中級
+                  - generic [ref=e317]:
+                    - img [ref=e318]
+                    - text: 178名
+                - generic [ref=e323]:
+                  - img [ref=e324]
+                  - img [ref=e326]
+                  - img [ref=e328]
+                  - img [ref=e330]
+                  - img [ref=e332]
+                  - generic [ref=e334]: "4.7"
+                - generic [ref=e335]:
+                  - button "編集" [ref=e336]:
+                    - img [ref=e337]
+                    - text: 編集
+                  - button "複製" [ref=e340]:
+                    - img [ref=e341]
+                    - text: 複製
+                  - button "非公開" [ref=e344]:
+                    - img [ref=e345]
+                    - text: 非公開
+                  - button "削除" [ref=e350]:
+                    - img [ref=e351]
+                    - text: 削除
+            - generic [ref=e354]:
+              - img [ref=e356]
+              - generic [ref=e358]:
+                - generic [ref=e359]:
+                  - generic [ref=e360]: 非公開
+                  - generic [ref=e361]: Dev
+                - heading "データ分析基礎" [level=4] [ref=e362]
+                - generic [ref=e363]:
+                  - generic [ref=e364]: 初級
+                  - generic [ref=e365]:
+                    - img [ref=e366]
+                    - text: 128名
+                - generic [ref=e371]:
+                  - img [ref=e372]
+                  - img [ref=e374]
+                  - img [ref=e376]
+                  - img [ref=e378]
+                  - img [ref=e380]
+                  - generic [ref=e382]: "4"
+                - generic [ref=e383]:
+                  - button "編集" [ref=e384]:
+                    - img [ref=e385]
+                    - text: 編集
+                  - button "複製" [ref=e388]:
+                    - img [ref=e389]
+                    - text: 複製
+                  - button "公開" [ref=e392]:
+                    - img [ref=e393]
+                    - text: 公開
+                  - button "削除" [ref=e396]:
+                    - img [ref=e397]
+                    - text: 削除
+  - alert [ref=e400]

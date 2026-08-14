@@ -1,0 +1,6 @@
+flowchart TD
+  A[レッスン視聴] --> B[POST enrollments/me/lessons/&lt;id&gt;/progress]
+  B --> C{LessonProgress<br/>enrollment+lesson一意}
+  C -->|更新| D[is_completed / watch_time_seconds 更新]
+  D --> E[Enrollment.progress_percent 再計算]
+  E --> F[必要に応じ SkillPoint / UserBadge 付与]

@@ -14,13 +14,23 @@ import {
   Cpu,
   Settings,
   LogOut,
+  PenLine,
+  ExternalLink,
 } from "lucide-react";
 import { Logo } from "./logo";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
 import { getDisplayName, getInitials, getRoleLabel } from "@/lib/user-display";
 
-const navItems = [
+type NavItem = {
+  href: string;
+  label: string;
+  icon: typeof BarChart;
+  exact?: boolean;
+  external?: boolean;
+};
+
+const navItems: NavItem[] = [
   { href: "/admin", label: "ダッシュボード", icon: BarChart, exact: true },
   { href: "/admin/users", label: "ユーザー管理", icon: Users },
   { href: "/admin/courses", label: "コース管理", icon: BookOpen },
@@ -30,6 +40,12 @@ const navItems = [
   { href: "/admin/announcements", label: "お知らせ管理", icon: Bell },
   { href: "/admin/billing", label: "売上・決済", icon: CreditCard },
   { href: "/admin/ai-settings", label: "AI設定", icon: Cpu },
+  {
+    href: "https://chatgpt.com/g/g-67980ec5dbac8191a45b453685066024-tesaintian-xue-nahi",
+    label: "AI添削",
+    icon: PenLine,
+    external: true,
+  },
   { href: "/admin/system", label: "システム設定", icon: Settings },
 ];
 
@@ -51,10 +67,28 @@ export function AdminSidebar() {
 
       <nav className="p-4 space-y-1 flex-1 overflow-y-auto">
         {navItems.map((item) => {
+          const Icon = item.icon;
+
+          // External links (e.g. AI添削) open in a new tab and never appear active.
+          if (item.external) {
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+              >
+                <Icon className="w-5 h-5" />
+                <span className="font-medium text-sm">{item.label}</span>
+                <ExternalLink className="ml-auto w-3.5 h-3.5 text-slate-400" />
+              </a>
+            );
+          }
+
           const isActive = item.exact
             ? pathname === item.href
             : pathname === item.href || pathname.startsWith(item.href + "/");
-          const Icon = item.icon;
           return (
             <Link
               key={item.href}

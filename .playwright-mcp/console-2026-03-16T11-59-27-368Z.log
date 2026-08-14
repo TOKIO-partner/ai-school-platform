@@ -1,0 +1,16 @@
+[     583ms] [WARNING] jQuery.Deferred exception: $(...).slick is not a function TypeError: $(...).slick is not a function
+    at e.value (https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:207:46)
+    at Module.<anonymous> (https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:390:13)
+    at i (https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:15:21)
+    at https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:75:5
+    at HTMLDocument.<anonymous> (https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:76:2)
+    at e (https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:2:27028)
+    at t (https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:2:27330) undefined @ https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:1
+[     592ms] Uncaught TypeError: $(...).slick is not a function
+    at value (https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:206:45)
+    at <anonymous> (https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:389:12)
+    at i (https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:14:20)
+    at <anonymous> (https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:74:4)
+    at <anonymous> (https://the-online-class.co.jp/wp-content/uploads/custom-css-js/1162.js?v=4180:75:1)
+    at e (https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:1:27027)
+    at t (https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js:1:27329)

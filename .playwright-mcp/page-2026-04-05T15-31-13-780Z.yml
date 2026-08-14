@@ -1,0 +1,62 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "MOMOCRI" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e7]
+        - generic [ref=e9]: MOMOCRI
+      - navigation [ref=e10]:
+        - link "ダッシュボード" [ref=e11] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e12]
+          - generic [ref=e15]: ダッシュボード
+        - link "学習ルーム" [ref=e16] [cursor=pointer]:
+          - /url: /learning
+          - img [ref=e17]
+          - generic [ref=e19]: 学習ルーム
+        - link "コース一覧" [ref=e20] [cursor=pointer]:
+          - /url: /courses
+          - img [ref=e21]
+          - generic [ref=e23]: コース一覧
+        - link "コミュニティ" [ref=e25] [cursor=pointer]:
+          - /url: /community
+          - img [ref=e26]
+          - generic [ref=e31]: コミュニティ
+      - generic [ref=e33]:
+        - generic [ref=e34]: AS
+        - generic [ref=e35]:
+          - paragraph [ref=e36]: 長谷川 麻子
+          - paragraph [ref=e37]: Pro Plan
+        - link [ref=e38] [cursor=pointer]:
+          - /url: /settings
+          - img [ref=e39]
+    - generic [ref=e42]:
+      - banner [ref=e43]:
+        - heading "Course Library" [level=1] [ref=e45]
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - img [ref=e48]
+            - textbox "Search..." [ref=e51]
+          - button [ref=e52]:
+            - img [ref=e53]
+          - generic [ref=e59] [cursor=pointer]: AS
+      - main [ref=e60]:
+        - generic [ref=e61]:
+          - generic [ref=e62]:
+            - generic [ref=e63]:
+              - heading "コースライブラリ" [level=2] [ref=e64]
+              - paragraph [ref=e65]: あなたのキャリアを加速させる0のコース
+            - generic [ref=e66]:
+              - generic [ref=e67]:
+                - img [ref=e68]
+                - textbox "スキルやトピックを検索..." [ref=e71]
+              - button [ref=e72]:
+                - img [ref=e73]
+          - generic [ref=e75]:
+            - button "All" [ref=e76]
+            - button "Design" [ref=e77]
+            - button "Dev" [ref=e78]
+            - button "AI" [ref=e79]
+            - button "Business" [ref=e80]
+          - img [ref=e82]
+  - alert [ref=e84]

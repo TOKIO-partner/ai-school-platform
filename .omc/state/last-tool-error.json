@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd /Users/tokiohata/Projects/TOKIO-partner/ai-school-platform\\necho \\\"=== gitignore ===\\\"; cat .gitignore\\necho \\\"=== git tracked env? ===\\\"; git ls-files | grep -iE '\\\\.env' \\necho \\\"=== ...",
+  "error": "Exit code 1\n=== gitignore ===\n# Python\nbackend/.venv/\nbackend/__pycache__/\nbackend/**/__pycache__/\nbackend/**/*.pyc\nbackend/db.sqlite3\nbackend/media/\nbackend/staticfiles/\n*.pyc\n__pycache__/\n\n# Node\nfrontend/node_modules/\nfrontend/.next/\nfrontend/out/\n\n# Environment\n.env\n.env.local\n.env.production\n\n# IDE\n.idea/\n.vscode/\n*.swp\n*.swo\n\n# OS\n.DS_Store\nThumbs.db\n\n# Docker\npostgres_data/\n\n# Docs (large files)\ndocs/*.mp4\ndocs/*.pdf\n!docs/infra-plan-*.pdf\n.vercel\n.env*.local\n=== git tracked env? ===\n.env...",
+  "timestamp": "2026-08-14T01:17:57.873Z",
+  "retry_count": 1
+}

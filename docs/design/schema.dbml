@@ -1,0 +1,341 @@
+// =====================================================================
+// MOMOCRI AI School Platform - Database Logical Design (DBML)
+// Source of truth: backend/*/models.py (Django ORM)
+// Build: dbdocs build schema.dbml --project "MOMOCRI AI School"
+// =====================================================================
+
+Project momocri_ai_school {
+  database_type: 'PostgreSQL'
+  Note: '''
+    AIスクール型オンライン学習SaaS の論理データベース設計。
+    全テーブルは Django の TimestampedModel を継承し created_at / updated_at を持つ。
+    実装済み14テーブルを定義（analytics/submissions/portfolios/community/events は未実装のため対象外）。
+  '''
+}
+
+// ---------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------
+Enum organization_plan {
+  business
+  enterprise
+}
+
+Enum user_role {
+  admin       [note: '運営管理者']
+  corp_admin  [note: '法人管理者']
+  instructor  [note: '講師']
+  student     [note: '受講者']
+}
+
+Enum user_plan {
+  free
+  pro
+  business
+}
+
+Enum course_category {
+  design
+  dev
+  ai
+  business
+}
+
+Enum course_difficulty {
+  beginner
+  intermediate
+  advanced
+}
+
+Enum course_status {
+  draft
+  published
+  hidden
+}
+
+Enum lesson_type {
+  video
+  article
+  quiz
+  exercise
+}
+
+Enum chat_role {
+  user
+  assistant
+}
+
+Enum subscription_status {
+  active
+  canceled
+  past_due
+}
+
+Enum payment_status {
+  success
+  failed
+  refunded
+}
+
+Enum refund_status {
+  pending
+  approved
+  rejected
+}
+
+Enum notification_type {
+  system
+  course
+  instructor
+  event
+  feedback
+}
+
+// ---------------------------------------------------------------------
+// accounts
+// ---------------------------------------------------------------------
+Table organizations {
+  id integer [pk, increment]
+  name varchar(255) [not null]
+  plan organization_plan [not null, default: 'business']
+  max_seats integer [not null, default: 10, note: '契約シート数']
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  Note: '法人組織。契約プランと最大受講者数を管理。'
+}
+
+Table users {
+  id integer [pk, increment]
+  username varchar(150) [not null, unique]
+  email varchar(254) [not null]
+  password varchar(128) [not null, note: 'Djangoハッシュ']
+  first_name varchar(150)
+  last_name varchar(150)
+  role user_role [not null, default: 'student']
+  plan user_plan [not null, default: 'free']
+  avatar varchar(100) [note: 'ImageField upload_to=avatars/']
+  bio text
+  organization_id integer [ref: > organizations.id, null, note: 'ON DELETE SET NULL']
+  is_active boolean [not null, default: true]
+  is_staff boolean [not null, default: false]
+  is_superuser boolean [not null, default: false]
+  last_login timestamp
+  date_joined timestamp [not null]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  Note: 'AbstractUser拡張のカスタムユーザー。role でロールベースアクセス制御。'
+}
+
+// ---------------------------------------------------------------------
+// courses
+// ---------------------------------------------------------------------
+Table courses {
+  id integer [pk, increment]
+  title varchar(255) [not null]
+  slug varchar(255) [not null, unique]
+  category course_category [not null]
+  difficulty course_difficulty [not null, default: 'beginner']
+  description text
+  overview text
+  thumbnail varchar(200) [note: 'URLField']
+  instructor_id integer [not null, ref: > users.id, note: 'ON DELETE CASCADE']
+  status course_status [not null, default: 'draft']
+  duration_hours decimal(5,1) [not null, default: 0]
+  tags json [note: 'リスト（タグ配列）']
+  language varchar(10) [not null, default: 'ja']
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  Note: 'オンラインコース。講師・カテゴリ・難易度・公開状態を持つ。'
+}
+
+Table chapters {
+  id integer [pk, increment]
+  course_id integer [not null, ref: > courses.id, note: 'ON DELETE CASCADE']
+  title varchar(255) [not null]
+  order integer [not null, default: 0]
+  duration_label varchar(50)
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  indexes {
+    (course_id, order) [unique, name: 'uq_chapter_course_order']
+  }
+  Note: 'コース内の章。course内で order 一意。'
+}
+
+Table lessons {
+  id integer [pk, increment]
+  chapter_id integer [not null, ref: > chapters.id, note: 'ON DELETE CASCADE']
+  title varchar(255) [not null]
+  description text
+  video_url varchar(200) [note: 'URLField / R2配信']
+  thumbnail varchar(200) [note: 'URLField']
+  transcript text [note: '文字起こし（AI用）']
+  duration_seconds integer [not null, default: 0]
+  duration_label varchar(50)
+  order integer [not null, default: 0]
+  lesson_type lesson_type [not null, default: 'video']
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  indexes {
+    (chapter_id, order) [unique, name: 'uq_lesson_chapter_order']
+  }
+  Note: '章内のレッスン。動画/記事/クイズ/演習。chapter内で order 一意。'
+}
+
+// ---------------------------------------------------------------------
+// enrollments
+// ---------------------------------------------------------------------
+Table enrollments {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id, note: 'ON DELETE CASCADE']
+  course_id integer [not null, ref: > courses.id, note: 'ON DELETE CASCADE']
+  progress_percent decimal(5,2) [not null, default: 0]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  indexes {
+    (user_id, course_id) [unique, name: 'uq_enrollment_user_course']
+  }
+  Note: 'ユーザーのコース受講登録。進捗率を保持。'
+}
+
+Table lesson_progresses {
+  id integer [pk, increment]
+  enrollment_id integer [not null, ref: > enrollments.id, note: 'ON DELETE CASCADE']
+  lesson_id integer [not null, ref: > lessons.id, note: 'ON DELETE CASCADE']
+  is_completed boolean [not null, default: false]
+  watch_time_seconds integer [not null, default: 0]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  indexes {
+    (enrollment_id, lesson_id) [unique, name: 'uq_progress_enrollment_lesson']
+  }
+  Note: 'レッスン単位の視聴進捗。'
+}
+
+Table skill_points {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id, note: 'ON DELETE CASCADE']
+  category varchar(50) [not null]
+  points integer [not null, default: 0]
+  level integer [not null, default: 1]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  indexes {
+    (user_id, category) [unique, name: 'uq_skill_user_category']
+  }
+  Note: 'カテゴリ別スキルポイント（ゲーミフィケーション）。'
+}
+
+Table badges {
+  id integer [pk, increment]
+  name varchar(100) [not null, unique]
+  description text
+  icon varchar(50)
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  Note: '実績バッジ定義。'
+}
+
+Table user_badges {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id, note: 'ON DELETE CASCADE']
+  badge_id integer [not null, ref: > badges.id, note: 'ON DELETE CASCADE']
+  earned_at timestamp [not null]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  indexes {
+    (user_id, badge_id) [unique, name: 'uq_userbadge_user_badge']
+  }
+  Note: 'ユーザーが獲得したバッジ。'
+}
+
+// ---------------------------------------------------------------------
+// ai
+// ---------------------------------------------------------------------
+Table ai_chat_sessions {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id, note: 'ON DELETE CASCADE']
+  lesson_id integer [not null, ref: > lessons.id, note: 'ON DELETE CASCADE']
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  indexes {
+    (user_id, lesson_id) [unique, name: 'uq_chatsession_user_lesson']
+  }
+  Note: 'レッスンごとのAIチャットセッション（ユーザー×レッスンで一意）。'
+}
+
+Table ai_chat_messages {
+  id integer [pk, increment]
+  session_id integer [not null, ref: > ai_chat_sessions.id, note: 'ON DELETE CASCADE']
+  role chat_role [not null]
+  content text [not null]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  Note: 'チャットセッション内の個別メッセージ。'
+}
+
+Table ai_lesson_comments {
+  id integer [pk, increment]
+  lesson_id integer [not null, unique, ref: - lessons.id, note: 'OneToOne / ON DELETE CASCADE']
+  comments json [note: '[{"time_label":"02:30","text":"..."}]']
+  input_tokens integer [not null, default: 0]
+  output_tokens integer [not null, default: 0]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  Note: 'AI Vtuber用の生成コメント（レッスンに1対1でキャッシュ）。'
+}
+
+// ---------------------------------------------------------------------
+// billing
+// ---------------------------------------------------------------------
+Table subscriptions {
+  id integer [pk, increment]
+  user_id integer [not null, unique, ref: - users.id, note: 'OneToOne / ON DELETE CASCADE']
+  plan user_plan [not null, default: 'free']
+  status subscription_status [not null, default: 'active']
+  current_period_end timestamp
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  Note: 'ユーザーのサブスクリプション（1対1）。'
+}
+
+Table payments {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id, note: 'ON DELETE CASCADE']
+  amount decimal(10,0) [not null, note: '円']
+  plan varchar(20) [not null]
+  method varchar(50) [not null, default: 'credit_card']
+  status payment_status [not null, default: 'success']
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  Note: '決済記録。'
+}
+
+Table refund_requests {
+  id integer [pk, increment]
+  payment_id integer [not null, ref: > payments.id, note: 'ON DELETE CASCADE']
+  reason text [not null]
+  status refund_status [not null, default: 'pending']
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  Note: '決済に対する返金申請。'
+}
+
+// ---------------------------------------------------------------------
+// notifications
+// ---------------------------------------------------------------------
+Table notifications {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id, note: 'ON DELETE CASCADE']
+  type notification_type [not null, default: 'system']
+  title varchar(255) [not null]
+  message text
+  link varchar(255)
+  is_read boolean [not null, default: false]
+  created_at timestamp [not null]
+  updated_at timestamp [not null]
+  indexes {
+    (user_id, is_read) [name: 'idx_notification_user_isread']
+  }
+  Note: '個別ユーザー向けアプリ内通知。'
+}

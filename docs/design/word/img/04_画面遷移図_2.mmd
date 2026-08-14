@@ -1,0 +1,21 @@
+flowchart TD
+  DASH["/dashboard ダッシュボード"]
+  LEARN["/learning 学習ルーム"]
+  COURSES["/courses コース一覧"]
+  CDETAIL["/courses/[courseId] コース詳細"]
+  COMMU["/community コミュニティ"]
+  EVENTS["/events イベント"]
+  PORT["/portfolio ポートフォリオ"]
+  PROG["/progress 学習進捗"]
+  NOTIF["/notifications 通知"]
+  SUB["/subscription サブスク"]
+  SET["/settings 設定"]
+
+  DASH --> COURSES --> CDETAIL --> LEARN
+  DASH --> LEARN
+  DASH --> PROG
+  DASH --> COMMU
+  DASH --> NOTIF
+  DASH --> SET
+  SET --> SUB
+  CDETAIL -. AIチャット/Vtuber .-> LEARN

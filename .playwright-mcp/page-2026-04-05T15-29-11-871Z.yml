@@ -1,0 +1,190 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "MOMOCRI Admin" [ref=e5] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e7]
+        - generic [ref=e9]: MOMOCRI
+        - generic [ref=e10]: Admin
+      - navigation [ref=e11]:
+        - link "ダッシュボード" [ref=e12] [cursor=pointer]:
+          - /url: /admin
+          - img [ref=e13]
+          - generic [ref=e14]: ダッシュボード
+        - link "ユーザー管理" [ref=e15] [cursor=pointer]:
+          - /url: /admin/users
+          - img [ref=e16]
+          - generic [ref=e21]: ユーザー管理
+        - link "コース管理" [ref=e22] [cursor=pointer]:
+          - /url: /admin/courses
+          - img [ref=e23]
+          - generic [ref=e25]: コース管理
+        - link "コンテンツ管理" [ref=e26] [cursor=pointer]:
+          - /url: /admin/contents
+          - img [ref=e27]
+          - generic [ref=e30]: コンテンツ管理
+        - link "コミュニティ管理" [ref=e31] [cursor=pointer]:
+          - /url: /admin/community
+          - img [ref=e32]
+          - generic [ref=e34]: コミュニティ管理
+        - link "イベント管理" [ref=e35] [cursor=pointer]:
+          - /url: /admin/events
+          - img [ref=e36]
+          - generic [ref=e38]: イベント管理
+        - link "お知らせ管理" [ref=e40] [cursor=pointer]:
+          - /url: /admin/announcements
+          - img [ref=e41]
+          - generic [ref=e44]: お知らせ管理
+        - link "売上・決済" [ref=e45] [cursor=pointer]:
+          - /url: /admin/billing
+          - img [ref=e46]
+          - generic [ref=e48]: 売上・決済
+        - link "AI設定" [ref=e49] [cursor=pointer]:
+          - /url: /admin/ai-settings
+          - img [ref=e50]
+          - generic [ref=e53]: AI設定
+        - link "システム設定" [ref=e54] [cursor=pointer]:
+          - /url: /admin/system
+          - img [ref=e55]
+          - generic [ref=e58]: システム設定
+      - generic [ref=e60]:
+        - generic [ref=e61]: AD
+        - generic [ref=e62]:
+          - paragraph [ref=e63]: Admin User
+          - paragraph [ref=e64]: 管理者
+        - img [ref=e65] [cursor=pointer]
+    - generic [ref=e68]:
+      - banner [ref=e69]:
+        - generic [ref=e70]:
+          - heading "イベント管理" [level=1] [ref=e71]
+          - generic [ref=e72]: Admin
+        - generic [ref=e73]:
+          - generic [ref=e74]:
+            - img [ref=e75]
+            - textbox "Search..." [ref=e78]
+          - button [ref=e79]:
+            - img [ref=e80]
+          - generic [ref=e86] [cursor=pointer]: AS
+      - main [ref=e87]:
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - generic [ref=e90]:
+              - heading "イベント一覧" [level=2] [ref=e91]
+              - paragraph [ref=e92]: 全 4 件のイベント
+            - button "イベントを作成" [ref=e93]:
+              - img [ref=e94]
+              - text: イベントを作成
+          - generic [ref=e95]:
+            - generic [ref=e96]:
+              - generic [ref=e97]:
+                - generic [ref=e98]: ワークショップ
+                - generic [ref=e99]: 公開中
+              - heading "ChatGPTプロンプトワークショップ" [level=3] [ref=e100]
+              - generic [ref=e101]:
+                - generic [ref=e102]:
+                  - img [ref=e103]
+                  - generic [ref=e105]: 2026/03/20 14:00-16:00
+                - generic [ref=e106]:
+                  - img [ref=e107]
+                  - generic [ref=e110]: "講師: 高橋雄太"
+                - generic [ref=e111]:
+                  - img [ref=e112]
+                  - generic [ref=e117]: "参加者: 18 / 30名"
+              - generic [ref=e119]:
+                - generic [ref=e120]: 参加率
+                - generic [ref=e121]: 60%
+              - generic [ref=e124]:
+                - button "編集" [ref=e125]:
+                  - img [ref=e126]
+                  - text: 編集
+                - button "複製" [ref=e129]:
+                  - img [ref=e130]
+                  - text: 複製
+                - button "削除" [ref=e133]:
+                  - img [ref=e134]
+                  - text: 削除
+            - generic [ref=e137]:
+              - generic [ref=e138]:
+                - generic [ref=e139]: シンポジウム
+                - generic [ref=e140]: 公開中
+              - heading "画像生成AI最新動向シンポジウム" [level=3] [ref=e141]
+              - generic [ref=e142]:
+                - generic [ref=e143]:
+                  - img [ref=e144]
+                  - generic [ref=e146]: 2026/03/25 13:00-17:00
+                - generic [ref=e147]:
+                  - img [ref=e148]
+                  - generic [ref=e151]: "講師: 中村あかり"
+                - generic [ref=e152]:
+                  - img [ref=e153]
+                  - generic [ref=e158]: "参加者: 12 / 20名"
+              - generic [ref=e160]:
+                - generic [ref=e161]: 参加率
+                - generic [ref=e162]: 60%
+              - generic [ref=e165]:
+                - button "編集" [ref=e166]:
+                  - img [ref=e167]
+                  - text: 編集
+                - button "複製" [ref=e170]:
+                  - img [ref=e171]
+                  - text: 複製
+                - button "削除" [ref=e174]:
+                  - img [ref=e175]
+                  - text: 削除
+            - generic [ref=e178]:
+              - generic [ref=e179]:
+                - generic [ref=e180]: ウェビナー
+                - generic [ref=e181]: 公開中
+              - heading "AI時代のキャリアウェビナー" [level=3] [ref=e182]
+              - generic [ref=e183]:
+                - generic [ref=e184]:
+                  - img [ref=e185]
+                  - generic [ref=e187]: 2026/04/01 19:00-20:30
+                - generic [ref=e188]:
+                  - img [ref=e189]
+                  - generic [ref=e192]: "講師: 山本健太郎"
+                - generic [ref=e193]:
+                  - img [ref=e194]
+                  - generic [ref=e199]: "参加者: 45 / 100名"
+              - generic [ref=e201]:
+                - generic [ref=e202]: 参加率
+                - generic [ref=e203]: 45%
+              - generic [ref=e206]:
+                - button "編集" [ref=e207]:
+                  - img [ref=e208]
+                  - text: 編集
+                - button "複製" [ref=e211]:
+                  - img [ref=e212]
+                  - text: 複製
+                - button "削除" [ref=e215]:
+                  - img [ref=e216]
+                  - text: 削除
+            - generic [ref=e219]:
+              - generic [ref=e220]:
+                - generic [ref=e221]: ワークショップ
+                - generic [ref=e222]: 下書き
+              - heading "Python基礎ハンズオン" [level=3] [ref=e223]
+              - generic [ref=e224]:
+                - generic [ref=e225]:
+                  - img [ref=e226]
+                  - generic [ref=e228]: 2026/04/05 10:00-12:00
+                - generic [ref=e229]:
+                  - img [ref=e230]
+                  - generic [ref=e233]: "講師: 鈴木大輔"
+                - generic [ref=e234]:
+                  - img [ref=e235]
+                  - generic [ref=e240]: "参加者: 0 / 25名"
+              - generic [ref=e242]:
+                - generic [ref=e243]: 参加率
+                - generic [ref=e244]: 0%
+              - generic [ref=e246]:
+                - button "編集" [ref=e247]:
+                  - img [ref=e248]
+                  - text: 編集
+                - button "複製" [ref=e251]:
+                  - img [ref=e252]
+                  - text: 複製
+                - button "削除" [ref=e255]:
+                  - img [ref=e256]
+                  - text: 削除
+  - alert [ref=e259]

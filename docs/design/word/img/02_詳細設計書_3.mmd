@@ -1,0 +1,7 @@
+flowchart TD
+  A[受講者が質問送信] --> B[POST ai/chat]
+  B --> C{ChatSession<br/>user+lesson一意 取得/作成}
+  C --> D[user メッセージ保存]
+  D --> E[レッスンtranscript+履歴でLLM呼出]
+  E --> F[ストリーミング応答]
+  F --> G[assistant メッセージ保存]
