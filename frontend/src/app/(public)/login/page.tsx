@@ -7,6 +7,13 @@ import { Mail, Lock, Eye, EyeOff, LogIn, Github, ArrowLeft, Zap, UserCheck } fro
 import { BackgroundDecoration } from "@/components/layouts/background-decoration";
 import { useAuth } from "@/lib/auth";
 
+// Route users to their home area based on role after login.
+function homePathForRole(role?: string): string {
+  if (role === "admin" || role === "instructor") return "/admin";
+  if (role === "corp_admin") return "/corp";
+  return "/dashboard";
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const { login, demoLogin } = useAuth();
@@ -21,8 +28,8 @@ export default function LoginPage() {
     setError("");
     setIsLoading(true);
     try {
-      await login(email, password);
-      router.push("/dashboard");
+      const loggedInUser = await login(email, password);
+      router.push(homePathForRole(loggedInUser?.role));
     } catch {
       setError("メールアドレスまたはパスワードが正しくありません。");
     } finally {
