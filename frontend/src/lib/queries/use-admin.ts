@@ -25,6 +25,7 @@ export function useAdminDashboard() {
 
   return useQuery({
     queryKey: ["admin", "dashboard"],
+    enabled: !!accessToken,
     queryFn: async () => {
       if (isDemo) return mockAdminDashboard;
       return apiClient.get<AdminDashboardData>(
@@ -47,6 +48,7 @@ export function useAdminUsers(params?: {
 
   return useQuery({
     queryKey: ["admin", "users", params],
+    enabled: !!accessToken,
     queryFn: async () => {
       if (isDemo) {
         let filtered = mockAdminUsers.results;
@@ -88,6 +90,7 @@ export function useAdminBillingOverview() {
 
   return useQuery({
     queryKey: ["admin", "billing", "overview"],
+    enabled: !!accessToken,
     queryFn: async () => {
       if (isDemo) return mockBillingOverview;
       return apiClient.get<AdminBillingOverview>(
@@ -108,6 +111,7 @@ export function useAdminPayments(params?: {
 
   return useQuery({
     queryKey: ["admin", "billing", "payments", params],
+    enabled: !!accessToken,
     queryFn: async () => {
       if (isDemo) {
         let filtered = mockPayments.results;
@@ -135,6 +139,7 @@ export function useAdminRefunds() {
 
   return useQuery({
     queryKey: ["admin", "billing", "refunds"],
+    enabled: !!accessToken,
     queryFn: async () => {
       if (isDemo) return mockRefunds;
       return apiClient.get<PaginatedResponse<RefundRequestRecord>>(

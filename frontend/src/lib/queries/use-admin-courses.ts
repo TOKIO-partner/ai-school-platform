@@ -36,6 +36,7 @@ export function useAdminCourses(params?: {
 
   return useQuery({
     queryKey: ["admin", "courses", params],
+    enabled: !!accessToken,
     queryFn: async (): Promise<AdminCourse[]> => {
       if (isDemo) {
         let filtered = mockCourses as AdminCourse[];
@@ -72,7 +73,7 @@ export function useAdminCourse(courseId: number | null) {
 
   return useQuery({
     queryKey: ["admin", "course", courseId],
-    enabled: !!courseId,
+    enabled: !!courseId && !!accessToken,
     queryFn: async (): Promise<AdminCourse> => {
       if (isDemo) {
         const course = mockCourses.find((c) => c.id === courseId);
@@ -93,7 +94,7 @@ export function useAdminChapters(courseId: number | null) {
 
   return useQuery({
     queryKey: ["admin", "course", courseId, "chapters"],
-    enabled: !!courseId,
+    enabled: !!courseId && !!accessToken,
     queryFn: async (): Promise<AdminChapter[]> => {
       if (isDemo) {
         const course = mockCourses.find((c) => c.id === courseId);
@@ -114,7 +115,7 @@ export function useAdminLessons(courseId: number | null, chapterId: number | nul
 
   return useQuery({
     queryKey: ["admin", "course", courseId, "chapter", chapterId, "lessons"],
-    enabled: !!courseId && !!chapterId,
+    enabled: !!courseId && !!chapterId && !!accessToken,
     queryFn: async (): Promise<AdminLesson[]> => {
       if (isDemo) {
         const course = mockCourses.find((c) => c.id === courseId);
